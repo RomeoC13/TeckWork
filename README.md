@@ -1,5 +1,6 @@
 # TeckWork
-a project by
+A smart building project by _WorkTech_
+composed of
 * CHACHA	Yorgun Michael
 * EL KORCHI	Yassine
 * POINOT	Alexandre
