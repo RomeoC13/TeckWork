@@ -1,4 +1,4 @@
-# TeckWork
+# teck-work
 A smart building project by _WorkTech_
 composed of
 * CHACHA	Yorgun Michael
