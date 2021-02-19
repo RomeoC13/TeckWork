@@ -1,0 +1,4 @@
+# Properties connection to DB
+jdbc.url=jdbc:postgresql://localhost/WorkTech
+jdbc.login=postgres
+jdbc.password=alex
