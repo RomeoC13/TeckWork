@@ -9,13 +9,15 @@ import java.util.Properties;
 
 public class PoolConnect {
 
-    public static void main(String[] args) {
+    private String url;
+    private String user;
+    private String password;
+    private String driver;
+
+    public PoolConnect() {
         InputStream intStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties");
         Properties prop = new Properties();
-        String url = null;
-        String user = null;
-        String password = null;
-        String driver = null;
+
         try {
             prop.load(intStream);
 
@@ -38,23 +40,23 @@ public class PoolConnect {
                 catch(IOException e){e.printStackTrace();}
             }
         }
-        try {Class.forName(driver);
-            Connection con = DriverManager.getConnection(url, user, password);
-            if (con != null) {
-                System.out.println("Connected to the database!");
-            } else {
-                System.out.println("Failed to make connection");
-            }
 
-    } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
+    public String getUrl() {
+        return url;
+    }
 
+    public String getUser() {
+        return user;
+    }
 
+    public String getPassword() {
+        return password;
+    }
 
-        }
+    public String getDriver() {
+        return driver;
+    }
+}
 
