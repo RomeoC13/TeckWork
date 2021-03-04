@@ -14,14 +14,15 @@ public class DBConnection {
         Connection conn = null;
 
         Properties props = new Properties();
-        try(FileInputStream fis = new FileInputStream("backend-service/properties")) {
+        try(FileInputStream fis = new FileInputStream("conf.properties")) {
             props.load(fis);
         }
+        System.out.println("jdbc.driver.class");
 
         String url = props.getProperty("jdbc.url");
         String login = props.getProperty("jdbc.login");
         String pwd = props.getProperty("jdbc.password");
-
+        
         try {
             conn = DriverManager.getConnection(url, login, pwd);
             if(conn != null) {
