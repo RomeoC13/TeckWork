@@ -1,9 +1,6 @@
 package edu.episen.si.ing1.pds.backend.server;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Deletes {
 
@@ -23,6 +20,13 @@ public class Deletes {
 
             int rows = stat1.executeUpdate(sql2);
 
+            sql2 = "SELECT* FROM Personne";
+            ResultSet rs = stat1.executeQuery(sql2);
+            while(rs.next()){
+                String result = rs.getString("Prenoms");
+                System.out.println(result);
+            }
+            rs.close();
             coon.close();
             stat1.close();
         } catch (SQLException | ClassNotFoundException e) {

@@ -1,9 +1,6 @@
 package edu.episen.si.ing1.pds.backend.server;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Updates {
     public static void main(String[] args) {
@@ -22,6 +19,13 @@ public class Updates {
 
             int rows = sts.executeUpdate(sql1);
 
+            sql1 = "SELECT* FROM Personne";
+            ResultSet rs = sts.executeQuery(sql1);
+            while(rs.next()){
+                String result = rs.getString("Prenoms");
+                System.out.println(result);
+            }
+            rs.close();
             coo.close();
             sts.close();
         } catch (SQLException | ClassNotFoundException e) {
