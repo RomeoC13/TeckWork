@@ -1,6 +1,15 @@
 package edu.episen.si.ing1.pds.backend.server;
 
+import org.apache.commons.cli.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Properties;
 import ch.qos.logback.core.encoder.EchoEncoder;
+import org.apache.commons.cli.Options;
 
 import java.io.FileInputStream;
 import java.sql.*;
@@ -9,12 +18,15 @@ import java.util.Scanner;
 
 
 public class DBConnection {
+	private static final Logger logger = LoggerFactory.getLogger(BackendService.class.getName());
 
 	public static void main(String[] args) throws Exception {
+
 		Connection conn = null;
 
 		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream("backend-service/conf.properties")) {
+		logger.info(System.getProperty("user.dir"));
+		try (FileInputStream fis = new FileInputStream("../../../conf.properties")) {
 			props.load(fis);
 		}
 
@@ -23,142 +35,69 @@ public class DBConnection {
 		String login = props.getProperty("jdbc.login");
 		String pwd = props.getProperty("jdbc.password");
 		try (Connection con = DriverManager.getConnection(url, login, pwd)) {
-			if (conn != null) {
+			if (!conn.equals(null)) {
 				System.out.println("CONNECTION OK");
 			}
 		}
-        int choix = 0;
-    while(choix!= 5) {
-        	System.out.println("choose your number\n choose a number\n 1 - insert\n 2 - delete\n 3 - select\n 4 - create\n 5 - exit\n ");
-        	Scanner sc = new Scanner(System.in);
-        	choix = sc.nextInt();
-        	switch (choix) {
-				case 1:
-					try (Connection con = DriverManager.getConnection(url, login, pwd)) {
-						String request = "insert into USERS (USR_NAME, USR_PASSWORD) values ('toto', 'toto')";
-						try (Statement stm = con.createStatement()) {
-							System.out.println();
-							stm.executeUpdate(request);
-							try {
-								System.out.println("INSERT INTO SUCCESS ! ");
-								System.out.println();
-							} catch (Exception exc) {
 
-							}
-						} catch (Exception exc) {
-							System.out.println("INSERT INTO FAILED ! ");
-							System.out.println();
-						}
+		boolean isInTestMode = false;
+		int maxCo = 10;
 
-					}
-					break;
-				case 2:
-					try (Connection con = DriverManager.getConnection(url, login, pwd)) {
-						try (Statement stmt = con.createStatement()) {
-							System.out.println("you want to delete an row\n ENTER AN ID ");
-							int id = sc.nextInt();
-							String request = "delete from users where USR_ID = " + id;
-							stmt.executeUpdate(request);
-							try {
-								System.out.println("DELETE SUCCESS ! ");
-								System.out.println();
-							} catch (Exception exc) {
-
-							}
-						} catch (Exception exc) {
-							System.out.println("DELETE FAILED ! ");
-							System.out.println();
-						}
-
-					}
-					break;
-				case 3:
-					try (Connection con = DriverManager.getConnection(url, login, pwd)) {
-						String request = "select * from users";
-						try (Statement stmt = con.createStatement(); ResultSet result = stmt.executeQuery(request)) {
-							while (result.next()) {
-								try {
-									int id = result.getInt(1);
-									String name = result.getString(2);
-									String log = result.getString(3);
-									System.out.println(id + "-" + name + "-" + log);
-									System.out.println();
-									System.out.println("SELECT SUCCESS !");
-									System.out.println();
-								} catch (Exception e) {
-									System.out.println("SELECT FAILED !");
-									System.out.println();
-								}
-							}
-
-						}
-
-					}
-					break;
-				case 4:
-					try (Connection con = DriverManager.getConnection(url, login, pwd)) {
-						String request = "create table PERSON ("
-								+ "id INT PRIMARY KEY NOT NULL,\r\n"
-								+ "    nom VARCHAR(100),\r\n"
-								+ "    prenom VARCHAR(100))";
-						try (Statement stmt = con.createStatement()) {
-							stmt.executeUpdate(request);
-							try {
-								System.out.println("CREATE SUCCESS ! ");
-								System.out.println();
-							} catch (Exception exc) {
-
-							}
-						} catch (Exception exc) {
-							System.out.println("CREATE FAILED ! ");
-							System.out.println();
-						}
-					}
-					break;
-				case 5:
-					System.out.println("you exit the menu");
-					break;
-			}
-        
-       
-    
-        }   
-    }
-    
-}
+		Options options = new Options();
+		options.addOption("testMode", false, "a simple cli option to run this service as test, default is false");
 
 
-		/*try {
-			conn = DriverManager.getConnection(url, login, pwd);
-			if (conn != null) {
-				System.out.println("CONNECTION OK");
-			} else {
-				System.out.println("CONNECTION FAILED");
-			}
+		//Should be working but don't I don't why
+		//options.addOption("maxConnection",true,"specify max connections in this run, default set to 10");
 
-			Statement statement = conn != null ? conn.createStatement() : null;
-			//Statement statement = conn.createStatement();
+		//Instead i will be using this method :
+		final Option maxConnection = Option.builder().longOpt("maxConnections")
+				.hasArg()
+				.argName("maxConnections")
+				.desc("specify max connections in this run, default set to 10")
+				.build();
 
+		options.addOption(maxConnection);
 
-			ResultSet rs = statement.executeQuery("SELECT * FROM public.\"USERS\"");
+		final Option sqlReq = Option.builder().longOpt("sqlReq")
+				.hasArg()
+				.argName("sqlReq")
+				.desc("specify witch request you want to set on the db")
+				.build();
 
-			while (rs.next()) {
-				int idUsers = rs.getInt("USR_ID");
-				String mdp = rs.getString("USR_PASSWORD");
-				String name = rs.getString("USR_NAME");
-				System.out.println(idUsers + " / " + name + " / " + mdp);
-			}
-		} catch (Exception e) {
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException ex) {
-					ex.printStackTrace();
+		options.addOption(sqlReq);
+
+		CommandLineParser parser = new DefaultParser();
+		CommandLine cmd = null;
+		try {
+			cmd = parser.parse(options, args);
+		} catch (ParseException e) {
+			logger.error("Options parser error : " + e.getMessage());
+		}
+
+		String loggerInfo = "BackendService is running.";
+		if (cmd.hasOption("testMode")) {
+			isInTestMode = true;
+			loggerInfo += "\n Test mode is on";
+		}
+		if (cmd.hasOption("maxConnections")) {
+			maxCo = Integer.parseInt(cmd.getOptionValue("maxConnections"));
+			loggerInfo += "\n Max connections has been set to " + maxCo;
+
+		}
+		if(cmd.hasOption("sqlReq")){
+			String request =cmd.getOptionValue("sqlReq");
+			logger.info(request);
+			try(Statement stm= conn.createStatement(); ResultSet result = stm.executeQuery(request)){
+				stm.execute(request);
+				while(result.next()){
+					logger.info(result.toString());
 				}
+			} catch (Exception e){
+				logger.error("Error with executing to db : " +e.getMessage());
 			}
 		}
+		logger.info(loggerInfo);
+
 	}
-}*/
-
-
-
+}
