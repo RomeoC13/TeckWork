@@ -1,6 +1,6 @@
 package edu.episen.si.ing1.pds.backend.server;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
+//import ch.qos.logback.core.encoder.EchoEncoder;
 
 import java.io.FileInputStream;
 import java.sql.*;
@@ -14,7 +14,7 @@ public class DBConnection {
 		Connection conn = null;
 
 		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream("backend-service/conf.properties")) {
+		try (FileInputStream fis = new FileInputStream("C:\\Users\\elhad\\Documents\\git\\teck-work\\backend-service\\conf.properties")) {
 			props.load(fis);
 		}
 
@@ -29,13 +29,13 @@ public class DBConnection {
 		}
         int choix = 0;
     while(choix!= 5) {
-        	System.out.println("choose your number\n choose a number\n 1 - insert\n 2 - delete\n 3 - select\n 4 - create\n 5 - exit\n ");
+        	System.out.println("\n choose a number between 1 TO 6\n 1 - insert\n 2 - delete\n 3 - select\n 4 - create\n 5 - exit\n ");
         	Scanner sc = new Scanner(System.in);
         	choix = sc.nextInt();
         	switch (choix) {
 				case 1:
 					try (Connection con = DriverManager.getConnection(url, login, pwd)) {
-						String request = "insert into USERS (USR_NAME, USR_PASSWORD) values ('toto', 'toto')";
+						String request = "insert into users1 (name, login) values ('TATA', 'TATA')";
 						try (Statement stm = con.createStatement()) {
 							System.out.println();
 							stm.executeUpdate(request);
@@ -97,7 +97,7 @@ public class DBConnection {
 					break;
 				case 4:
 					try (Connection con = DriverManager.getConnection(url, login, pwd)) {
-						String request = "create table PERSON ("
+						String request = "create table ADMIN ("
 								+ "id INT PRIMARY KEY NOT NULL,\r\n"
 								+ "    nom VARCHAR(100),\r\n"
 								+ "    prenom VARCHAR(100))";
