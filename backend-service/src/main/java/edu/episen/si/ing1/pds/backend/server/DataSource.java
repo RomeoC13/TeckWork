@@ -1,12 +1,23 @@
 package edu.episen.si.ing1.pds.backend.server;
 
+import java.io.IOException;
 import java.sql.Connection;
 
 public class DataSource {
 	
 	private static JDBCConnectionPool pool;
 	
-	public static Connection sendBackData() {
+	
+	public DataSource(int size) {
+		try {
+			pool = new JDBCConnectionPool();
+			pool.turnConnection(size);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Connection sendBackData() {
 		return pool.sendBackConnection();
 	}
 	
@@ -14,7 +25,7 @@ public class DataSource {
 		pool.putBackConnection(con);
 	}
 	
-	public static void closeData() {
-		pool.closeConnexion();
+	public static void closeAllConnection() {
+		pool.closeConnection();
 	}
 }
