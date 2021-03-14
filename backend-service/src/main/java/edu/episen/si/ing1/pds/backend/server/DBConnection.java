@@ -21,15 +21,18 @@ import org.slf4j.LoggerFactory;
 
 
 public class DBConnection {
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(BackendService.class.getName());
-
+	private static Connection con = null;
+	
+	
 	public static void main(String[] args) throws Exception {
 
-		Connection conn = null;
-
+		
 		Properties props = new Properties();
 		logger.info(System.getProperty("user.dir"));
-		try (FileInputStream fis = new FileInputStream("../../../conf.properties")) {
+		try (FileInputStream fis = new FileInputStream("conf.properties")) {
 			props.load(fis);
 		}
 
@@ -37,10 +40,13 @@ public class DBConnection {
 		String url = props.getProperty("jdbc.url");
 		String login = props.getProperty("jdbc.login");
 		String pwd = props.getProperty("jdbc.password");
-		try (Connection con = DriverManager.getConnection(url, login, pwd)) {
-			if (!conn.equals(null)) {
+		try {
+			con = DriverManager.getConnection(url, login, pwd);
+			if (!con.equals(null)) {
 				System.out.println("CONNECTION OK");
 			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		boolean isInTestMode = false;
@@ -91,7 +97,7 @@ public class DBConnection {
 		if(cmd.hasOption("sqlReq")){
 			String request =cmd.getOptionValue("sqlReq");
 			logger.info(request);
-			try(Statement stm= conn.createStatement(); ResultSet result = stm.executeQuery(request)){
+			try(Statement stm= con.createStatement(); ResultSet result = stm.executeQuery(request)){
 				stm.execute(request);
 				while(result.next()){
 					logger.info(result.toString());

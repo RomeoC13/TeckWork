@@ -8,53 +8,79 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JDBCConnectionPool {
 	
-	private ArrayList<Connection> myCon = new ArrayList<Connection>();
-	private Properties props = new Properties();
-	
+	private static ArrayList<Connection> myCon = new ArrayList<Connection>();
+	private static Properties props = new Properties();
 	
 	public JDBCConnectionPool() throws FileNotFoundException, IOException {
 		try (FileInputStream fis = new FileInputStream("conf.properties")) {
 					props.load(fis);
+					Class.forName(props.getProperty("jdbc.driver"));
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
+		
 	}	
 	
-	public ArrayList<Connection> getMyCon() {
-		return myCon;
-		
-
-	}
-	
-	public void turnConnection(int size) {
+	private static Connection connectionFactory() {
+		Connection con = null;
 		try {
-			Class.forName(props.getProperty("jdbc.driver"));
+			
 			String url = props.getProperty("jdbc.url");
 			String login = props.getProperty("jdbc.login");
 			String pwd = props.getProperty("jdbc.password");
+			con = DriverManager.getConnection(url, login, pwd);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
+	public void turnConnection(int size) {
+		try {
 			for (int i = 0; i < size;i++) {
-				Connection con = DriverManager.getConnection(url, login, pwd);
-				myCon.add(con);
+				myCon.add(connectionFactory());
 			}
 			
 		}catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 
 	
-	public Connection sendBackConnection() {
-		Connection connex = myCon.get(0);
-		myCon.remove(0);
-		return connex;
-		
+	public static Connection sendBackConnection() {
+		synchronized (myCon) {
+			while(true) {
+				if(!myCon.isEmpty()) {
+					Connection con = myCon.remove(0);
+					myCon.notify();
+					return con;
+				}
+				else {
+					System.out.println("pool is empty");
+					try {
+						myCon.wait(3000);
+						return connectionFactory();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				
+				}
+				
+			}
+			
+			
+		}
 	}
 	
-	public void putBackConnection(Connection con) {
+	public static void putBackConnection(Connection con) {
 		myCon.add(con);
 	}
 	
-	public void closeConnexion() {
+	public void closeConnection() {
 		for(Connection con: myCon)
 			try {
 				con.close();
