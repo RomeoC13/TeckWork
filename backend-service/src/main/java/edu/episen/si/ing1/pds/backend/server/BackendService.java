@@ -3,10 +3,7 @@ package edu.episen.si.ing1.pds.backend.server;
 //import ch.qos.logback.core.encoder.EchoEncoder;
 
 import java.io.FileInputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -88,8 +85,16 @@ public class BackendService {
 			//logger.info(request);
 			try(Statement stm= con.createStatement(); ResultSet result = stm.executeQuery(request)){
 				stm.execute(request);
+				ResultSetMetaData rsmd = result.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
 				while(result.next()){
-					logger.info(result.getString("id"));
+					for(int i = 1; i <= columnsNumber; i++) {
+						if (i < columnsNumber) {
+							logger.info(result.getString(i));
+						} else {
+							logger.info(result.getString(i) + " / ");
+						}
+					}
 				}
 			} catch (Exception e){
 				logger.error("Error with executing to db : " +e.getMessage());
