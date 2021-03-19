@@ -17,12 +17,12 @@ public class DataSource {
 		}
 	}
 	
-	public Connection sendBackData() {
-		return pool.sendBackConnection();
+	public Connection addData() {
+		return pool.addConnection();
 	}
 	
-	public static void putBackData(Connection con) {
-		pool.putBackConnection(con);
+	public void removeData(Connection con) {
+		pool.removeConnection(con);
 	}
 	
 	public static void closeAllConnection() {

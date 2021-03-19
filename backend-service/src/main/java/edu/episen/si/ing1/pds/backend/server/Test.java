@@ -15,7 +15,7 @@ public class Test {
 	public static void main(String[] args) {
 		DataSource ds = new DataSource(5);
 		for(int i = 0; i < 10; i++) {
-			Connection con = ds.sendBackData();
+			Connection con = ds.addData();
 			try {
 				System.out.println(con.isValid(1000));
 				Statement stmt = con.createStatement();
@@ -26,7 +26,7 @@ public class Test {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}finally {
-				ds.putBackData(con);
+				ds.removeData(con);
 			}
 		}
 		ds.closeAllConnection();

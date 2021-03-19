@@ -51,19 +51,18 @@ public class JDBCConnectionPool {
 	}
 
 	
-	public static Connection sendBackConnection() {
+	public void removeConnection(Connection con) {
 		synchronized (myCon) {
 			while(true) {
 				if(!myCon.isEmpty()) {
-					Connection con = myCon.remove(0);
-					myCon.notify();
-					return con;
+					myCon.remove(con);
+					//con.notify();
+					return;
 				}
 				else {
-					System.out.println("pool is empty");
 					try {
 						myCon.wait(3000);
-						return connectionFactory();
+						addConnection();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -76,8 +75,10 @@ public class JDBCConnectionPool {
 		}
 	}
 	
-	public static void putBackConnection(Connection con) {
+	public Connection addConnection() {
+		Connection con = connectionFactory();
 		myCon.add(con);
+		return con;
 	}
 	
 	public void closeConnection() {
