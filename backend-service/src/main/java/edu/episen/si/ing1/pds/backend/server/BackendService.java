@@ -4,9 +4,12 @@ package edu.episen.si.ing1.pds.backend.server;
 
 import java.io.FileInputStream;
 import java.sql.*;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -28,8 +31,9 @@ public class BackendService {
 
 		
 		Properties props = new Properties();
-		logger.info(System.getProperty("user.dir"));
-		try (FileInputStream fis = new FileInputStream("conf.properties")) {
+		//logger.info(System.getProperty("user.dir"));
+		Map<String, String> env = System.getenv();
+		try (FileInputStream fis = new FileInputStream(env.get("PROJECT")+"pdsconf/conf.properties")) {
 			props.load(fis);
 		}
 
@@ -78,7 +82,7 @@ public class BackendService {
 			loggerInfo += "\n Max connections has been set to " + maxCo;
 
 		}
-		DataSource ds = new DataSource(maxCo);
+		DataSource ds = new DataSource(maxCo,props);
 		if(cmd.hasOption("sqlReq")){
 			String request =cmd.getOptionValue("sqlReq");
 			Connection con = ds.addData();;

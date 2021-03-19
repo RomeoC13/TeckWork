@@ -14,16 +14,16 @@ import org.slf4j.LoggerFactory;
 public class JDBCConnectionPool {
 	
 	private static ArrayList<Connection> myCon = new ArrayList<Connection>();
-	private static Properties props = new Properties();
+	private Properties props;
 	
-	public JDBCConnectionPool() throws FileNotFoundException, IOException {
-		try (FileInputStream fis = new FileInputStream("conf.properties")) {
-					props.load(fis);
-					Class.forName(props.getProperty("jdbc.driver"));
+	public JDBCConnectionPool(Properties props) throws FileNotFoundException, IOException {
+					this.props= props;
+		try {
+			Class.forName(props.getProperty("jdbc.driver"));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 	}	
 	
 	private static Connection connectionFactory() {
