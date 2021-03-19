@@ -26,7 +26,7 @@ public class JDBCConnectionPool {
 
 	}	
 	
-	private static Connection connectionFactory() {
+	private Connection connectionFactory() {
 		Connection con = null;
 		try {
 			
