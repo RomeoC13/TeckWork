@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,14 +31,16 @@ public  class ClientHandler implements Runnable {
             if (in.available() != 0 ) {
                 data = new byte[in.available()];
                 in.read(data);
-                System.out.println(data.toString());
                 ObjectMapper om = new ObjectMapper(new JsonFactory());
-                om.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
                 ClientJsonProperties json = om.readValue(data, ClientJsonProperties.class);
-
+                System.out.print("Name received: ");
                 System.out.println(json.getName());
+                System.out.print("Age received: ");
                 System.out.println(json.getAge());
+                System.out.print("City received: ");
                 System.out.println(json.getAddress());
+                DataOutputStream outdata = new DataOutputStream(out);
+                outdata.writeUTF("Your json has been received");
             }
         } catch (IOException e) {
             e.printStackTrace();
