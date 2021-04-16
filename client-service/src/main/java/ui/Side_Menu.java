@@ -25,7 +25,6 @@ public class Side_Menu extends JPanel {
         this.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.setBackground(new Color(68, 114, 196));
         this.setPreferredSize(new Dimension(200, 100));
-
         label.setFont(new Font("Serif", Font.CENTER_BASELINE, 20));
         label.setText("<html><body><font color='blanc'>Entreprise: Tech-Work </body></html>");
     }
