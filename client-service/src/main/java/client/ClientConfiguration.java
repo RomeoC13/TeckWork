@@ -1,4 +1,4 @@
-package edu.episen.si.ing1.pds.backend.client;
+package client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;

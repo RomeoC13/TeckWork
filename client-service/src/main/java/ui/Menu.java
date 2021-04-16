@@ -1,4 +1,4 @@
-package edu.episen.si.ing1.pds.backend.ui;
+package ui;
 
 import javax.swing.*;
 import java.awt.*;

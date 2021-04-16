@@ -1,4 +1,4 @@
-package edu.episen.si.ing1.pds.backend.client;
+package client;
 
 public class ClientProperties {
     private String adressIP;

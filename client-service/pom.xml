@@ -17,7 +17,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>edu.episen.si.ing1.pds.backend.client.BackendService</mainClass>
+                            <mainClass>client.BackendService</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

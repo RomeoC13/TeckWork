@@ -1,4 +1,4 @@
-package edu.episen.si.ing1.pds.backend.ui;
+package ui;
 import java.awt.*;
 
 import javax.swing.JButton;
