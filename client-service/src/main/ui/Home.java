@@ -1,4 +1,4 @@
-import java.awt.BorderLayout;
+import java.awt.*;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,14 +17,14 @@ public class Home extends JFrame {
 	public Home() {
 		this.setVisible(true);
 		this.setTitle("page d'accueil");
-		this.setSize(400,400);
+		this.setSize(500,500);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		JPanel  panel = (JPanel)this.getContentPane();
 		panel.setLayout(new BorderLayout());
 		
 		combox = new JComboBox(element);
-		combox.setSize(20,30);
+		combox.setMaximumSize(new Dimension(20,20));
 		panel.add(BorderLayout.CENTER,combox);
 		
 		JLabel label = new JLabel("veuillez entrer l'element que vous souhaiter");
