@@ -13,7 +13,7 @@ public class Card extends JFrame {
         Side_Menu sm= new Side_Menu();
         getContentPane().add(sm, BorderLayout.WEST);
         JPanel card = new JPanel();
-        card.setBackground(new Color(255, 0, 0, 255));
+        card.setBackground(new Color(255, 255, 255, 255));
         JButton createButton = new JButton("Créer une nouvelle carte d’accès");
         JButton modifyButton = new JButton("Modifier une carte d’accès");
         JButton readButton = new JButton("Consulter la liste des cartes et suppression de permissions");
