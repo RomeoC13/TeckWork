@@ -1,3 +1,4 @@
+package edu.episen.si.ing1.pds.backend.ui;
 import java.awt.*;
 
 import javax.swing.JButton;
@@ -32,6 +33,7 @@ public class Home extends JFrame {
 		panel.add(BorderLayout.NORTH, label);
 		
 		JButton button = new JButton("selection");
+		//button.addActionListener(combox);
 		
 		panel.add(BorderLayout.SOUTH,button);
 		
