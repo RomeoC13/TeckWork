@@ -44,7 +44,7 @@ public class Home {
 			public void actionPerformed(ActionEvent e) {
 				if (combox.getSelectedIndex() == 0) {
 					 newWindow = new WindowsMenu();
-					 myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					 myFrame.dispose();
 				}
 					
 			}
