@@ -1,5 +1,7 @@
 package ui;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,18 +12,20 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-public class Home extends JFrame {
+public class Home {
 	private String [] element = {"mairie", "service", "pouvooirs", "publics"};
 	private JComboBox combox;
+	private WindowsMenu newWindow;
+	private JFrame myFrame = new JFrame();
 	
 	
 	public Home() {
-		this.setVisible(true);
-		this.setTitle("page d'accueil");
-		this.setSize(500,500);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setLocationRelativeTo(null);
-		JPanel  panel = (JPanel)this.getContentPane();
+		myFrame.setVisible(true);
+		myFrame.setTitle("page d'accueil");
+		myFrame.setSize(500,500);
+		myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		myFrame.setLocationRelativeTo(null);
+		JPanel  panel = (JPanel)myFrame.getContentPane();
 		panel.setLayout(new BorderLayout());
 		
 		combox = new JComboBox(element);
@@ -32,11 +36,21 @@ public class Home extends JFrame {
 		//setSize(50,30);
 		panel.add(BorderLayout.NORTH, label);
 		
-		JButton button = new JButton("selection");
-		//button.addActionListener(combox);
-		
+		JButton button = new JButton("Valider");
+		button.setSize(50, 50);
+		button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (combox.getSelectedIndex() == 0) {
+					 newWindow = new WindowsMenu();
+					 myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				}
+					
+			}
+		});
 		panel.add(BorderLayout.SOUTH,button);
-		
+
 	}
 
 	public static void main(String[] args) throws UnsupportedLookAndFeelException {
