@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ClientConfigurationJSON {
-    private final String configvar = "JSONCONF";
+    private final String configvar = "CONFIGJSON";
     private final String configlocation;
     private ClientJsonProperties config;
 

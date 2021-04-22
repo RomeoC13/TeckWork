@@ -2,6 +2,7 @@ package edu.episen.si.ing1.pds.backend.server.release2;
 
 public class ClientJsonProperties {
 
+	
     private String name;
     private int age;
     private String address;

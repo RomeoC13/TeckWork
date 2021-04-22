@@ -10,13 +10,15 @@ public class ServerConfiguration {
     private final String configvar = "CONF";
     private final String configlocation;
     private ServerProperties config;
+    private int n;
 
-    public ServerConfiguration() {
-        configlocation = System.getenv(configvar); // récupérer la valeur de la variable d'environnement
+    public ServerConfiguration(int  n) {
+        configlocation = System.getenv(configvar); 
+        this.n = n;
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
             config = mapper.readValue(new File(configlocation),ServerProperties.class);
-
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -24,5 +26,10 @@ public class ServerConfiguration {
 
     public ServerProperties getConfig() {
         return config;
+    }
+
+    public int getN() {
+            return n;
+
     }
 }

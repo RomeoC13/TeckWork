@@ -20,6 +20,7 @@ public class JDBCConnectionPool {
 					this.props= props;
 		try {
 			Class.forName(props.getProperty("jdbc.driver"));
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

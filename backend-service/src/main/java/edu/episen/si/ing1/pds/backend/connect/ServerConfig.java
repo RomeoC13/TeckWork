@@ -19,9 +19,9 @@
 //
 //	private  final String  episenServFile ;
 //
-//	private ServerConfig config;
+//	private ServerCoreConfig config;
 //
-//	public ServerConfig getConfig() {
+//	public ServerCoreConfig getConfig() {
 //		return config;
 //	}
 //
@@ -30,7 +30,7 @@
 //		log.debug("configFile = {}", episenServFile);
 //
 //		final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-//		config = mapper.readValue(new File(episenServFile), ServerConfig.class);
+//		config = mapper.readValue(new File(episenServFile), ServerCoreConfig.class);
 //
 //	}
 //
