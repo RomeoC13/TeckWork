@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import java.awt.SystemColor;
 
 public class WindowsMenu extends JFrame {
 	
@@ -27,7 +28,7 @@ public class WindowsMenu extends JFrame {
 	public WindowsMenu() {
 		this.setVisible(true);
 		this.setTitle("Page d'accueil");
-		this.setSize(400,500);
+		this.setSize(676,500);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		Side_Menu sm= new Side_Menu();
@@ -54,7 +55,7 @@ public class WindowsMenu extends JFrame {
 		JPanel panelCenter = new JPanel();
 		JLabel lab1 = new JLabel("centre");
 		panelCenter.add(lab1);
-		panelCenter.setBackground(Color.green);
+		panelCenter.setBackground(SystemColor.inactiveCaptionBorder);
 		return panelCenter;
 	}
 	
@@ -62,7 +63,7 @@ public class WindowsMenu extends JFrame {
 		JPanel panelRight = new JPanel();
 		JLabel lab2 = new JLabel("droite");
 		panelRight.add(lab2);
-		panelRight.setBackground(Color.cyan);
+		panelRight.setBackground(SystemColor.inactiveCaptionBorder);
 		return panelRight;
 	}
 	
