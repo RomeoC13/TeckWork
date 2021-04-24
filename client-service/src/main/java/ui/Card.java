@@ -27,9 +27,9 @@ public class Card extends JFrame {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        Card f = new Card();
-    }
+//    public static void main(String[] args) {
+//        Card f = new Card();
+//    }
 
 
 }
