@@ -1,6 +1,7 @@
 package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,6 +34,8 @@ public class Home {
 		myFrame.setSize(500,300);
 		myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		myFrame.setLocationRelativeTo(null);
+		
+      
 		
 		JPanel  contentPane = (JPanel)myFrame.getContentPane();
 		contentPane.setLayout(new GridLayout(3,1));
@@ -83,6 +87,8 @@ public class Home {
 	private JPanel topOptionPanel () {
 		JPanel topPanel = new JPanel ();
 		JLabel topMessage = new JLabel("Veuillez choisir une option");
+		topMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
+		topMessage.setAlignmentY(Component.CENTER_ALIGNMENT);
 		topMessage.setFont(new Font("Sylfaen", Font.CENTER_BASELINE, 20));
 		topPanel.setBackground(Color.white);
 		topPanel.add(topMessage);

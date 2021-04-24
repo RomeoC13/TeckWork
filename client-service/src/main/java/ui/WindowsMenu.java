@@ -30,13 +30,13 @@ public class WindowsMenu extends JFrame {
 		this.setSize(400,500);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-
+		Side_Menu sm= new Side_Menu();
 		//the general panel
 		panel = (JPanel)this.getContentPane();
 		panel.setLayout(new BorderLayout());
 		
 		// the left panel contains the menu
-		panel.add(BorderLayout.WEST, optionLeftPanel());
+		panel.add(BorderLayout.WEST, sm);
 		// the right panel contains 
 		panel.add(BorderLayout.EAST,optionRightPanel());
 		// the centered panel contains 
@@ -66,22 +66,7 @@ public class WindowsMenu extends JFrame {
 		return panelRight;
 	}
 	
-	private JMenuBar optionLeftPanel() {
-		//JPanel panelLeft = new JPanel();
-		//JLabel lab3 = new JLabel();
-	  	JMenuBar menuBar = new JMenuBar();
-    	
-    	menuBar.setLayout(new GridLayout(0,1));
-    	// first menu
-    	JMenu menu1 = new JMenu("réservation");
-    	menuBar.add(menu1);
-    	//second menu
-    	JMenu menu2 = new JMenu("consulter les réservations");
-    	menuBar.add(menu2);
-		//panelLeft.add(lab3);
-		//panelLeft.setBackground(Color.blue);
-		return menuBar;
-	}
+
 	
 	private JPanel optionTopPanel() {
 		JPanel panelTop = new JPanel();
