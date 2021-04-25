@@ -30,7 +30,7 @@ public  class ClientHandler implements Runnable {
         try {
             OutputStream out = clientSocket.getOutputStream();
             InputStream in = clientSocket.getInputStream();
-            byte[] data; // permettre de recevoir les données envoyé par le outputstream du client
+            byte[] data;
             sleep(200);
             if (in.available() != 0 ) {
                 data = new byte[in.available()];

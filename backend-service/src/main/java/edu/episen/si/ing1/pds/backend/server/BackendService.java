@@ -122,7 +122,7 @@ public class BackendService {
 	private static void executeSqlRequest(DataSource ds, String sqlReq){
 		Connection con = ds.addData();
 		//logger.info(request);
-		try(Statement stm= con.createStatement(); ResultSet result = stm.executeQuery(sqlReq)){
+		try(Statement stm = con.createStatement(); ResultSet result = stm.executeQuery(sqlReq)){
 			stm.execute(sqlReq);
 			ResultSetMetaData rsmd = result.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
