@@ -6,7 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class WindowsEquipment extends JFrame implements ActionListener {
-    private JComboBox <String> liste;
+    private JComboBox <String> list;
+    private JComboBox <String> list1;
     JPanel panel = new JPanel();
 
     JLabel label = new JLabel("Choisissez l'équipement à ajouter");
@@ -18,13 +19,13 @@ public class WindowsEquipment extends JFrame implements ActionListener {
         this.setSize(400,300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Object [] elements = new Object[] {"Capteur", "écran connecté", "Bureau"};
-        liste = new JComboBox(elements);
-        liste.setBounds(1000, 1000, 20000, 1000);
-        getContentPane().add(liste);
-        liste.setSize(200,200);
+        list = new JComboBox(elements);
+        list.setBounds(1000, 1000, 20000, 1000);
+        getContentPane().add(list);
+        list.setSize(200,200);
         panel.add(label);
-        this.panel.add(liste);
-        panel.add(liste);
+        this.panel.add(list);
+        panel.add(list);
 
 
 

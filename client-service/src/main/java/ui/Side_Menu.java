@@ -1,5 +1,7 @@
 package ui;
 
+import userIHM.WindowsMapping;
+
 import javax.swing.*;
 import javax.swing.JSpinner.ListEditor;
 
@@ -84,6 +86,15 @@ public class Side_Menu extends JPanel {
         mapping.setVerticalAlignment(SwingConstants.TOP);
         mapping.setAlignmentY(10.0f);
         mapping.setAlignmentX(10.0f);
+
+        mapping.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if((JButton)e.getSource() == mapping)
+                    new WindowsMapping();
+
+            }
+
+        });
         
         add(mapping);
         
