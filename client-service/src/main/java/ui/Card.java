@@ -1,4 +1,5 @@
 package ui;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
@@ -29,35 +30,52 @@ public class Card extends JFrame {
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Case if no card is detected
                 if (!rfidSensor) {
                     popUpError("ERREUR : Pas de CARTE DÉTECTÉ", "Veuillez placer une carte devant le lecteur et ré essayer l’opération");
-                } else {
-                    JPanel popUpPan = new JPanel(new GridLayout(0, 1));
-                    popUpPan.add(new JLabel("Rentez le nom du propriétaire de la carte :"));
-                    JTextField name = new JTextField("");
-                    popUpPan.add(name);
-                    popUpPan.add(new JLabel("Rentez l’identifiant de la carte : "));
-                    JTextField id = new JTextField("");
-                    popUpPan.add(id);
-                    popUpPan.add(new JLabel("Veuillez choisir à quel bâtiment donne accès la carte"));
-                    String[] items = {"Bâtiment Central", "Parking", "Bâtiment B"};
-                    JComboBox<String> batCombo = new JComboBox<String>(items);
-                    popUpPan.add(batCombo);
-                    int result = JOptionPane.showConfirmDialog(null, popUpPan, "Création d’une cartef", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-                    if (result == JOptionPane.OK_OPTION) {
-                        System.out.println(batCombo.getSelectedItem()
-                                + " " + id.getText()
-                                + " " + name.getText());
-                    } else {
-                        System.out.println("Cancelled");
-                    }
+                    return;
                 }
+
+                //Case if an used card is detected
+                if(!cardRef.equals(null)){
+                    popUpError("ERREUR : Carte déjà utilisé","Veuillez placer une carte vierge devant le lecteur et ré essayer l'opération");
+                }
+                JPanel popUpPan = new JPanel(new GridLayout(0, 1));
+                popUpPan.add(new JLabel("Rentez le nom du propriétaire de la carte :"));
+                JTextField name = new JTextField("");
+                popUpPan.add(name);
+                popUpPan.add(new JLabel("Rentez l’identifiant de la carte : "));
+                JTextField id = new JTextField("");
+                popUpPan.add(id);
+                popUpPan.add(new JLabel("Veuillez choisir à quel bâtiment donne accès la carte"));
+                String[] items = {"Bâtiment Central", "Parking", "Bâtiment B"};
+                JComboBox<String> batCombo = new JComboBox<String>(items);
+                popUpPan.add(batCombo);
+                int result = JOptionPane.showConfirmDialog(null, popUpPan, "Création d’une cartef", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (result == JOptionPane.OK_OPTION) {
+                    System.out.println(batCombo.getSelectedItem()
+                            + " " + id.getText()
+                            + " " + name.getText());
+                } else {
+                    System.out.println("Cancelled");
+                }
+
             }
         });
         JButton modifyButton = new JButton("Modifier une carte d’accès");
         modifyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Case if no card is detected
+                if (!rfidSensor) {
+                    popUpError("ERREUR : Pas de CARTE DÉTECTÉ", "Veuillez placer une carte devant le lecteur et ré essayer l’opération");
+                    return;
+                }
+
+                //Case if a blank card is detected
+                if(cardRef.equals(null)){
+                    popUpError("ERREUR : Carte vierge","Veuillez placer une carte utilisé devant le lecteur et ré essayer l'opération");
+                }
                 JPanel popUpPan = new JPanel(new GridLayout(0, 1));
                 popUpPan.add(new JLabel("Numéro d’identification de la carte :"));
                 popUpPan.add(new JLabel(cardRef));
@@ -109,8 +127,8 @@ public class Card extends JFrame {
 
                 String[] columnNames = {"id", "nom", "Eq_name", ""};
                 AtomicInteger page = new AtomicInteger(0);
-                JTable table = new JTable(subTable(data,page.get(),10), columnNames);
-                DefaultTableModel tableModel = new DefaultTableModel(subTable(data,page.get(),5), columnNames) {
+                JTable table = new JTable(subTable(data, page.get(), 10), columnNames);
+                DefaultTableModel tableModel = new DefaultTableModel(subTable(data, page.get(), 5), columnNames) {
                     @Override
                     public boolean isCellEditable(int row, int column) {
                         //all cells false
@@ -118,19 +136,19 @@ public class Card extends JFrame {
                     }
                 };
                 table.setModel(tableModel);
-                popUpPan.add(table,BorderLayout.CENTER);
+                popUpPan.add(table, BorderLayout.CENTER);
 
                 JButton nextButton = new JButton("Page avant");
                 JButton prevButton = new JButton("Page suivante");
                 nextButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (page.get()-1 >= 0) {
+                        if (page.get() - 1 >= 0) {
                             page.set(page.get() - 1);
                             //System.out.println(page.get());
                             popUpPan.removeAll();
-                            JTable table = new JTable(subTable(data,page.get(),5), columnNames);
-                            DefaultTableModel tableModel = new DefaultTableModel(subTable(data,page.get(),5), columnNames) {
+                            JTable table = new JTable(subTable(data, page.get(), 5), columnNames);
+                            DefaultTableModel tableModel = new DefaultTableModel(subTable(data, page.get(), 5), columnNames) {
                                 @Override
                                 public boolean isCellEditable(int row, int column) {
                                     //all cells false
@@ -152,8 +170,8 @@ public class Card extends JFrame {
                         page.set(page.get() + 1);
                         //System.out.println(page.get());
                         popUpPan.removeAll();
-                        JTable table = new JTable(subTable(data,page.get(),5), columnNames);
-                        DefaultTableModel tableModel = new DefaultTableModel(subTable(data,page.get(),5), columnNames) {
+                        JTable table = new JTable(subTable(data, page.get(), 5), columnNames);
+                        DefaultTableModel tableModel = new DefaultTableModel(subTable(data, page.get(), 5), columnNames) {
                             @Override
                             public boolean isCellEditable(int row, int column) {
                                 //all cells false
@@ -168,9 +186,9 @@ public class Card extends JFrame {
                         popUpPan.updateUI();
                     }
                 });
-                popUpPan.add(prevButton,BorderLayout.PAGE_END);
-                popUpPan.add(new JLabel(page.toString()),BorderLayout.PAGE_END);
-                popUpPan.add(nextButton,BorderLayout.PAGE_END);
+                popUpPan.add(prevButton, BorderLayout.PAGE_END);
+                popUpPan.add(new JLabel(page.toString()), BorderLayout.PAGE_END);
+                popUpPan.add(nextButton, BorderLayout.PAGE_END);
                 JOptionPane.showConfirmDialog(null, popUpPan, "Création d’une cartef", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
             }
         });
@@ -199,8 +217,8 @@ public class Card extends JFrame {
 
                 String[] columnNames = {"id", "nom", "Bat_name", ""};
                 AtomicInteger page = new AtomicInteger(0);
-                JTable table = new JTable(subTable(data,page.get(),10), columnNames);
-                DefaultTableModel tableModel = new DefaultTableModel(subTable(data,page.get(),5), columnNames) {
+                JTable table = new JTable(subTable(data, page.get(), 10), columnNames);
+                DefaultTableModel tableModel = new DefaultTableModel(subTable(data, page.get(), 5), columnNames) {
                     @Override
                     public boolean isCellEditable(int row, int column) {
                         //all cells false
@@ -208,21 +226,21 @@ public class Card extends JFrame {
                     }
                 };
                 table.setModel(tableModel);
-                popUpPan.add(table,BorderLayout.CENTER);
+                popUpPan.add(table, BorderLayout.CENTER);
 
                 JButton nextButton = new JButton("Page avant");
-                nextButton.setMaximumSize(new Dimension(10,10));
+                nextButton.setMaximumSize(new Dimension(10, 10));
                 JButton prevButton = new JButton("Page suivante");
-                prevButton.setMaximumSize(new Dimension(10,10));
+                prevButton.setMaximumSize(new Dimension(10, 10));
                 nextButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (page.get()-1 >= 0) {
+                        if (page.get() - 1 >= 0) {
                             page.set(page.get() - 1);
                             //System.out.println(page.get());
                             popUpPan.removeAll();
-                            JTable table = new JTable(subTable(data,page.get(),5), columnNames);
-                            DefaultTableModel tableModel = new DefaultTableModel(subTable(data,page.get(),5), columnNames) {
+                            JTable table = new JTable(subTable(data, page.get(), 5), columnNames);
+                            DefaultTableModel tableModel = new DefaultTableModel(subTable(data, page.get(), 5), columnNames) {
                                 @Override
                                 public boolean isCellEditable(int row, int column) {
                                     //all cells false
@@ -244,8 +262,8 @@ public class Card extends JFrame {
                         page.set(page.get() + 1);
                         //System.out.println(page.get());
                         popUpPan.removeAll();
-                        JTable table = new JTable(subTable(data,page.get(),5), columnNames);
-                        DefaultTableModel tableModel = new DefaultTableModel(subTable(data,page.get(),5), columnNames) {
+                        JTable table = new JTable(subTable(data, page.get(), 5), columnNames);
+                        DefaultTableModel tableModel = new DefaultTableModel(subTable(data, page.get(), 5), columnNames) {
                             @Override
                             public boolean isCellEditable(int row, int column) {
                                 //all cells false
@@ -264,15 +282,15 @@ public class Card extends JFrame {
                 deleteButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if(table.getSelectedRow() != -1){
+                        if (table.getSelectedRow() != -1) {
                             tableModel.removeRow(table.getSelectedRow());
-                            popUpSuccess("Succes","La ligne à été supprimée avec succès");
+                            popUpSuccess("Succes", "La ligne à été supprimée avec succès");
                         }
                     }
                 });
-                popUpPan.add(nextButton,BorderLayout.PAGE_END);
-                popUpPan.add(new JLabel(page.toString()),BorderLayout.PAGE_END);
-                popUpPan.add(prevButton,BorderLayout.PAGE_END);
+                popUpPan.add(nextButton, BorderLayout.PAGE_END);
+                popUpPan.add(new JLabel(page.toString()), BorderLayout.PAGE_END);
+                popUpPan.add(prevButton, BorderLayout.PAGE_END);
                 JOptionPane.showConfirmDialog(null, popUpPan, "Création d’une carte", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
             }
         });
@@ -280,7 +298,7 @@ public class Card extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel popUpPan = new JPanel(new GridLayout(0,1));
+                JPanel popUpPan = new JPanel(new GridLayout(0, 1));
                 JLabel addText = new JLabel("Rentez l’identifiant de la carte :");
                 JTextField idTf = new JTextField("");
                 JLabel chooseText = new JLabel("Choisir quel accès rajouter à cette carte :");
@@ -293,8 +311,6 @@ public class Card extends JFrame {
                 popUpPan.add(batCombo);
 
                 JOptionPane.showConfirmDialog(null, popUpPan, "Ajouter un accès", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-
 
 
             }
@@ -375,22 +391,23 @@ public class Card extends JFrame {
 
     /**
      * A function that is used to get subsequence of 2D array from page to page+numberPerPage
-     * @param data 2D array to subdivided
-     * @param page index of the first element of the subsequence
+     *
+     * @param data          2D array to subdivided
+     * @param page          index of the first element of the subsequence
      * @param numberPerPage the number of object per subsequence
      * @return a subsequence with size of numberPerPage
      */
     public Object[][] subTable(Object[][] data, int page, int numberPerPage) {
         ArrayList<Object[]> subTable = new ArrayList<Object[]>();
         int index = 0;
-        for (int j = (page * numberPerPage); j < Math.min(((page+1) * numberPerPage),data.length); j++) {
+        for (int j = (page * numberPerPage); j < Math.min(((page + 1) * numberPerPage), data.length); j++) {
             subTable.add(data[j]);
             index++;
             //System.out.println(data[j][0]);
         }
 
         Object[][] toReturn = new Object[subTable.size()][];
-        for(int i = 0 ;i < subTable.size();i++){
+        for (int i = 0; i < subTable.size(); i++) {
             toReturn[i] = subTable.get(i);
         }
 
