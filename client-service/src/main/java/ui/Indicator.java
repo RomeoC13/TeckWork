@@ -79,15 +79,15 @@ public class Indicator extends JFrame {
 	}
 	
 	private JPanel optionOFCentered() {
-		JPanel mainPanel = new JPanel(new FlowLayout());
+		JPanel mainPanel = new JPanel(new BorderLayout());
 		
-//		//a new panel for title option
-//		JPanel titlePane = new JPanel();
-//		titleField = new JTextField();
-//		titlePane.add(titleField);
-//		titleField.setColumns(10);
-//		mainPanel.add(titlePane);
-//		
+		//a new panel for title option
+		JPanel titlePane = new JPanel();
+		titleField = new JTextField();
+		titlePane.add(titleField);
+		titleField.setColumns(10);
+		mainPanel.add(titlePane,BorderLayout.NORTH);
+		
 		
 
 		//set in a panel all the list of indicators
@@ -105,7 +105,7 @@ public class Indicator extends JFrame {
 		indicatorPanel.add(company);
 		JLabel energy = new JLabel("Consommation énergétique");
 		indicatorPanel.add(energy);
-		mainPanel.add(indicatorPanel);
+		mainPanel.add(indicatorPanel, BorderLayout.CENTER);
 		
 	
 		
@@ -118,8 +118,11 @@ public class Indicator extends JFrame {
 		fieldPanel.add(sensorField);
 		fieldPanel.add(companyField);
 		fieldPanel.add(energyField);
-		mainPanel.add(fieldPanel);
+		mainPanel.add(fieldPanel, BorderLayout.EAST);
 		return mainPanel;
 	}
 
+	public static void main(String[] args) {
+		new Indicator();
+	}
 }
