@@ -1,4 +1,4 @@
-package ui;
+package ui.indicator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,6 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
+import ui.Side_Menu;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
@@ -55,6 +58,8 @@ public class Indicator extends JFrame {
 	}
 
 	private JPanel optionOFTop() {
+		JPanel mainTopPanel = new JPanel(new BorderLayout());
+		
 		JPanel topPanel = new JPanel(new FlowLayout());
 		JButton allInfo = new JButton("information génerale");
 		topPanel.add(allInfo);
@@ -63,7 +68,15 @@ public class Indicator extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String msg = null;
+				JPanel pan  = new JPanel(new BorderLayout());
+				pan.add(new JLabel("Veuillez entrer le nom d'une entreprise"), BorderLayout.NORTH);
+				//pan.add(new JButton("valider"),BorderLayout.SOUTH);
+				pan.add(new JTextField(), BorderLayout.CENTER);
+
+                JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.NO_OPTION);
+                
+                	
+                
 				
 				
 			}
@@ -72,21 +85,34 @@ public class Indicator extends JFrame {
 		JButton infoByBuilding = new JButton("indicateur par batiments");
 		infoByBuilding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JPanel pan  = new JPanel(new BorderLayout());
+				pan.add(new JLabel("Veuillez entrer le nom du batiments"), BorderLayout.NORTH);
+				pan.add(new JButton("valider"),BorderLayout.SOUTH);
+				pan.add(new JTextField(), BorderLayout.CENTER);
+
+                JOptionPane.showConfirmDialog(null, pan, "choix d'un batiment", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		topPanel.add(infoByBuilding);
-		return topPanel;
-	}
-	
-	private JPanel optionOFCentered() {
-		JPanel mainPanel = new JPanel(new BorderLayout());
-		
-		//a new panel for title option
+		mainTopPanel.add(topPanel, BorderLayout.NORTH);
 		JPanel titlePane = new JPanel();
 		titleField = new JTextField();
 		titlePane.add(titleField);
 		titleField.setColumns(10);
-		mainPanel.add(titlePane,BorderLayout.NORTH);
+		titlePane.setPreferredSize(new Dimension(100,100));
+		topPanel.add(titlePane);
+		
+		
+		mainTopPanel.add(titlePane, BorderLayout.SOUTH);
+		mainTopPanel.setBackground(Color.white);
+		mainTopPanel.setPreferredSize(new Dimension(100,200));
+		return mainTopPanel;
+	}
+	
+	private JPanel optionOFCentered() {
+		JPanel mainPanel = new JPanel(new FlowLayout());
+		
+
 		
 		
 
@@ -105,7 +131,7 @@ public class Indicator extends JFrame {
 		indicatorPanel.add(company);
 		JLabel energy = new JLabel("Consommation énergétique");
 		indicatorPanel.add(energy);
-		mainPanel.add(indicatorPanel, BorderLayout.CENTER);
+		mainPanel.add(indicatorPanel);
 		
 	
 		
@@ -118,11 +144,12 @@ public class Indicator extends JFrame {
 		fieldPanel.add(sensorField);
 		fieldPanel.add(companyField);
 		fieldPanel.add(energyField);
-		mainPanel.add(fieldPanel, BorderLayout.EAST);
+		mainPanel.add(fieldPanel);
 		return mainPanel;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		new Indicator();
 	}
 }
