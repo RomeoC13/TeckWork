@@ -5,13 +5,12 @@ import java.sql.Connection;
 public class IndicOption {
 	
 	
-	private double tauxCalcul () {
+	private double tauxOccupationCalcul () {
 		double capacity = 0.0;
 		
-		try {
-			Connection con = new 
-		}
 		return capacity;
 	}
+	
+	
 
 }

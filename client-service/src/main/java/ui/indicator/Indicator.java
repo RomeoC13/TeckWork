@@ -73,7 +73,7 @@ public class Indicator extends JFrame {
 				//pan.add(new JButton("valider"),BorderLayout.SOUTH);
 				pan.add(new JTextField(), BorderLayout.CENTER);
 
-                JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.NO_OPTION);
+                JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
                 
                 	
                 
@@ -87,7 +87,7 @@ public class Indicator extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JPanel pan  = new JPanel(new BorderLayout());
 				pan.add(new JLabel("Veuillez entrer le nom du batiments"), BorderLayout.NORTH);
-				pan.add(new JButton("valider"),BorderLayout.SOUTH);
+			//	pan.add(new JButton("valider"),BorderLayout.SOUTH);
 				pan.add(new JTextField(), BorderLayout.CENTER);
 
                 JOptionPane.showConfirmDialog(null, pan, "choix d'un batiment", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
