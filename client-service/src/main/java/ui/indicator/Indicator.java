@@ -104,7 +104,6 @@ public class Indicator extends JFrame {
 		
 		
 		mainTopPanel.add(titlePane, BorderLayout.SOUTH);
-		mainTopPanel.setBackground(Color.white);
 		mainTopPanel.setPreferredSize(new Dimension(100,200));
 		return mainTopPanel;
 	}
