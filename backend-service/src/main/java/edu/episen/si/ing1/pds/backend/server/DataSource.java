@@ -9,7 +9,7 @@ public class DataSource {
 	private static JDBCConnectionPool pool;
 	
 	
-	public DataSource(int size, Properties prop) {
+	public  DataSource(int size, Properties prop) {
 		try {
 			pool = new JDBCConnectionPool(prop);
 			pool.turnConnection(size);
@@ -18,7 +18,7 @@ public class DataSource {
 		}
 	}
 	
-	public Connection addData() {
+	public static Connection addData() {
 		return pool.addConnection();
 	}
 	

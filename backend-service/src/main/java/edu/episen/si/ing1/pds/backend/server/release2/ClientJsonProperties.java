@@ -3,34 +3,18 @@ package edu.episen.si.ing1.pds.backend.server.release2;
 public class ClientJsonProperties {
 
 	
-    private String name;
-    private int age;
-    private String address;
+    private String requestId;
+
 
     public ClientJsonProperties() {
+
     }
 
-    public String getName() {
-        return name;
+    public String getRequestId() {
+        return requestId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 }
