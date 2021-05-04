@@ -134,8 +134,11 @@ public class Card extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         int toDeleteRow = table.getSelectedRow();
                         if (toDeleteRow != -1) {
-                            Object[][] table = subTable(data, page.get(), 10);
-                            // remove the perm with id of table[toDeleteRow][0]
+                            if (table.getSelectedRow() != -1) {
+                                tableModel.removeRow(table.getSelectedRow());
+                                // remove the perm with id of table[toDeleteRow][0]
+                                popUpSuccess("Succes", "La ligne à été supprimée avec succès");
+                            }
                         }
                     }
                 });
@@ -161,6 +164,7 @@ public class Card extends JFrame {
                                 }
                             };
                             table.setModel(tableModel);
+                            popUpPan.add(delete);
                             popUpPan.add(table);
                             popUpPan.add(nextButton);
                             popUpPan.add(new JLabel(page.toString()));
@@ -184,6 +188,7 @@ public class Card extends JFrame {
                             }
                         };
                         table.setModel(tableModel);
+                        popUpPan.add(delete);
                         popUpPan.add(table);
                         popUpPan.add(nextButton);
                         popUpPan.add(new JLabel(page.toString()));
@@ -231,7 +236,6 @@ public class Card extends JFrame {
                     }
                 };
                 table.setModel(tableModel);
-                popUpPan.add(table, BorderLayout.CENTER);
 
                 JButton nextButton = new JButton("Page avant");
                 nextButton.setMaximumSize(new Dimension(10, 10));
@@ -253,6 +257,19 @@ public class Card extends JFrame {
                                 }
                             };
                             table.setModel(tableModel);
+
+                            JButton deleteButton = new JButton("Suprimer la ligne séléctionnée");
+                            deleteButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (table.getSelectedRow() != -1) {
+                                        tableModel.removeRow(table.getSelectedRow());
+                                        // remove the perm with id of table[toDeleteRow][0]
+                                        popUpSuccess("Succes", "La ligne à été supprimée avec succès");
+                                    }
+                                }
+                            });
+                            popUpPan.add(deleteButton,BorderLayout.PAGE_START);
                             popUpPan.add(table);
                             popUpPan.add(nextButton);
                             popUpPan.add(new JLabel(page.toString()));
@@ -276,6 +293,18 @@ public class Card extends JFrame {
                             }
                         };
                         table.setModel(tableModel);
+                        JButton deleteButton = new JButton("Suprimer la ligne séléctionnée");
+                        deleteButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                if (table.getSelectedRow() != -1) {
+                                    tableModel.removeRow(table.getSelectedRow());
+                                    // remove the perm with id of table[toDeleteRow][0]
+                                    popUpSuccess("Succes", "La ligne à été supprimée avec succès");
+                                }
+                            }
+                        });
+                        popUpPan.add(deleteButton,BorderLayout.PAGE_START);
                         popUpPan.add(table);
                         popUpPan.add(nextButton);
                         popUpPan.add(new JLabel(page.toString()));
@@ -289,10 +318,13 @@ public class Card extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         if (table.getSelectedRow() != -1) {
                             tableModel.removeRow(table.getSelectedRow());
+                            // remove the perm with id of table[toDeleteRow][0]
                             popUpSuccess("Succes", "La ligne à été supprimée avec succès");
                         }
                     }
                 });
+                popUpPan.add(deleteButton,BorderLayout.PAGE_START);
+                popUpPan.add(table,BorderLayout.CENTER);
                 popUpPan.add(nextButton, BorderLayout.PAGE_END);
                 popUpPan.add(new JLabel(page.toString()), BorderLayout.PAGE_END);
                 popUpPan.add(prevButton, BorderLayout.PAGE_END);
