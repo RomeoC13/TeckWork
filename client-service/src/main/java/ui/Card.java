@@ -37,8 +37,8 @@ public class Card extends JFrame {
                 }
 
                 //Case if an used card is detected
-                if(!cardRef.equals(null)){
-                    popUpError("ERREUR : Carte déjà utilisé","Veuillez placer une carte vierge devant le lecteur et ré essayer l'opération");
+                if (!cardRef.equals(null)) {
+                    popUpError("ERREUR : Carte déjà utilisé", "Veuillez placer une carte vierge devant le lecteur et ré essayer l'opération");
                 }
                 JPanel popUpPan = new JPanel(new GridLayout(0, 1));
                 popUpPan.add(new JLabel("Rentez le nom du propriétaire de la carte :"));
@@ -73,8 +73,8 @@ public class Card extends JFrame {
                 }
 
                 //Case if a blank card is detected
-                if(cardRef.equals(null)){
-                    popUpError("ERREUR : Carte vierge","Veuillez placer une carte utilisé devant le lecteur et ré essayer l'opération");
+                if (cardRef.equals(null)) {
+                    popUpError("ERREUR : Carte vierge", "Veuillez placer une carte utilisé devant le lecteur et ré essayer l'opération");
                 }
                 JPanel popUpPan = new JPanel(new GridLayout(0, 1));
                 popUpPan.add(new JLabel("Numéro d’identification de la carte :"));
@@ -102,13 +102,7 @@ public class Card extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel popUpPan = new JPanel();
-                JTextField delete = new JTextField("supprimer");
-                delete.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                    }
-                });
+                JButton delete = new JButton("supprimer");
                 Object[][] data = {
                         {"1", "BALDE", "Door_A", delete},
                         {"2", "CHACHA", "Printer_B1", delete},
@@ -135,7 +129,18 @@ public class Card extends JFrame {
                         return false;
                     }
                 };
+                delete.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int toDeleteRow = table.getSelectedRow();
+                        if (toDeleteRow != -1) {
+                            Object[][] table = subTable(data, page.get(), 10);
+                            // remove the perm with id of table[toDeleteRow][0]
+                        }
+                    }
+                });
                 table.setModel(tableModel);
+                popUpPan.add(delete, BorderLayout.PAGE_START);
                 popUpPan.add(table, BorderLayout.CENTER);
 
                 JButton nextButton = new JButton("Page avant");
@@ -396,6 +401,7 @@ public class Card extends JFrame {
      * @param page          index of the first element of the subsequence
      * @param numberPerPage the number of object per subsequence
      * @return a subsequence with size of numberPerPage
+     * @author R.CHATEL
      */
     public Object[][] subTable(Object[][] data, int page, int numberPerPage) {
         ArrayList<Object[]> subTable = new ArrayList<Object[]>();
