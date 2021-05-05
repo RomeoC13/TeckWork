@@ -1,27 +1,36 @@
 package ui;
 
-import userIHM.WindowsMapping;
-
-import javax.swing.*;
-import javax.swing.JSpinner.ListEditor;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.border.EmptyBorder;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+
+import ui.indicator.Indicator;
+import userIHM.WindowsMapping;
 
 public class Side_Menu extends JPanel {
 	private final JButton home = new JButton("Home");
 	private final JButton card = new JButton("Card");
 	private final JButton mapping = new JButton("Mapping");
 	private final JButton indicator = new JButton("Indicator");
-	private JLabel companyLabel = new JLabel();
+	private final JLabel companyLabel = new JLabel();
 	private final JSeparator separator = new JSeparator();
-	
-	
-
-	
+	private final JPanel panel = new JPanel();
+	private final JButton deconnexion = new JButton("D\u00E9connexion");
 	
 
     public Side_Menu() {
@@ -39,16 +48,17 @@ public class Side_Menu extends JPanel {
         companyLabel.setText("Teck-work");
         		//+ "<html><body><font color='blanc'>Tech-Work</body></html>\"
         add(companyLabel);
+        separator.setOpaque(true);
+        
         separator.setBounds(new Rectangle(10, 10, 10, 10));
         separator.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-        separator.setBackground(Color.WHITE);
-        
+        separator.setBackground(Color.BLACK);
         separator.setAlignmentX(20.0f);
         separator.setAlignmentY(Component.TOP_ALIGNMENT);
-        separator.setPreferredSize(new Dimension(200, 0));
-        separator.setForeground(Color.WHITE);
+        separator.setPreferredSize(new Dimension(215, 3));
+        separator.setForeground(Color.BLACK);
+        this.add(separator);
         
-        add(separator);
         home.setBackground(SystemColor.inactiveCaption);
         home.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         home.setForeground(SystemColor.desktop);
@@ -60,8 +70,8 @@ public class Side_Menu extends JPanel {
         home.setVerticalAlignment(SwingConstants.TOP);
         home.setAlignmentY(10.0f);
         home.setAlignmentX(10.0f);
-        
         add(home);
+       
         card.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         card.setForeground(SystemColor.activeCaptionText);
         card.setBackground(SystemColor.inactiveCaption);
@@ -77,8 +87,8 @@ public class Side_Menu extends JPanel {
 				
 			}
 		});
-        
         add(card);
+        
         mapping.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         mapping.setForeground(SystemColor.activeCaptionText);
         mapping.setBackground(SystemColor.inactiveCaption);
@@ -86,6 +96,7 @@ public class Side_Menu extends JPanel {
         mapping.setVerticalAlignment(SwingConstants.TOP);
         mapping.setAlignmentY(10.0f);
         mapping.setAlignmentX(10.0f);
+
 
         mapping.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -114,12 +125,22 @@ public class Side_Menu extends JPanel {
         	
         });
         add(indicator);
+        panel.setPreferredSize(new Dimension(200, 265));
+        
+        
+        panel.setBackground(new Color(68, 114, 196));
+        panel.setLayout(new BorderLayout());
+        deconnexion.setLocation(new Point(10, 10));
+        deconnexion.setVerticalAlignment(SwingConstants.TOP);
+        deconnexion.setPreferredSize(new Dimension(170, 23));
+        deconnexion.setForeground(Color.BLACK);
+        deconnexion.setFont(new Font("Sylfaen", Font.PLAIN, 14));
+        deconnexion.setBackground(SystemColor.inactiveCaption);
+        deconnexion.setAlignmentY(10.0f);
+        deconnexion.setAlignmentX(10.0f);
+        panel.add(deconnexion,BorderLayout.SOUTH);
+        this.add(panel);
     }
 
-
-
-
-
-    
     
 }
