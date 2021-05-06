@@ -115,7 +115,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
             try {
                 System.out.println("Valeur de l'équipement :" + equipment);
                 System.out.println(" voici " +listEquipment.getSelectedItem().toString());
-                if (listEquipment.getSelectedItem().toString().contains("sensor")) {
+                if (listEquipment.getSelectedItem().toString().contains("screen")) {
                     BufferedImage img = ImageIO.read(mapUrl);
                     System.out.println("ici");
                     Graphics g = getGraphics();
@@ -123,25 +123,25 @@ public class WindowsMapping extends JFrame implements ActionListener {
                     System.out.println("Etat Actif");
 
 
-                }/* else if (listEquipment.getSelectedItem() == "sensor") {
+                } else if (listEquipment.getSelectedItem().toString().contains("sensor")) {
                     BufferedImage img1 = ImageIO.read(mapUrl1);
                     Graphics g = getGraphics();
                     g.drawImage(img1, e.getX(), e.getY(), 20, 20, null);
                     System.out.println("Etat Actif");
 
-                } else if (listEquipment.getSelectedItem() == "prise") {
+                } else if (listEquipment.getSelectedItem().toString().contains("powerconnected")) {
                     BufferedImage img2 = ImageIO.read(mapUrl2);
                     Graphics g = getGraphics();
                     g.drawImage(img2, e.getX(), e.getY(), 20, 20, null);
                     System.out.println("Etat Actif");
 
-                } else if (listEquipment.getSelectedItem() == "windows") {
+                } else if (listEquipment.getSelectedItem().toString().contains("windows")) {
                     BufferedImage img3 = ImageIO.read(mapUrl3);
                     Graphics g = getGraphics();
                     g.drawImage(img3, e.getX(), e.getY(), 20, 20, null);
                     System.out.println("Etat Actif");
 
-                }  */
+                }
                 this.revalidate();
                 this.setVisible(true);
             } catch (IOException ioException) {
