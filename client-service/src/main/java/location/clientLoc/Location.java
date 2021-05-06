@@ -19,6 +19,12 @@ public class Location {
     static serveurLoc r = new serveurLoc();
     static String[] tab = new String[6];
 
+    static JFrame frameEnvoie = new JFrame("Propositions");
+    static JPanel panelEnvoie = new JPanel(new GridLayout(4,1,10,10));
+
+    static JFrame frameErreur = new JFrame("ERREUR");
+    static JPanel panelErreur = new JPanel(new BorderLayout());
+
     static class StyledButtonUI extends BasicButtonUI {
 
         @Override
@@ -81,6 +87,56 @@ public class Location {
         }
     }
 
+    public static class ActionEnvoie implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String adresse = tab[0];
+            String ad = "";
+            if(adresse.equalsIgnoreCase(r.getNomBat(0))) {
+                ad = r.getNomBat(0);
+            } else if(adresse.equalsIgnoreCase(r.getNomBat(1))) {
+                ad = r.getNomBat(1);
+            } else if(adresse.equalsIgnoreCase(r.getNomBat(2))) {
+                ad = r.getNomBat(2);
+            } else if(adresse.equalsIgnoreCase(r.getNomBat(3))) {
+                ad = r.getNomBat(3);
+            } else if(adresse.equalsIgnoreCase(r.getNomBat(4))) {
+                ad = r.getNomBat(4);
+            }
+            panelEnvoie.removeAll();
+            panelErreur.removeAll();
+
+            if(Integer.parseInt(tab[3]) <= r.getPlace(ad)) {
+                JPanel prop1 = new JPanel();
+                JPanel prop2 = new JPanel();
+                JPanel prop3 = new JPanel();
+                JPanel prop4 = new JPanel();
+                setTextLabel("Prop 1", prop1);
+                setTextLabel("Prop 2", prop2);
+                setTextLabel("Prop 3", prop3);
+                setTextLabel("Prop 4", prop4);
+                panelEnvoie.add(prop1);
+                panelEnvoie.add(prop2);
+                panelEnvoie.add(prop3);
+                panelEnvoie.add(prop4);
+                frameEnvoie.add(panelEnvoie);
+                frameEnvoie.setSize(500, 500);
+                frameEnvoie.setVisible(true);
+            } else {
+                JLabel lErreur = new JLabel("Le batiment : " + tab[0] + " possède seulement " + r.getPlace(ad) + " place(s) restante(s). " +
+                        "Choisissez un nouveau batiment, ou alors prenez un nombre de salles correcte.");
+                panelErreur.add(lErreur, BorderLayout.CENTER);
+                frameErreur.add(panelErreur);
+                frameErreur.setSize(1000, 200);
+                frameErreur.setVisible(true);
+            }
+        }
+    }
+
+    static void setTextLabel(String text, JPanel p) {
+        JLabel l = new JLabel(text);
+        p.add(l);
+    }
+
     private static void addLabelAndTextField(String labelText, int yPos, Container containingPanel) {
 
         JLabel label = new JLabel(labelText);
@@ -137,6 +193,7 @@ public class Location {
 
 
     public static void main (String[] args) {
+        createTabToReturn("BAT:/-/"+r.getNomBat(0));
 
         panel.setLayout(new BorderLayout());
         panelTop.setLayout(new BorderLayout());
@@ -187,6 +244,13 @@ public class Location {
         //panelTop.add(buttonPlan, BorderLayout.CENTER);
         toolbar.add(buttonFormulaire);
 
+        final JButton buttonEnvoie = new JButton("Envoyer");
+        buttonEnvoie.addActionListener(new ActionEnvoie());
+        buttonEnvoie.setFont(new Font("Calibri", Font.PLAIN, 14));
+        buttonEnvoie.setBackground(new Color(0x3C4DCE));
+        buttonEnvoie.setForeground(Color.white);
+        buttonEnvoie.setUI(new Home.StyledButtonUI());
+
 
         panelTop.add(toolbar, BorderLayout.NORTH);
 
@@ -198,6 +262,7 @@ public class Location {
                 e.getSource();
                 String s=(String) listeBat.getSelectedItem();
                 createTabToReturn("BAT:/-/"+s);
+                System.out.println(r.getPlace(s));
             }
         });
         panelTop.add(listeBat, BorderLayout.CENTER);
@@ -206,6 +271,7 @@ public class Location {
 
         panel.add(panelTop, BorderLayout.NORTH);
         panel.add(panelFormulaire, BorderLayout.CENTER);
+        panel.add(buttonEnvoie, BorderLayout.SOUTH);
 
 
         frame.setSize(1000,800);

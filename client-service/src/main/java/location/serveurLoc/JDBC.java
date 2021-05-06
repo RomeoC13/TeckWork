@@ -23,6 +23,10 @@ public class JDBC {
             props.load(fis);
         }
 
+        /*String url = props.getProperty("jdbc.url");
+        String login = props.getProperty("jdbc.login");
+        String pwd = props.getProperty("jdbc.password");*/
+
         String url = props.getProperty("jdbc.url");
         String login = props.getProperty("jdbc.login");
         String pwd = props.getProperty("jdbc.password");
