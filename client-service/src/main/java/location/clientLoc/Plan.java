@@ -54,7 +54,7 @@ public class Plan extends Canvas{
         String[] tabOcu = r.initPlan(bat, etage);
         for(int i = 0; i < 18; i++) {
             if (i < 9) {
-                if (tabOcu[i] == "Réservé") {
+                if (tabOcu[i].equalsIgnoreCase("Occupé")) {
                     g.setColor(Color.RED);
                     space = (i == 0) ? 0 : i * 10;
                     g.fillRect(40 + (150 * i) + space, 50, 150, 100);
@@ -64,7 +64,7 @@ public class Plan extends Canvas{
                     g.drawRect(40 + (150 * i) + space, 50, 150, 100);
                 }
             } else if (i >= 9) {
-                if (tabOcu[i] == "Réservé") {
+                if (tabOcu[i].equalsIgnoreCase("Occupé")) {
                     g.setColor(Color.RED);
                     space = (i == 9) ? 0 : (i - 9) * 10;
                     g.fillRect(40 + (150 * (i - 9)) + space, 200, 150, 100);
@@ -202,7 +202,7 @@ public class Plan extends Canvas{
         panel.add(panelTop, BorderLayout.NORTH);
         panel.add(plan, BorderLayout.CENTER);
 
-        frame.setSize(1530,800);
+        frame.setSize(1530,600);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
