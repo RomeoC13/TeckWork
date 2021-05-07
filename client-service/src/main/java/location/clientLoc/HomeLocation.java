@@ -58,7 +58,7 @@ public class HomeLocation {
         {
             panel.removeAll();
             frame.dispose();
-            HomeLoc h = new HomeLoc();
+            HomeLocation h = new HomeLocation();
             String[] args = {};
             h.main(args);
         }
@@ -86,27 +86,27 @@ public class HomeLocation {
         System.out.println("oui");
 
         final JButton buttonAccueil = new JButton("Accueil");
-        buttonAccueil.addActionListener(new HomeLoc.ActionAccueil());
+        buttonAccueil.addActionListener(new HomeLocation.ActionAccueil());
         buttonAccueil.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonAccueil.setBackground(new Color(0x3C4DCE));
         buttonAccueil.setForeground(Color.white);
-        buttonAccueil.setUI(new HomeLoc.StyledButtonUI());
+        buttonAccueil.setUI(new HomeLocation.StyledButtonUI());
         panel.add(buttonAccueil);
 
         final JButton buttonPlan = new JButton("Plan");
-        buttonPlan.addActionListener(new HomeLoc.ActionPlan());
+        buttonPlan.addActionListener(new HomeLocation.ActionPlan());
         buttonPlan.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonPlan.setBackground(new Color(0x3C4DCE));
         buttonPlan.setForeground(Color.white);
-        buttonPlan.setUI(new HomeLoc.StyledButtonUI());
+        buttonPlan.setUI(new HomeLocation.StyledButtonUI());
         panel.add(buttonPlan);
 
         final JButton buttonFormulaire = new JButton("Formulaire");
-        buttonFormulaire.addActionListener(new HomeLoc.ActionFormulaire());
+        buttonFormulaire.addActionListener(new HomeLocation.ActionFormulaire());
         buttonFormulaire.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonFormulaire.setBackground(new Color(0x3C4DCE));
         buttonFormulaire.setForeground(Color.white);
-        buttonFormulaire.setUI(new HomeLoc.StyledButtonUI());
+        buttonFormulaire.setUI(new HomeLocation.StyledButtonUI());
         panel.add(buttonFormulaire);
 
         frame.add(panel);
