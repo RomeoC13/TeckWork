@@ -7,7 +7,6 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 
 public class Plan extends Canvas{
@@ -82,7 +81,7 @@ public class Plan extends Canvas{
         {
             panel.removeAll();
             frame.dispose();
-            Home h = new Home();
+            HomeLoc h = new HomeLoc();
             String[] args = {};
             h.main(args);
         }
@@ -132,7 +131,7 @@ public class Plan extends Canvas{
         buttonAccueil.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonAccueil.setBackground(new Color(0x3C4DCE));
         buttonAccueil.setForeground(Color.white);
-        buttonAccueil.setUI(new Home.StyledButtonUI());
+        buttonAccueil.setUI(new HomeLoc.StyledButtonUI());
         //panelTop.add(buttonAccueil, BorderLayout.EAST);
         toolbar.add(buttonAccueil);
 
@@ -141,7 +140,7 @@ public class Plan extends Canvas{
         buttonPlan.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonPlan.setBackground(new Color(0x3C4DCE));
         buttonPlan.setForeground(Color.white);
-        buttonPlan.setUI(new Home.StyledButtonUI());
+        buttonPlan.setUI(new HomeLoc.StyledButtonUI());
         //panelTop.add(buttonPlan, BorderLayout.CENTER);
         toolbar.add(buttonPlan);
 
@@ -150,7 +149,7 @@ public class Plan extends Canvas{
         buttonFormulaire.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonFormulaire.setBackground(new Color(0x3C4DCE));
         buttonFormulaire.setForeground(Color.white);
-        buttonFormulaire.setUI(new Home.StyledButtonUI());
+        buttonFormulaire.setUI(new HomeLoc.StyledButtonUI());
         //panelTop.add(buttonPlan, BorderLayout.CENTER);
         toolbar.add(buttonFormulaire);
 

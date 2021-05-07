@@ -1,5 +1,7 @@
 package ui;
-import java.awt.BorderLayout;
+
+import location.clientLoc.HomeLoc;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -11,7 +13,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 public class Home {
-	private String [] element = {"mairie", "service", "pouvooirs", "publics"};
+	private String [] element = {"mairie", "service", "pouvooirs", "publics", "location"};
 	private JComboBox combox;
 	private WindowsMenu newWindow;
 	private JFrame myFrame = new JFrame();
@@ -62,6 +63,12 @@ public class Home {
 					 newWindow = new WindowsMenu();
 					 myFrame.dispose();
 				}
+				if (combox.getSelectedIndex() == 4) {
+					HomeLoc hl = new HomeLoc();
+					String[] args = {};
+					hl.main(args);
+					myFrame.dispose();
+				}
 					
 			}
 		});
@@ -73,7 +80,7 @@ public class Home {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Vous avez annulé la session");
+				JOptionPane.showMessageDialog(null, "Vous avez annulï¿½ la session");
 				myFrame.dispose();
 			}
 		});

@@ -62,7 +62,7 @@ public class Location {
         {
             panel.removeAll();
             frame.dispose();
-            Home h = new Home();
+            HomeLoc h = new HomeLoc();
             String[] args = {};
             h.main(args);
         }
@@ -162,7 +162,7 @@ public class Location {
                 buttonValide.setFont(new Font("Calibri", Font.PLAIN, 14));
                 buttonValide.setBackground(new Color(0x3C4DCE));
                 buttonValide.setForeground(Color.white);
-                buttonValide.setUI(new Home.StyledButtonUI());
+                buttonValide.setUI(new HomeLoc.StyledButtonUI());
 
                 panelEnvoie.add(buttonValide);
 
@@ -686,7 +686,7 @@ public class Location {
         buttonAccueil.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonAccueil.setBackground(new Color(0x3C4DCE));
         buttonAccueil.setForeground(Color.white);
-        buttonAccueil.setUI(new Home.StyledButtonUI());
+        buttonAccueil.setUI(new HomeLoc.StyledButtonUI());
         toolbar.add(buttonAccueil);
 
         final JButton buttonPlan = new JButton("Plan");
@@ -694,7 +694,7 @@ public class Location {
         buttonPlan.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonPlan.setBackground(new Color(0x3C4DCE));
         buttonPlan.setForeground(Color.white);
-        buttonPlan.setUI(new Home.StyledButtonUI());
+        buttonPlan.setUI(new HomeLoc.StyledButtonUI());
         toolbar.add(buttonPlan);
 
         final JButton buttonFormulaire = new JButton("Formulaire");
@@ -702,7 +702,7 @@ public class Location {
         buttonFormulaire.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonFormulaire.setBackground(new Color(0x3C4DCE));
         buttonFormulaire.setForeground(Color.white);
-        buttonFormulaire.setUI(new Home.StyledButtonUI());
+        buttonFormulaire.setUI(new HomeLoc.StyledButtonUI());
         //panelTop.add(buttonPlan, BorderLayout.CENTER);
         toolbar.add(buttonFormulaire);
 
@@ -711,7 +711,7 @@ public class Location {
         buttonEnvoie.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonEnvoie.setBackground(new Color(0x3C4DCE));
         buttonEnvoie.setForeground(Color.white);
-        buttonEnvoie.setUI(new Home.StyledButtonUI());
+        buttonEnvoie.setUI(new HomeLoc.StyledButtonUI());
 
 
         panelTop.add(toolbar, BorderLayout.NORTH);
