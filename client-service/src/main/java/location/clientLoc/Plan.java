@@ -81,7 +81,7 @@ public class Plan extends Canvas{
         {
             panel.removeAll();
             frame.dispose();
-            HomeLoc h = new HomeLoc();
+            HomeLocation h = new HomeLocation();
             String[] args = {};
             h.main(args);
         }
@@ -131,7 +131,7 @@ public class Plan extends Canvas{
         buttonAccueil.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonAccueil.setBackground(new Color(0x3C4DCE));
         buttonAccueil.setForeground(Color.white);
-        buttonAccueil.setUI(new HomeLoc.StyledButtonUI());
+        buttonAccueil.setUI(new HomeLocation.StyledButtonUI());
         //panelTop.add(buttonAccueil, BorderLayout.EAST);
         toolbar.add(buttonAccueil);
 
@@ -140,7 +140,7 @@ public class Plan extends Canvas{
         buttonPlan.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonPlan.setBackground(new Color(0x3C4DCE));
         buttonPlan.setForeground(Color.white);
-        buttonPlan.setUI(new HomeLoc.StyledButtonUI());
+        buttonPlan.setUI(new HomeLocation.StyledButtonUI());
         //panelTop.add(buttonPlan, BorderLayout.CENTER);
         toolbar.add(buttonPlan);
 
@@ -149,7 +149,7 @@ public class Plan extends Canvas{
         buttonFormulaire.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonFormulaire.setBackground(new Color(0x3C4DCE));
         buttonFormulaire.setForeground(Color.white);
-        buttonFormulaire.setUI(new HomeLoc.StyledButtonUI());
+        buttonFormulaire.setUI(new HomeLocation.StyledButtonUI());
         //panelTop.add(buttonPlan, BorderLayout.CENTER);
         toolbar.add(buttonFormulaire);
 
