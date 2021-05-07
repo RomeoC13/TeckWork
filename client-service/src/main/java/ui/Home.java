@@ -1,6 +1,6 @@
 package ui;
 
-import location.clientLoc.HomeLoc;
+import location.clientLoc.HomeLocation;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -64,7 +64,7 @@ public class Home {
 					 myFrame.dispose();
 				}
 				if (combox.getSelectedIndex() == 4) {
-					HomeLoc hl = new HomeLoc();
+					HomeLocation hl = new HomeLocation();
 					String[] args = {};
 					hl.main(args);
 					myFrame.dispose();
