@@ -13,18 +13,22 @@ import java.sql.PreparedStatement;
 import java.util.Properties;
 
 import static edu.episen.si.ing1.pds.backend.server.release2.Crud.read;
+import static edu.episen.si.ing1.pds.backend.server.release2.Crud.read1;
 import static java.lang.Thread.sleep;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private final Connection connection;
     private static String[] requestList = new String[1];
+    private static String[] requestList1 = new String[1];
 
     // Constructor
     public ClientHandler(Socket socket, Connection connection) {
         this.clientSocket = socket;
         this.connection = connection;
         this.requestList[0] = "SELECT DISTINCT name FROM equipment";
+        this.requestList1[0] = "SELECT DISTINCT stat FROM equipment";
+
     }
 
     public void run() {
@@ -48,6 +52,7 @@ public class ClientHandler implements Runnable {
                 for (String s : requestAnswer) {
                     answer.append(s).append(",");
                 }
+                System.out.println(requestAnswer);
                 System.out.println(answer.toString());
                 DataOutputStream outdata = new DataOutputStream(out);
                 outdata.writeUTF(answer.toString());

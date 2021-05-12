@@ -4,6 +4,7 @@ public class ClientJsonProperties {
 
 	
     private String requestId;
+    private String requestBat;
 
 
     public ClientJsonProperties() {
@@ -13,8 +14,12 @@ public class ClientJsonProperties {
     public String getRequestId() {
         return requestId;
     }
+    public String getRequestBat() {
+        return requestBat;
+    }
 
     public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
+    public void setRequestBat(String requestBat) {this.requestBat = requestBat;}
 }

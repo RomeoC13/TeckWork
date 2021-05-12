@@ -21,6 +21,7 @@ import static userIHM.Request.getEquipment;
 
 public class WindowsMapping extends JFrame implements ActionListener {
     JPanel panel = new JPanel();
+    JPanel pan = new JPanel();
     JButton button1 = new JButton("Batiment");
     JButton button2 = new JButton("Equipements");
     JButton button5 = new JButton("Etage");
@@ -37,7 +38,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
         g = new Gestion();
 
         this.setTitle("Windows for Mapping");
-        this.setSize(700, 300);
+        this.setSize(800, 800);
         panel.setBackground(Color.BLUE);
         panel.setPreferredSize(new Dimension(150, 150));
 
@@ -73,6 +74,8 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
         getContentPane().add(panel, BorderLayout.WEST);
         getContentPane().add(g, BorderLayout.CENTER);
+
+        getContentPane().add(pan);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -96,14 +99,30 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
 
     class Gestion extends JPanel implements MouseListener {
-        String equipment;
+         String equipment;
 
         public void setEquipment(String equipment) {
             this.equipment = equipment;
         }
 
         public Gestion() {
+            setPreferredSize(new Dimension(750,750));
             this.addMouseListener(this);
+        }
+
+        public void paint(Graphics g) {
+            URL imgURL = Thread.currentThread().getContextClassLoader().getResource("planbureau.jpg");
+            BufferedImage currentEquipment;
+
+            try{
+                currentEquipment = ImageIO.read(imgURL);
+                g.drawImage(currentEquipment, 200, 150, 750, 750, null);
+                imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+                currentEquipment = ImageIO.read(imgURL);
+                g.drawImage(currentEquipment, 300, 400, 50, 50, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -113,7 +132,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
             URL mapUrl2 = Thread.currentThread().getContextClassLoader().getResource("prise.jpg");
             URL mapUrl3 = Thread.currentThread().getContextClassLoader().getResource("fenetre.jpg");
             try {
-                System.out.println("Valeur de l'équipement :" + equipment);
+
                 System.out.println(" voici " +listEquipment.getSelectedItem().toString());
                 if (listEquipment.getSelectedItem().toString().contains("screen")) {
                     BufferedImage img = ImageIO.read(mapUrl);
