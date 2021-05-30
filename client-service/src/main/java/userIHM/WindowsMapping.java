@@ -21,7 +21,7 @@ import static userIHM.Request.getEquipment;
 
 public class WindowsMapping extends JFrame implements ActionListener {
     JPanel panel = new JPanel();
-    JPanel pan = new JPanel();
+    Gestion pan;
     JButton button1 = new JButton("Batiment");
     JButton button2 = new JButton("Equipements");
     JButton button5 = new JButton("Etage");
@@ -31,14 +31,16 @@ public class WindowsMapping extends JFrame implements ActionListener {
     private JComboBox<String> listEquipment;
     private JComboBox<String> list1;
     private JComboBox<String> list3;
-    Gestion g;
+
 
 
     public WindowsMapping() {
-        g = new Gestion();
 
+        this.pan = new Gestion();
         this.setTitle("Windows for Mapping");
-        this.setSize(800, 800);
+        this.setSize(1000, 1000);
+        //this.setResizable(false);
+        getContentPane().setBackground(Color.white);
         panel.setBackground(Color.BLUE);
         panel.setPreferredSize(new Dimension(150, 150));
 
@@ -73,9 +75,9 @@ public class WindowsMapping extends JFrame implements ActionListener {
         panel.add(list3);
 
         getContentPane().add(panel, BorderLayout.WEST);
-        getContentPane().add(g, BorderLayout.CENTER);
 
-        getContentPane().add(pan);
+
+        this.getContentPane().add(pan, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -91,98 +93,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        System.out.println("je fais un clique");
-        g.setEquipment(listEquipment.getSelectedItem().toString());
-        System.out.println(listEquipment.getSelectedItem().toString());
 
-    }
-
-
-    class Gestion extends JPanel implements MouseListener {
-         String equipment;
-
-        public void setEquipment(String equipment) {
-            this.equipment = equipment;
-        }
-
-        public Gestion() {
-            setPreferredSize(new Dimension(750,750));
-            this.addMouseListener(this);
-        }
-
-        public void paint(Graphics g) {
-            URL imgURL = Thread.currentThread().getContextClassLoader().getResource("planbureau.jpg");
-            BufferedImage currentEquipment;
-
-            try{
-                currentEquipment = ImageIO.read(imgURL);
-                g.drawImage(currentEquipment, 200, 150, 750, 750, null);
-                imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-                currentEquipment = ImageIO.read(imgURL);
-                g.drawImage(currentEquipment, 300, 400, 50, 50, null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            URL mapUrl = Thread.currentThread().getContextClassLoader().getResource("écran.jpg");
-            URL mapUrl1 = Thread.currentThread().getContextClassLoader().getResource("capteur.jpg");
-            URL mapUrl2 = Thread.currentThread().getContextClassLoader().getResource("prise.jpg");
-            URL mapUrl3 = Thread.currentThread().getContextClassLoader().getResource("fenetre.jpg");
-            try {
-
-                System.out.println(" voici " +listEquipment.getSelectedItem().toString());
-                if (listEquipment.getSelectedItem().toString().contains("screen")) {
-                    BufferedImage img = ImageIO.read(mapUrl);
-                    System.out.println("ici");
-                    Graphics g = getGraphics();
-                    g.drawImage(img, e.getX(), e.getY(), 20, 20, null);
-                    System.out.println("Etat Actif");
-
-
-                } else if (listEquipment.getSelectedItem().toString().contains("sensor")) {
-                    BufferedImage img1 = ImageIO.read(mapUrl1);
-                    Graphics g = getGraphics();
-                    g.drawImage(img1, e.getX(), e.getY(), 20, 20, null);
-                    System.out.println("Etat Actif");
-
-                } else if (listEquipment.getSelectedItem().toString().contains("powerconnected")) {
-                    BufferedImage img2 = ImageIO.read(mapUrl2);
-                    Graphics g = getGraphics();
-                    g.drawImage(img2, e.getX(), e.getY(), 20, 20, null);
-                    System.out.println("Etat Actif");
-
-                } else if (listEquipment.getSelectedItem().toString().contains("windows")) {
-                    BufferedImage img3 = ImageIO.read(mapUrl3);
-                    Graphics g = getGraphics();
-                    g.drawImage(img3, e.getX(), e.getY(), 20, 20, null);
-                    System.out.println("Etat Actif");
-
-                }
-                this.revalidate();
-                this.setVisible(true);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
 
     }
 }
