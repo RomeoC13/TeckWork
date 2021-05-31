@@ -60,12 +60,17 @@ public class Gestion extends JPanel implements MouseListener {
         BufferedImage currentEquipment;
         URL mapUrl = Thread.currentThread().getContextClassLoader().getResource("écran.jpg");
         if (e.getX() >= 195 & e.getX() <= 245 & e.getY() >= 460 & e.getY() <= 510) {
-            System.out.println("réservation libre");
-            try {
-                currentEquipment = ImageIO.read(mapUrl);
-                getGraphics().drawImage(currentEquipment, 195, 460, 50, 50, null);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+
+            int r=  JOptionPane.showConfirmDialog(null, "Emplacement écran. Voulez vous continuer?");
+
+            if( r == JOptionPane.YES_OPTION) {
+
+                try {
+                    currentEquipment = ImageIO.read(mapUrl);
+                    getGraphics().drawImage(currentEquipment, 195, 460, 50, 50, null);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         }
 

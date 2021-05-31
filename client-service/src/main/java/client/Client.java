@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import userIHM.WindowsMapping;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class Client {
     public static void main(String[] args)
     {
         try {
+
             Socket socket = new Socket(new ClientConfiguration().getConfig().getAdressIP(), new ClientConfiguration().getConfig().getPort());
             InputStream in = socket.getInputStream();
             OutputStream out = socket.getOutputStream();
@@ -26,9 +28,11 @@ public class Client {
             ObjectMapper ob = new ObjectMapper(new JsonFactory());
             out.write(ob.writeValueAsBytes(json.getConfig()));
             DataInputStream inputData = new DataInputStream(in);
+
             sleep(1000);
             String msg = inputData.readUTF();
             log.debug("The server answered : {} ", msg);
+            new WindowsMapping();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

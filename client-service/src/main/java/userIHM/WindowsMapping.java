@@ -84,11 +84,6 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
     }
 
-    public static void main(String[] args) {
-        new WindowsMapping();
-
-
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
