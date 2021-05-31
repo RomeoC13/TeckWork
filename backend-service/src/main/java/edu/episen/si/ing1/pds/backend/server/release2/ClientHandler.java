@@ -20,14 +20,14 @@ public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private final Connection connection;
     private static String[] requestList = new String[1];
-    private static String[] requestList1 = new String[1];
+
 
     // Constructor
     public ClientHandler(Socket socket, Connection connection) {
         this.clientSocket = socket;
         this.connection = connection;
-        this.requestList[0] = "SELECT DISTINCT name FROM equipment";
-        this.requestList1[0] = "SELECT DISTINCT stat FROM equipment";
+        this.requestList[0] = "SELECT DISTINCT building_name FROM building";
+
 
     }
 
