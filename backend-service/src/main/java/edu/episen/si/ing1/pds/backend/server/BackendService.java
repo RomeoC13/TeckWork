@@ -30,7 +30,7 @@ public class BackendService {
 	
 	public static void main(String[] args) throws Exception {
 
-		
+		System.out.println("ttttttttttttttttttttttttttttt");
 		Properties props = new Properties();
 		logger.info(System.getenv("PROJECT"));
 		//logger.info(System.getProperty("user.dir"));

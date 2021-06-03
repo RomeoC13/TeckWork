@@ -1,25 +1,36 @@
 package edu.episen.si.ing1.pds.backend.server.release2;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import edu.episen.si.ing1.pds.backend.server.DataSource;
+import org.graalvm.compiler.core.common.spi.ConstantFieldProvider;
 
 import java.io.*;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLOutput;
+import java.util.Map;
 import java.util.Properties;
 
 import static edu.episen.si.ing1.pds.backend.server.release2.Crud.read;
-import static edu.episen.si.ing1.pds.backend.server.release2.Crud.read1;
 import static java.lang.Thread.sleep;
+
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private final Connection connection;
-    private static String[] requestList = new String[1];
+    private static String[] requestList = new String[10];
+
+
+
+
+
+
 
 
     // Constructor
@@ -32,12 +43,37 @@ public class ClientHandler implements Runnable {
     }
 
     public void run() {
-
+         ObjectMapper mapper = new ObjectMapper(new JsonFactory());
         try {
             OutputStream out = clientSocket.getOutputStream();
             InputStream in = clientSocket.getInputStream();
-            byte[] data;
-            sleep(200);
+            DataOutputStream ds = new DataOutputStream(out);
+            DataInputStream di = new DataInputStream(in);
+
+            String request = di.readUTF();
+            System.out.println(request);
+            System.out.println(" bbbbbbbbbbbbbbbbbbbbbbbb");
+
+
+            Map<String, String> map = mapper.readValue(request.split("@")[1],new TypeReference<Map<String, String>>(){});
+
+            if(request.split("@")[0].equals("requestBuilding")){
+                String sql = "SELECT DISTINCT building_name FROM building WHERE id_building = " +map.get("id_building");
+                ResultSet rs = connection.createStatement().executeQuery(sql);
+                System.out.println(sql);
+                StringBuilder sb = new StringBuilder();
+                while(rs.next()) {
+                  sb.append(rs.getString(1)+"  ? ");
+                }
+                ds.writeUTF(sb.toString());
+            }
+
+
+
+
+
+
+           /* sleep(200);
             if (in.available() != 0) {
                 data = new byte[in.available()];
                 in.read(data);
@@ -57,8 +93,7 @@ public class ClientHandler implements Runnable {
                 DataOutputStream outdata = new DataOutputStream(out);
                 outdata.writeUTF(answer.toString());
 
-
-            }
+            }*/
 
 
         } catch (Exception e) {

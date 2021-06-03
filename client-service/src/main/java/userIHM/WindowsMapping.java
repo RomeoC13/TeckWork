@@ -34,7 +34,11 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
 
 
+
+
     public WindowsMapping() {
+
+
 
         this.pan = new Gestion();
         this.setTitle("Windows for Mapping");

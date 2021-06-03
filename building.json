@@ -1,0 +1,42 @@
+{
+  "requestLocation" : {
+    "id_location " : "",
+    "id_room " : "",
+    "type_objet ": "",
+    "occupied " : ""
+  },
+
+  "requestFloor" : {
+    "id_floor ": ""
+  },
+
+  "requestObjetConn" : {
+    "id_location " : "",
+    "id_objet " : "",
+    "id_placed " : ""
+  },
+
+  "requestRoom" : {
+    "id_room " : "",
+    "id_floor " : "",
+    "states " : ""
+  },
+
+  "requestSensor" : {
+    "id_sensor" : "",
+    "states_sensor " : ""
+  },
+
+  "requestCompany " : {
+    "begin_location" : "",
+    "capacity" : "",
+    "id_company " : "",
+    "company_name " : "",
+    "end_location " : ""
+  },
+
+  "requestBuilding" : {
+    "building_name" : "",
+    "id_building" : ""
+  }
+}
