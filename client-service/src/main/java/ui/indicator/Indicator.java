@@ -61,7 +61,7 @@ public class Indicator extends JFrame {
 		JPanel mainTopPanel = new JPanel(new BorderLayout());
 		
 		JPanel topPanel = new JPanel(new FlowLayout());
-		JButton allInfo = new JButton("information génerale");
+		JButton allInfo = new JButton("information generale");
 		topPanel.add(allInfo);
 		JButton infoByCompany = new JButton("information par entreprise");
 		infoByCompany.addActionListener(new ActionListener() {
@@ -120,15 +120,15 @@ public class Indicator extends JFrame {
 		indicatorPanel.setPreferredSize(new Dimension(200, 200));
 		JLabel occupation = new JLabel("Taux d'occupation");
 		indicatorPanel.add(occupation);
-		JLabel connectedItems = new JLabel("Objets connectés");
+		JLabel connectedItems = new JLabel("Objets connectï¿½s");
 		indicatorPanel.add(connectedItems);
-		JLabel equipment = new JLabel("Nombre d’équipements");
+		JLabel equipment = new JLabel("Nombre dï¿½ï¿½quipements");
 		indicatorPanel.add(equipment);
-		JLabel sensor = new JLabel("Capteurs installés");
+		JLabel sensor = new JLabel("Capteurs installï¿½s");
 		indicatorPanel.add(sensor);
-		JLabel company = new JLabel("Nombre d’entreprise");
+		JLabel company = new JLabel("Nombre dï¿½entreprise");
 		indicatorPanel.add(company);
-		JLabel energy = new JLabel("Consommation énergétique");
+		JLabel energy = new JLabel("Consommation ï¿½nergï¿½tique");
 		indicatorPanel.add(energy);
 		mainPanel.add(indicatorPanel);
 		

@@ -100,8 +100,8 @@ public class Side_Menu extends JPanel {
 
         mapping.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if((JButton)e.getSource() == mapping)
-                    new WindowsMapping();
+               // if((JButton)e.getSource() == mapping)
+                   // new WindowsMapping();
 
             }
 

@@ -2,6 +2,7 @@ package userIHM;
 
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,11 +14,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.sql.*;
 import java.util.Properties;
 
-import static userIHM.Request.getEquipment;
+import static client.Client.*;
+
+//import static userIHM.Request.getEquipment;
 
 public class WindowsMapping extends JFrame implements ActionListener {
     JPanel panel = new JPanel();
@@ -31,27 +35,25 @@ public class WindowsMapping extends JFrame implements ActionListener {
     private JComboBox<String> listEquipment;
     private JComboBox<String> list1;
     private JComboBox<String> list3;
+    private Socket socket;
+
+    public WindowsMapping(Socket s ) {
+        socket= s;
 
 
 
-
-
-    public WindowsMapping() {
-
-
-
-        this.pan = new Gestion();
-        this.setTitle("Windows for Mapping");
+        pan = new Gestion();
+        this.setTitle("Bienvenue à l'affichage");
         this.setSize(1000, 1000);
         //this.setResizable(false);
         getContentPane().setBackground(Color.white);
         panel.setBackground(Color.BLUE);
         panel.setPreferredSize(new Dimension(150, 150));
 
-        JLabel j = new JLabel("Choix équipements");
+        JLabel j = new JLabel("Choix de l'entreprise");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
-        String[] elements = new String[]{"Windows", "sensor", "screen"};
-        listEquipment = new JComboBox(getEquipment());
+
+        listEquipment = new JComboBox(getBuilding(socket));
         listEquipment.setBounds(1000, 1000, 20000, 1000);
         listEquipment.addActionListener(this);
         listEquipment.setSize(200, 200);
@@ -59,14 +61,14 @@ public class WindowsMapping extends JFrame implements ActionListener {
         panel.add(listEquipment);
 
 
-        JLabel j1 = new JLabel("Choix batiments");
+        /*JLabel j1 = new JLabel("Choix batiments");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
         String[] element = new String[]{"BatimentA1", "BatimentA2"};
         list1 = new JComboBox(element);
         list1.setBounds(1000, 1000, 20000, 1000);
         list1.setSize(200, 200);
         panel.add(j1);
-        panel.add(list1);
+        panel.add(list1);*/
 
 
         JLabel j3 = new JLabel("          Etage            ");

@@ -1,3 +1,4 @@
+/*
 package userIHM;
 
 import client.ClientConfiguration;
@@ -85,3 +86,4 @@ public class Request {
     }
 }
 
+*/
