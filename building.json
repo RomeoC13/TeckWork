@@ -7,7 +7,9 @@
   },
 
   "requestFloor" : {
-    "id_floor ": ""
+    "id_floor ": "",
+    "name_floor ": "",
+    "id_building ": ""
   },
 
   "requestObjetConn" : {

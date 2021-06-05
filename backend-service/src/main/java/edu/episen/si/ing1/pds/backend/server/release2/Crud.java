@@ -9,27 +9,7 @@ import java.util.Map;
 public class Crud {
 
 
-    public static String[] read(String request, Connection co) {
-        Statement st;
-        ResultSet rs;
-        String[] buildingName = new String[10];
-        try {
-            String sql = request;
-            st = co.createStatement();
-            System.out.println(sql);
-            rs = st.executeQuery(sql);
-            int i = 0;
-            while (rs.next()) {
-                buildingName [i] = rs.getString("building_name");
-                i++;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return buildingName;
-    }
-
-    public static StringBuilder requestbuilding(Connection connection, Map <String, String> map) {
+    /*public static StringBuilder requestbuilding(Connection connection, Map<String, String> map) {
 
         StringBuilder sb = null;
         try {
@@ -37,16 +17,35 @@ public class Crud {
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
-            while(rs.next()) {
-                sb.append(rs.getString(1)+"@");
-
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
+        System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
         return sb;
     }
 
+    public static StringBuilder requestFloor(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        System.out.println("tutu4");
+        try {
+
+            String sql = "SELECT name_floor FROM Floor INNER JOIN Building ON floor.id_floor = building.id_building WHERE Building.id_building = 3";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+
+    }
+*/
 }
 

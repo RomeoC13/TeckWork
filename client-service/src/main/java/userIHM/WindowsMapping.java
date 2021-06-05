@@ -1,6 +1,9 @@
 package userIHM;
 
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
@@ -37,8 +40,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
     private JComboBox<String> list3;
     private Socket socket;
 
-    public WindowsMapping(Socket s ) {
-        socket= s;
+    public WindowsMapping() {
 
 
 
@@ -53,28 +55,60 @@ public class WindowsMapping extends JFrame implements ActionListener {
         JLabel j = new JLabel("Choix de l'entreprise");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
 
-        listEquipment = new JComboBox(getBuilding(socket));
+        String id_building = "2";
+        map.get("requestBuilding").put("id_building", id_building);
+
+
+        String responses = getSend("requestBuilding");
+        String[] building = responses.split("@");
+        for (String b : building) {
+            if (b.contains("@")) {
+                b.replace("@", "");
+            }
+            System.out.println(b);
+        }
+        listEquipment = new JComboBox(building);
+
         listEquipment.setBounds(1000, 1000, 20000, 1000);
         listEquipment.addActionListener(this);
         listEquipment.setSize(200, 200);
         panel.add(j);
+
         panel.add(listEquipment);
 
 
-        /*JLabel j1 = new JLabel("Choix batiments");
+        JLabel j1 = new JLabel("Choix de la salle");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
         String[] element = new String[]{"BatimentA1", "BatimentA2"};
         list1 = new JComboBox(element);
         list1.setBounds(1000, 1000, 20000, 1000);
         list1.setSize(200, 200);
         panel.add(j1);
-        panel.add(list1);*/
+        panel.add(list1);
 
 
         JLabel j3 = new JLabel("          Etage            ");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
-        String[] elemnt = new String[]{"            ", "1", "2"};
-        list3 = new JComboBox(elemnt);
+
+        String id_floor = "1";
+        map.get("requestFloor").put("id_floor", id_floor);
+
+        list3 = new JComboBox();
+        System.out.println("sgsgsgsgsgsgsg");
+        String response = getSend( "requestFloor");
+        System.out.println("toto1");
+        String[] floor = response.split("@");
+        System.out.println("toto2");
+        for (String b : floor) {
+            if (b.contains("@")) {
+                b.replace("@", "");
+            }
+            System.out.println(b);
+        }
+        list3 = new JComboBox(floor);
+        //list3.add();
+        System.out.println("toto3");
+
         list3.setBounds(1000, 1000, 20000, 1000);
         list3.setSize(200, 200);
         panel.add(j3);
@@ -86,6 +120,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
         this.getContentPane().add(pan, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        System.out.println("tytytytytytyty");
 
 
     }
@@ -93,7 +128,6 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
 
 
     }
