@@ -27,7 +27,6 @@ public class Client {
     public static Map<String, Map<String, String>> map;
 
 
-
     public static void main(String[] args) {
 
         try {
@@ -44,15 +43,9 @@ public class Client {
                     });
 
 
-
-
-            // ClientConfigurationJSON json = new ClientConfigurationJSON();
-            // ObjectMapper ob = new ObjectMapper(new JsonFactory());
-
             sleep(1000);
-            // String msg = inputData.readUTF();
-            //log.debug("The server answered : {} ", msg);
-            new WindowsMapping();
+
+            new Home();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,9 +55,6 @@ public class Client {
     }
 
 
-
-
-
     public static String getSend(String request) {
 
 
@@ -72,12 +62,8 @@ public class Client {
 
         try {
             Socket socket = new Socket(new ClientConfiguration().getConfig().getAdressIP(), new ClientConfiguration().getConfig().getPort());
-            InputStream in  = socket.getInputStream();
+            InputStream in = socket.getInputStream();
             OutputStream out = socket.getOutputStream();
-
-
-
-            System.out.println("tutu1");
 
 
             ObjectMapper objectMapper = new ObjectMapper();
@@ -89,7 +75,7 @@ public class Client {
             outputData.writeUTF(request + "@" + data);
             answer = inputData.readUTF();
             System.out.println(answer);
-            System.out.println("tutoopk");
+
 
         } catch (IOException e) {
             e.printStackTrace();

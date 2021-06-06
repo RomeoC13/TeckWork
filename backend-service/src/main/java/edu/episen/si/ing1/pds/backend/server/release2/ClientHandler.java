@@ -33,7 +33,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void run() {
-        System.out.println("cvcvcvcvcvcvcvc");
+
 
         ObjectMapper mapper = new ObjectMapper(new JsonFactory());
 
@@ -47,8 +47,6 @@ public class ClientHandler implements Runnable {
             System.out.println(request);
 
 
-
-
             Map<String, String> map = mapper.readValue(request.split("@")[1], new TypeReference<Map<String, String>>() {
             });
 
@@ -57,19 +55,29 @@ public class ClientHandler implements Runnable {
                 ds.writeUTF(requestbuilding(connection, map).toString());
 
             }
-            System.out.println(request.split("@")[0]);
-
 
             if (request.split("@")[0].equals("requestFloor")) {
                 ds.writeUTF(requestFloor(connection, map).toString());
                 System.out.println();
-                System.out.println("tutu2");
+            }
+
+            if(request.split("@")[0].equals("requestRoom")) {
+                ds.writeUTF(requestRoom(connection, map).toString());
+            }
+
+            if(request.split("@")[0].equals("requestCompany")) {
+                ds.writeUTF(requestCompany(connection, map).toString());
+            }
+
+            if(request.split("@")[0].equals("request_id_building")) {
+                ds.writeUTF(requestgetBuilding(connection, map).toString());
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public static StringBuilder requestbuilding(Connection connection, Map<String, String> map) {
 
         StringBuilder sb = null;
@@ -84,16 +92,77 @@ public class ClientHandler implements Runnable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+
         return sb;
     }
 
     public static StringBuilder requestFloor(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
-        System.out.println("tutu4");
+
         try {
 
-            String sql = "SELECT name_floor FROM Floor INNER JOIN Building ON floor.id_floor = building.id_building WHERE Building.id_building = 3";
+            String sql = "SELECT name_floor FROM Floor INNER JOIN Building ON floor.id_floor = building.id_building WHERE Building.id_building = '"+map.get("id_building")+"'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+
+    }
+
+    public StringBuilder requestRoom(Connection connection, Map<String,String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "SELECT DISTINCT name_room FROM room";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+
+    }
+
+    public  StringBuilder requestCompany (Connection connection, Map<String, String> map) {
+
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "SELECT company_name FROM room INNER JOIN company ON  company.company_id = room.id_room";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+
+    }
+
+    public StringBuilder requestgetBuilding (Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "SELECT id_building FROM building WHERE building_name = '"+map.get("name_building")+"'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();

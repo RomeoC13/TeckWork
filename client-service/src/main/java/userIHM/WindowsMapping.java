@@ -42,8 +42,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
     public WindowsMapping() {
 
-
-
+    list3 = new JComboBox<>();
         pan = new Gestion();
         this.setTitle("Bienvenue à l'affichage");
         this.setSize(1000, 1000);
@@ -55,10 +54,8 @@ public class WindowsMapping extends JFrame implements ActionListener {
         JLabel j = new JLabel("Choix de l'entreprise");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
 
-        String id_building = "2";
+        String id_building = "1";
         map.get("requestBuilding").put("id_building", id_building);
-
-
         String responses = getSend("requestBuilding");
         String[] building = responses.split("@");
         for (String b : building) {
@@ -69,18 +66,63 @@ public class WindowsMapping extends JFrame implements ActionListener {
         }
         listEquipment = new JComboBox(building);
 
+        listEquipment.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String str = (String) listEquipment.getSelectedItem();
+                System.out.println(str + " toto");
+                map.get("request_id_building").put("name_building", str);
+                String response = getSend("request_id_building");
+                list3.removeAllItems();
+                String[] idbuilding = response.split("@");
+                for (String b : idbuilding) {
+                    if (b.contains("@")) {
+                        b.replace("@", "");
+                    }
+                    System.out.println(b);
+                }
+                map.get("requestFloor").put("id_building", idbuilding[0]);
+                response = getSend("requestFloor");
+                String[] floor = response.split("@");
+                for (String b : floor) {
+                    if (b.contains("@")) {
+                        b.replace("@", "");
+                    }
+                    System.out.println(b);
+                }
+
+                for (String elem : floor) {
+                    list3.addItem(elem);
+                }
+
+
+            }
+        });
+
         listEquipment.setBounds(1000, 1000, 20000, 1000);
         listEquipment.addActionListener(this);
         listEquipment.setSize(200, 200);
         panel.add(j);
-
         panel.add(listEquipment);
 
 
         JLabel j1 = new JLabel("Choix de la salle");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
-        String[] element = new String[]{"BatimentA1", "BatimentA2"};
-        list1 = new JComboBox(element);
+        String id_room = "1";
+        map.get("requestRoom").put("id_room", id_building);
+
+        String responseroom = getSend("requestRoom");
+        String[] room = responseroom.split("@");
+        for (String b : room) {
+            if (b.contains("@")) {
+                b.replace("@", "");
+            }
+            System.out.println(b);
+        }
+
+
+        list1 = new JComboBox(room);
         list1.setBounds(1000, 1000, 20000, 1000);
         list1.setSize(200, 200);
         panel.add(j1);
@@ -90,24 +132,6 @@ public class WindowsMapping extends JFrame implements ActionListener {
         JLabel j3 = new JLabel("          Etage            ");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
 
-        String id_floor = "1";
-        map.get("requestFloor").put("id_floor", id_floor);
-
-        list3 = new JComboBox();
-        System.out.println("sgsgsgsgsgsgsg");
-        String response = getSend( "requestFloor");
-        System.out.println("toto1");
-        String[] floor = response.split("@");
-        System.out.println("toto2");
-        for (String b : floor) {
-            if (b.contains("@")) {
-                b.replace("@", "");
-            }
-            System.out.println(b);
-        }
-        list3 = new JComboBox(floor);
-        //list3.add();
-        System.out.println("toto3");
 
         list3.setBounds(1000, 1000, 20000, 1000);
         list3.setSize(200, 200);
@@ -120,7 +144,6 @@ public class WindowsMapping extends JFrame implements ActionListener {
         this.getContentPane().add(pan, BorderLayout.CENTER);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        System.out.println("tytytytytytyty");
 
 
     }

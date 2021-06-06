@@ -21,6 +21,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import static client.Client.getSend;
+import static client.Client.map;
+
 public class Home {
 	private String [] element = {"mairie", "service", "pouvooirs", "publics", "location"};
 	private JComboBox combox;
@@ -40,9 +43,20 @@ public class Home {
 		
 		JPanel  contentPane = (JPanel)myFrame.getContentPane();
 		contentPane.setLayout(new GridLayout(3,1));
+
+		String company_id = "1";
+		map.get("requestCompany").put("company_id", company_id);
+
+		String responses = getSend("requestCompany");
+		String[] company = responses.split("@");
+		for (String b : company) {
+			if (b.contains("@")) {
+				b.replace("@", "");
+			}
+			System.out.println(b);
+		}
 		
-		
-		combox = new JComboBox(element);
+		combox = new JComboBox(company);
 		combox.setPreferredSize(new Dimension(70,70));
 		
 		contentPane.add( topOptionPanel());
@@ -102,7 +116,7 @@ public class Home {
 		return topPanel;
 	}
 
-	public static void main(String[] args) {
-		new Home();
-	}
+
+
+
 }
