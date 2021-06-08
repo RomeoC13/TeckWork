@@ -51,27 +51,29 @@ public class ClientHandler implements Runnable {
             });
 
             if (request.split("@")[0].equals("requestBuilding")) {
-
                 ds.writeUTF(requestbuilding(connection, map).toString());
-
             }
 
             if (request.split("@")[0].equals("requestFloor")) {
                 ds.writeUTF(requestFloor(connection, map).toString());
-                System.out.println();
             }
 
-            if(request.split("@")[0].equals("requestRoom")) {
+            if (request.split("@")[0].equals("requestRoom")) {
                 ds.writeUTF(requestRoom(connection, map).toString());
             }
 
-            if(request.split("@")[0].equals("requestCompany")) {
+           /* if (request.split("@")[0].equals("requestCompany")) {
                 ds.writeUTF(requestCompany(connection, map).toString());
-            }
+            }*/
 
-            if(request.split("@")[0].equals("request_id_building")) {
+            if (request.split("@")[0].equals("request_id_building")) {
                 ds.writeUTF(requestgetBuilding(connection, map).toString());
             }
+
+            if (request.split("@")[0].equals("request_id_floor")) {
+                ds.writeUTF(requestgetFloor(connection, map).toString());
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,9 +101,10 @@ public class ClientHandler implements Runnable {
     public static StringBuilder requestFloor(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
 
+
         try {
 
-            String sql = "SELECT name_floor FROM Floor INNER JOIN Building ON floor.id_floor = building.id_building WHERE Building.id_building = '"+map.get("id_building")+"'";
+            String sql = "SELECT name_floor FROM floor INNER JOIN building ON building.id_building = floor.id_building WHERE building.id_building = '" + map.get("id_building") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -116,12 +119,14 @@ public class ClientHandler implements Runnable {
 
     }
 
-    public StringBuilder requestRoom(Connection connection, Map<String,String> map) {
+    public StringBuilder requestRoom(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
 
         try {
+            System.out.println("SELECT name_room FROM room INNER JOIN floor ON room.id_floor = floor.id_floor WHERE name_floor = '" + map.get("name_floor") + "'");
+            System.out.println(map.get("id_floor"));
+            String sql = "SELECT name_room FROM room INNER JOIN floor ON room.id_floor = floor.id_floor WHERE name_floor = '" + map.get("name_floor") + "'";
 
-            String sql = "SELECT DISTINCT name_room FROM room";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -136,7 +141,7 @@ public class ClientHandler implements Runnable {
 
     }
 
-    public  StringBuilder requestCompany (Connection connection, Map<String, String> map) {
+    /*public StringBuilder requestCompany(Connection connection, Map<String, String> map) {
 
         StringBuilder sb = null;
 
@@ -155,14 +160,15 @@ public class ClientHandler implements Runnable {
         }
         return sb;
 
-    }
+    }*/
 
-    public StringBuilder requestgetBuilding (Connection connection, Map<String, String> map) {
+    public StringBuilder requestgetBuilding(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
 
         try {
 
-            String sql = "SELECT id_building FROM building WHERE building_name = '"+map.get("name_building")+"'";
+
+            String sql = "SELECT id_building FROM building WHERE building_name = '" + map.get("name_building") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -177,5 +183,26 @@ public class ClientHandler implements Runnable {
 
     }
 
+    public StringBuilder requestgetFloor(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "SELECT id_floor FROM floor WHERE name_floor = '" + map.get("name_floor") + "'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+
+    }
 }
+
+
 

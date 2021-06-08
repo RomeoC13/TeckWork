@@ -1,24 +1,24 @@
 {
   "requestLocation" : {
-    "id_location " : "",
-    "id_room " : "",
-    "type_objet ": "",
-    "occupied " : ""
+    "id_location" : "",
+    "id_room" : "",
+    "type_objet": "",
+    "occupied" : ""
   },
 
   "requestFloor" : {
-    "id_building ": ""
+    "id_building": ""
   },
 
   "requestObjetConn" : {
-    "id_location " : "",
-    "id_objet " : "",
-    "id_placed " : ""
+    "id_location" : "",
+    "id_objet" : "",
+    "id_placed" : ""
   },
 
   "requestRoom" : {
-    "id_room " : "",
-    "id_floor " : "",
+    "id_room" : "",
+    "id_floor" : "",
     "states" : ""
   },
 
@@ -31,8 +31,8 @@
     "begin_location" : "",
     "capacity" : "",
     "company_id" : "",
-    "company_name " : "",
-    "end_location " : ""
+    "company_name" : "",
+    "end_location" : ""
   },
 
   "requestBuilding" : {
@@ -41,5 +41,8 @@
   },
   "request_id_building" : {
     "name_building" : ""
+  },
+  "request_id_floor" : {
+    "name_floor" : ""
   }
 }

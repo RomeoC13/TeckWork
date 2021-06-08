@@ -33,7 +33,7 @@ public class Client {
 
             configurations = System.getenv(configur);
             String values = Files.readString(Path.of(configurations));
-            System.out.println(values);
+           // System.out.println(values);
 
 
             ObjectMapper jmapper = new ObjectMapper(new JsonFactory());
@@ -70,11 +70,11 @@ public class Client {
             String data = objectMapper.writeValueAsString(map.get(request));
             DataInputStream inputData = new DataInputStream(in);
             DataOutputStream outputData = new DataOutputStream(out);
-            System.out.println(request);
-            System.out.println(data);
+           // System.out.println(request);
+            //System.out.println(data);
             outputData.writeUTF(request + "@" + data);
             answer = inputData.readUTF();
-            System.out.println(answer);
+           // System.out.println(answer);
 
 
         } catch (IOException e) {
