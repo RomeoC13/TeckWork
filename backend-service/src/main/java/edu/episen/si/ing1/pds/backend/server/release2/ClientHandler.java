@@ -62,9 +62,9 @@ public class ClientHandler implements Runnable {
                 ds.writeUTF(requestRoom(connection, map).toString());
             }
 
-           /* if (request.split("@")[0].equals("requestCompany")) {
+            if (request.split("@")[0].equals("requestCompany")) {
                 ds.writeUTF(requestCompany(connection, map).toString());
-            }*/
+            }
 
             if (request.split("@")[0].equals("request_id_building")) {
                 ds.writeUTF(requestgetBuilding(connection, map).toString());
@@ -123,8 +123,6 @@ public class ClientHandler implements Runnable {
         StringBuilder sb = null;
 
         try {
-            System.out.println("SELECT name_room FROM room INNER JOIN floor ON room.id_floor = floor.id_floor WHERE name_floor = '" + map.get("name_floor") + "'");
-            System.out.println(map.get("id_floor"));
             String sql = "SELECT name_room FROM room INNER JOIN floor ON room.id_floor = floor.id_floor WHERE name_floor = '" + map.get("name_floor") + "'";
 
             ResultSet rs = connection.createStatement().executeQuery(sql);
@@ -141,7 +139,7 @@ public class ClientHandler implements Runnable {
 
     }
 
-    /*public StringBuilder requestCompany(Connection connection, Map<String, String> map) {
+    public StringBuilder requestCompany(Connection connection, Map<String, String> map) {
 
         StringBuilder sb = null;
 
@@ -160,7 +158,7 @@ public class ClientHandler implements Runnable {
         }
         return sb;
 
-    }*/
+    }
 
     public StringBuilder requestgetBuilding(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;

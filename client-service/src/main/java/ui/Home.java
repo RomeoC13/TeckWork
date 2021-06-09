@@ -44,7 +44,7 @@ public class Home {
 		JPanel  contentPane = (JPanel)myFrame.getContentPane();
 		contentPane.setLayout(new GridLayout(3,1));
 
-	/*	String company_id = "1";
+		String company_id = "1";
 		map.get("requestCompany").put("company_id", company_id);
 
 		String responses = getSend("requestCompany");
@@ -54,9 +54,9 @@ public class Home {
 				b.replace("@", "");
 			}
 			//System.out.println(b);
-		}*/
+		}
 		
-		combox = new JComboBox(element);
+		combox = new JComboBox( company);
 		combox.setPreferredSize(new Dimension(70,70));
 		
 		contentPane.add( topOptionPanel());
