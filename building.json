@@ -44,5 +44,8 @@
   },
   "request_id_floor" : {
     "name_floor" : ""
+  },
+  "requestgetListBuilding" : {
+    "company_name" : ""
   }
 }

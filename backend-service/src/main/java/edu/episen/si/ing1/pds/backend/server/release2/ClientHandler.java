@@ -74,6 +74,11 @@ public class ClientHandler implements Runnable {
                 ds.writeUTF(requestgetFloor(connection, map).toString());
             }
 
+            if (request.split("@")[0].equals("requestgetListBuilding")) {
+                ds.writeUTF(requestgetListBuilding(connection, map).toString());
+            }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -200,6 +205,27 @@ public class ClientHandler implements Runnable {
         return sb;
 
     }
+
+    public StringBuilder requestgetListBuilding(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "SELECT DISTINCT building_name FROM company INNER JOIN location ON company.company_id = location.company_id INNER JOIN room ON location.id_location = room.id_location INNER JOIN floor ON floor.id_floor = room.id_floor INNER JOIN building ON building.id_building = floor.id_building WHERE company.company_name = '"+map.get("company_name")+"'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+
 }
 
 

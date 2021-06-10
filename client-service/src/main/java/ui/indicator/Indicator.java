@@ -34,13 +34,15 @@ public class Indicator extends JFrame {
 	Side_Menu sm;
 	private JTextField textField;
 	private JTextField titleField;
+	private String company_name;
 
-	public Indicator() {
+	public Indicator(String company_name) {
+		this.company_name = company_name;
 		this.setVisible(true);
 		this.setTitle("Indicateurs");
 		this.setSize(800, 500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		sm = new Side_Menu();
+		sm = new Side_Menu(company_name);
 		JPanel contentPane = (JPanel) this.getContentPane();
 		getContentPane().setLayout(new BorderLayout());
 		contentPane.add(sm, BorderLayout.WEST);
@@ -149,6 +151,6 @@ public class Indicator extends JFrame {
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-		new Indicator();
+		new Indicator("company_name");
 	}
 }

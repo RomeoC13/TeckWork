@@ -15,6 +15,7 @@ public class Location {
         return id_location;
     }
 
+
     public void setId_location(int id_location) {
         this.id_location = id_location;
     }

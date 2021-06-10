@@ -35,13 +35,18 @@ public class WindowsMapping extends JFrame implements ActionListener {
     JButton button3 = new JButton("Visualiser carte");
 
 
-    private JComboBox<String> listEquipment;
+
+
+    public static JComboBox<String> listBuiling;
     private JComboBox<String> list1;
     private JComboBox<String> list3;
     private Socket socket;
+    private String company_name;
 
-    public WindowsMapping() {
 
+    public WindowsMapping(String company_name) {
+        this.company_name = company_name;
+       // listB = new JComboBox<>();
         list3 = new JComboBox<>();
         list1 = new JComboBox<>();
         pan = new Gestion();
@@ -55,9 +60,8 @@ public class WindowsMapping extends JFrame implements ActionListener {
         JLabel j = new JLabel("Choix de l'entreprise");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
 
-        String id_building = "2";
-        map.get("requestBuilding").put("id_building", id_building);
-        String responses = getSend("requestBuilding");
+        map.get("requestgetListBuilding").put("company_name", company_name);
+        String responses = getSend("requestgetListBuilding");
         String[] building = responses.split("@");
         for (String b : building) {
             if (b.contains("@")) {
@@ -65,13 +69,13 @@ public class WindowsMapping extends JFrame implements ActionListener {
             }
             //System.out.println(b);
         }
-        listEquipment = new JComboBox(building);
+        listBuiling = new JComboBox(building);
 
-        listEquipment.addActionListener(new ActionListener() {
+        listBuiling.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String str = (String) listEquipment.getSelectedItem();
+                String str = (String) listBuiling.getSelectedItem();
                // System.out.println(str);
                 map.get("request_id_building").put("name_building", str);
                 String response = getSend("request_id_building");
@@ -99,11 +103,11 @@ public class WindowsMapping extends JFrame implements ActionListener {
             }
         });
 
-        listEquipment.setBounds(1000, 1000, 20000, 1000);
-        listEquipment.addActionListener(this);
-        listEquipment.setSize(200, 200);
+        listBuiling.setBounds(1000, 1000, 20000, 1000);
+        listBuiling.addActionListener(this);
+        listBuiling.setSize(200, 200);
         panel.add(j);
-        panel.add(listEquipment);
+        panel.add(listBuiling);
 
 
         JLabel j3 = new JLabel("          Etage            ");

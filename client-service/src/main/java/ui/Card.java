@@ -15,13 +15,16 @@ public class Card extends JFrame {
     String cardName = "CHATEL Romeo";
     String cardBat = "Batiment A";
     int page = 0;
+    private String company_name;
 
-    public Card() {
+
+    public Card(String company_name) {
         super();
+        this.company_name = company_name;
         this.setTitle("Welcome to techwork");
         this.setSize(800, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Side_Menu sm = new Side_Menu();
+        Side_Menu sm = new Side_Menu(company_name);
         getContentPane().add(sm, BorderLayout.WEST);
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.LINE_AXIS));
@@ -453,7 +456,7 @@ public class Card extends JFrame {
     }
 
     public static void main(String[] args) {
-        Card f = new Card();
+        Card f = new Card("");
     }
 
 
