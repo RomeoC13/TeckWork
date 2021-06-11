@@ -38,8 +38,8 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
 
     public static JComboBox<String> listBuiling;
-    private JComboBox<String> list1;
-    private JComboBox<String> list3;
+    private JComboBox<String> listRoom;
+    private JComboBox<String> listFloor;
     private Socket socket;
     private String company_name;
 
@@ -47,8 +47,8 @@ public class WindowsMapping extends JFrame implements ActionListener {
     public WindowsMapping(String company_name) {
         this.company_name = company_name;
        // listB = new JComboBox<>();
-        list3 = new JComboBox<>();
-        list1 = new JComboBox<>();
+        listFloor = new JComboBox<>();
+        listRoom = new JComboBox<>();
         pan = new Gestion();
         this.setTitle("Bienvenue à l'affichage");
         this.setSize(1000, 1000);
@@ -79,7 +79,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
                // System.out.println(str);
                 map.get("request_id_building").put("name_building", str);
                 String response = getSend("request_id_building");
-                list3.removeAllItems();
+                listFloor.removeAllItems();
                 String[] idbuilding = response.split("@");
                 for (String b : idbuilding) {
                     if (b.contains("@")) {
@@ -98,7 +98,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
                 }
 
                 for (String elem : floor) {
-                    list3.addItem(elem);
+                    listFloor.addItem(elem);
                 }
             }
         });
@@ -112,15 +112,16 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
         JLabel j3 = new JLabel("          Etage            ");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
-        list3.setBounds(1000, 1000, 20000, 1000);
-        list3.setSize(200, 200);
+        listFloor.setBounds(1000, 1000, 20000, 1000);
+        listFloor.setSize(200, 200);
         panel.add(j3);
-        panel.add(list3);
-        list3.addActionListener(new ActionListener() {
+        panel.add(listFloor);
+        listFloor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String str = (String) list3.getSelectedItem();
-                System.out.println(str + " rrrr ");
+                String floorvalue = (String) listFloor.getSelectedItem();
+                String buildingvalue = (String) listBuiling.getSelectedItem();
+                System.out.println(floorvalue);
                 /*map.get("request_id_floor").put("name_floor", str);
                 String response = getSend("request_id_floor");
                 System.out.println(response);
@@ -134,7 +135,9 @@ public class WindowsMapping extends JFrame implements ActionListener {
                 }
                 System.out.println(idfloor[0] + " variable");
                 System.out.println(" ça passe ici");*/
-                map.get("requestRoom").put("name_floor", str);
+                map.get("requestRoom").put("company_name",company_name);
+                map.get("requestRoom").put("floor_name",floorvalue);
+                map.get("requestRoom").put("building_name",buildingvalue);
                 String response = getSend("requestRoom");
 
                 String[] room = response.split("@");
@@ -144,10 +147,10 @@ public class WindowsMapping extends JFrame implements ActionListener {
                     }
                     System.out.println(b);
                 }
-                list1.removeAllItems();
+                listRoom.removeAllItems();
 
                 for (String elem : room) {
-                    list1.addItem(elem);
+                    listRoom.addItem(elem);
                 }
 
             }
@@ -157,10 +160,10 @@ public class WindowsMapping extends JFrame implements ActionListener {
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
 
 
-        list1.setBounds(1000, 1000, 20000, 1000);
-        list1.setSize(200, 200);
+        listRoom.setBounds(1000, 1000, 20000, 1000);
+        listRoom.setSize(200, 200);
         panel.add(j1);
-        panel.add(list1);
+        panel.add(listRoom);
 
         getContentPane().add(panel, BorderLayout.WEST);
         this.getContentPane().add(pan, BorderLayout.CENTER);
