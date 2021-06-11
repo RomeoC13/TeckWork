@@ -16,6 +16,8 @@ public class serveurLoc {
                 for(int i = 0; i < 18; i++) {
                     tab[i] = plan[0][0].split("-")[i];
                 }
+                System.out.println(plan[0][0]);
+                System.out.println(tab[0]);
             } else if(etage == tabEtage[1]) {
                 for(int i = 0; i < 18; i++) {
                     tab[i] = plan[0][1].split("-")[i];
@@ -183,6 +185,130 @@ public class serveurLoc {
 
     public String getNomBat(int i) {
         return listeBat[i];
+    }
+
+    public void replaceEtage(String bat, String etage, String[] tab) {
+        for(int i = 0; i < 18; i++) {
+            System.out.println(tab[i]);
+        }
+        System.out.println(bat);
+        System.out.println(etage);
+        String str = "";
+        String e = etage.replace("Etage ", "");
+        int et = Integer.parseInt(e) - 1;
+        if(bat == listeBat[0]) {
+            for(int j = 0; j < 18; j++) {
+                if(j != 17) {
+                    str += tab[j] + "-";
+                } else {
+                    str += tab[j];
+                }
+            }
+            plan[0][et] = str;
+        } else if(bat == listeBat[1]) {
+            for(int j = 0; j < 18; j++) {
+                if(j != 17) {
+                    str += tab[j] + "-";
+                } else {
+                    str += tab[j];
+                }
+            }
+            plan[1][et] = str;
+        } else if(bat == listeBat[2]) {
+            for(int j = 0; j < 18; j++) {
+                if(j != 17) {
+                    str += tab[j] + "-";
+                } else {
+                    str += tab[j];
+                }
+            }
+            plan[2][et] = str;
+        } else if(bat == listeBat[3]) {
+            for(int j = 0; j < 18; j++) {
+                if(j != 17) {
+                    str += tab[j] + "-";
+                } else {
+                    str += tab[j];
+                }
+            }
+            plan[3][et] = str;
+        }  else if(bat == listeBat[4]) {
+            for(int j = 0; j < 18; j++) {
+                if(j != 17) {
+                    str += tab[j] + "-";
+                } else {
+                    str += tab[j];
+                }
+            }
+            plan[4][et] = str;
+        }
+    }
+
+    public String[] getDispoEtage(String bat, String etage) {
+        String[] str = new String[18];
+        if(bat == listeBat[0]) {
+            for(int i = 0; i < 5; i++) {
+                for(int j = 0; j < 18; j++) {
+                    str[j] = plan[0][i].split("-")[j];
+                }
+            }
+        } else if(bat == listeBat[1]) {
+            for(int i = 0; i < 5; i++) {
+                for(int j = 0; j < 18; j++) {
+                    str[j] = plan[1][i].split("-")[j];
+                }
+            }
+        } else if(bat == listeBat[2]) {
+            System.out.println(bat);
+            for(int i = 0; i < 5; i++) {
+                for(int j = 0; j < 18; j++) {
+                    str[j] = plan[2][i].split("-")[j];
+                }
+            }
+        } else if(bat == listeBat[3]) {
+            for(int i = 0; i < 5; i++) {
+                for(int j = 0; j < 18; j++) {
+                    str[j] = plan[3][i].split("-")[j];
+                }
+            }
+        }  else if(bat == listeBat[4]) {
+            for(int i = 0; i < 5; i++) {
+                for(int j = 0; j < 18; j++) {
+                    str[j] = plan[4][i].split("-")[j];
+                }
+            }
+        }
+        return str;
+    }
+
+    public int getNbSalleDispo(String bat, String etage) {
+        int intToRet = 0;
+        int batiment = 0;
+        switch(bat) {
+            case "97 avenue de Pages, Paris 15":
+                batiment = 0;
+                break;
+            case "658 rue Delaunay, Créteil":
+                batiment = 1;
+                break;
+            case "58 boulevard Xavier Lefevre, Créteil":
+                batiment = 2;
+                break;
+            case "84 boulevard Levy, Paris 11":
+                batiment = 3;
+                break;
+            case "70 boulevard Brigitte Salmon, Paris 5":
+                batiment = 4;
+                break;
+        }
+        int et = Integer.parseInt(etage.replace("Etage ", "")) - 1;
+        String str = plan[batiment][et];
+        for(int i = 0; i < 18; i++) {
+            if(str.split("-")[i].equalsIgnoreCase("Libre")){
+                intToRet++;
+            }
+        }
+        return intToRet;
     }
 
     public void init() {

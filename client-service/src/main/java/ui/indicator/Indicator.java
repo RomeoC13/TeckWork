@@ -34,13 +34,15 @@ public class Indicator extends JFrame {
 	Side_Menu sm;
 	private JTextField textField;
 	private JTextField titleField;
+	private String company_name;
 
-	public Indicator() {
+	public Indicator(String company_name) {
+		this.company_name = company_name;
 		this.setVisible(true);
 		this.setTitle("Indicateurs");
 		this.setSize(800, 500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		sm = new Side_Menu();
+		sm = new Side_Menu(company_name);
 		JPanel contentPane = (JPanel) this.getContentPane();
 		getContentPane().setLayout(new BorderLayout());
 		contentPane.add(sm, BorderLayout.WEST);
@@ -61,7 +63,7 @@ public class Indicator extends JFrame {
 		JPanel mainTopPanel = new JPanel(new BorderLayout());
 		
 		JPanel topPanel = new JPanel(new FlowLayout());
-		JButton allInfo = new JButton("information génerale");
+		JButton allInfo = new JButton("information generale");
 		topPanel.add(allInfo);
 		JButton infoByCompany = new JButton("information par entreprise");
 		infoByCompany.addActionListener(new ActionListener() {
@@ -120,15 +122,15 @@ public class Indicator extends JFrame {
 		indicatorPanel.setPreferredSize(new Dimension(200, 200));
 		JLabel occupation = new JLabel("Taux d'occupation");
 		indicatorPanel.add(occupation);
-		JLabel connectedItems = new JLabel("Objets connectés");
+		JLabel connectedItems = new JLabel("Objets connectï¿½s");
 		indicatorPanel.add(connectedItems);
-		JLabel equipment = new JLabel("Nombre d’équipements");
+		JLabel equipment = new JLabel("Nombre dï¿½ï¿½quipements");
 		indicatorPanel.add(equipment);
-		JLabel sensor = new JLabel("Capteurs installés");
+		JLabel sensor = new JLabel("Capteurs installï¿½s");
 		indicatorPanel.add(sensor);
-		JLabel company = new JLabel("Nombre d’entreprise");
+		JLabel company = new JLabel("Nombre dï¿½entreprise");
 		indicatorPanel.add(company);
-		JLabel energy = new JLabel("Consommation énergétique");
+		JLabel energy = new JLabel("Consommation ï¿½nergï¿½tique");
 		indicatorPanel.add(energy);
 		mainPanel.add(indicatorPanel);
 		
@@ -149,6 +151,6 @@ public class Indicator extends JFrame {
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-		new Indicator();
+		new Indicator("company_name");
 	}
 }

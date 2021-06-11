@@ -7,7 +7,6 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 
 public class Plan extends Canvas{
@@ -54,7 +53,7 @@ public class Plan extends Canvas{
         String[] tabOcu = r.initPlan(bat, etage);
         for(int i = 0; i < 18; i++) {
             if (i < 9) {
-                if (tabOcu[i] == "Réservé") {
+                if (tabOcu[i].equalsIgnoreCase("Occupé")) {
                     g.setColor(Color.RED);
                     space = (i == 0) ? 0 : i * 10;
                     g.fillRect(40 + (150 * i) + space, 50, 150, 100);
@@ -64,7 +63,7 @@ public class Plan extends Canvas{
                     g.drawRect(40 + (150 * i) + space, 50, 150, 100);
                 }
             } else if (i >= 9) {
-                if (tabOcu[i] == "Réservé") {
+                if (tabOcu[i].equalsIgnoreCase("Occupé")) {
                     g.setColor(Color.RED);
                     space = (i == 9) ? 0 : (i - 9) * 10;
                     g.fillRect(40 + (150 * (i - 9)) + space, 200, 150, 100);
@@ -82,7 +81,7 @@ public class Plan extends Canvas{
         {
             panel.removeAll();
             frame.dispose();
-            Home h = new Home();
+            HomeLocation h = new HomeLocation();
             String[] args = {};
             h.main(args);
         }
@@ -132,7 +131,7 @@ public class Plan extends Canvas{
         buttonAccueil.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonAccueil.setBackground(new Color(0x3C4DCE));
         buttonAccueil.setForeground(Color.white);
-        buttonAccueil.setUI(new Home.StyledButtonUI());
+        buttonAccueil.setUI(new HomeLocation.StyledButtonUI());
         //panelTop.add(buttonAccueil, BorderLayout.EAST);
         toolbar.add(buttonAccueil);
 
@@ -141,7 +140,7 @@ public class Plan extends Canvas{
         buttonPlan.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonPlan.setBackground(new Color(0x3C4DCE));
         buttonPlan.setForeground(Color.white);
-        buttonPlan.setUI(new Home.StyledButtonUI());
+        buttonPlan.setUI(new HomeLocation.StyledButtonUI());
         //panelTop.add(buttonPlan, BorderLayout.CENTER);
         toolbar.add(buttonPlan);
 
@@ -150,7 +149,7 @@ public class Plan extends Canvas{
         buttonFormulaire.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonFormulaire.setBackground(new Color(0x3C4DCE));
         buttonFormulaire.setForeground(Color.white);
-        buttonFormulaire.setUI(new Home.StyledButtonUI());
+        buttonFormulaire.setUI(new HomeLocation.StyledButtonUI());
         //panelTop.add(buttonPlan, BorderLayout.CENTER);
         toolbar.add(buttonFormulaire);
 
@@ -202,7 +201,7 @@ public class Plan extends Canvas{
         panel.add(panelTop, BorderLayout.NORTH);
         panel.add(plan, BorderLayout.CENTER);
 
-        frame.setSize(1530,800);
+        frame.setSize(1530,600);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

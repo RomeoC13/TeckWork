@@ -23,18 +23,19 @@ import ui.indicator.Indicator;
 import userIHM.WindowsMapping;
 
 public class Side_Menu extends JPanel {
-	private final JButton home = new JButton("Home");
-	private final JButton card = new JButton("Card");
-	private final JButton mapping = new JButton("Mapping");
-	private final JButton indicator = new JButton("Indicator");
-	private final JLabel companyLabel = new JLabel();
-	private final JSeparator separator = new JSeparator();
-	private final JPanel panel = new JPanel();
-	private final JButton deconnexion = new JButton("D\u00E9connexion");
-	
+    private final JButton home = new JButton("Home");
+    private final JButton card = new JButton("Card");
+    private final JButton mapping = new JButton("Mapping");
+    private final JButton indicator = new JButton("Indicator");
+    private final JLabel companyLabel = new JLabel();
+    private final JSeparator separator = new JSeparator();
+    private final JPanel panel = new JPanel();
+    private final JButton deconnexion = new JButton("D\u00E9connexion");
+    private String company_name;
 
-    public Side_Menu() {
-        
+
+    public Side_Menu(String company_name) {
+        this.company_name = company_name;
         this.setAlignmentY(Component.CENTER_ALIGNMENT);
         this.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.setBackground(new Color(68, 114, 196));
@@ -46,10 +47,10 @@ public class Side_Menu extends JPanel {
         companyLabel.setForeground(Color.WHITE);
         companyLabel.setFont(new Font("Serif", Font.BOLD, 20));
         companyLabel.setText("Teck-work");
-        		//+ "<html><body><font color='blanc'>Tech-Work</body></html>\"
+        //+ "<html><body><font color='blanc'>Tech-Work</body></html>\"
         add(companyLabel);
         separator.setOpaque(true);
-        
+
         separator.setBounds(new Rectangle(10, 10, 10, 10));
         separator.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
         separator.setBackground(Color.BLACK);
@@ -58,20 +59,20 @@ public class Side_Menu extends JPanel {
         separator.setPreferredSize(new Dimension(215, 3));
         separator.setForeground(Color.BLACK);
         this.add(separator);
-        
+
         home.setBackground(SystemColor.inactiveCaption);
         home.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         home.setForeground(SystemColor.desktop);
         home.setPreferredSize(new Dimension(170, 25));
         home.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        	}
+            public void actionPerformed(ActionEvent e) {
+            }
         });
         home.setVerticalAlignment(SwingConstants.TOP);
         home.setAlignmentY(10.0f);
         home.setAlignmentX(10.0f);
         add(home);
-       
+
         card.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         card.setForeground(SystemColor.activeCaptionText);
         card.setBackground(SystemColor.inactiveCaption);
@@ -80,15 +81,15 @@ public class Side_Menu extends JPanel {
         card.setAlignmentY(10.0f);
         card.setAlignmentX(10.0f);
         card.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Card();
-				
-			}
-		});
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Card(company_name);
+
+            }
+        });
         add(card);
-        
+
         mapping.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         mapping.setForeground(SystemColor.activeCaptionText);
         mapping.setBackground(SystemColor.inactiveCaption);
@@ -100,15 +101,14 @@ public class Side_Menu extends JPanel {
 
         mapping.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if((JButton)e.getSource() == mapping)
-                    new WindowsMapping();
-
+                if ((JButton) e.getSource() == mapping)
+                    new WindowsMapping(company_name);
             }
 
         });
-        
+
         add(mapping);
-        
+
         indicator.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         indicator.setForeground(SystemColor.desktop);
         indicator.setBackground(SystemColor.inactiveCaption);
@@ -117,17 +117,17 @@ public class Side_Menu extends JPanel {
         indicator.setAlignmentY(10.0f);
         indicator.setAlignmentX(10.0f);
         indicator.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if((JButton)e.getSource() == indicator)
-        			new Indicator();
-        		
-        	}
-        	
+            public void actionPerformed(ActionEvent e) {
+                if ((JButton) e.getSource() == indicator)
+                    new Indicator(company_name);
+
+            }
+
         });
         add(indicator);
         panel.setPreferredSize(new Dimension(200, 265));
-        
-        
+
+
         panel.setBackground(new Color(68, 114, 196));
         panel.setLayout(new BorderLayout());
         deconnexion.setLocation(new Point(10, 10));
@@ -138,9 +138,9 @@ public class Side_Menu extends JPanel {
         deconnexion.setBackground(SystemColor.inactiveCaption);
         deconnexion.setAlignmentY(10.0f);
         deconnexion.setAlignmentX(10.0f);
-        panel.add(deconnexion,BorderLayout.SOUTH);
+        panel.add(deconnexion, BorderLayout.SOUTH);
         this.add(panel);
     }
 
-    
+
 }

@@ -20,10 +20,14 @@ public class Location {
     static String[] tab = new String[6];
 
     static JFrame frameEnvoie = new JFrame("Propositions");
-    static JPanel panelEnvoie = new JPanel(new GridLayout(4,1,10,10));
+    static JPanel panelEnvoie = new JPanel(new GridLayout(6,1,10,10));
 
     static JFrame frameErreur = new JFrame("ERREUR");
     static JPanel panelErreur = new JPanel(new BorderLayout());
+
+    static int propV = 1;
+    static String ad = "";
+
 
     static class StyledButtonUI extends BasicButtonUI {
 
@@ -58,7 +62,7 @@ public class Location {
         {
             panel.removeAll();
             frame.dispose();
-            Home h = new Home();
+            HomeLocation h = new HomeLocation();
             String[] args = {};
             h.main(args);
         }
@@ -87,10 +91,31 @@ public class Location {
         }
     }
 
+    public static class ActionValide implements ActionListener {
+        public void actionPerformed(ActionEvent e)
+        {
+            String[] tabReplace = {"Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre"};
+            String strProp = proposition(ad, Integer.parseInt(tab[3]))[propV - 1];
+            String strPropRet = strProp.substring(17,strProp.length());
+            String[] tabProp = strPropRet.split(" / ");
+            System.out.println(strPropRet);
+            System.out.println(tabProp.length);
+            for(int i = 0; i < 18; i++) {
+                for (int j = 0; j < tabProp.length; j++) {
+                    if (Integer.parseInt(tabProp[j]) == i) {
+                        tabReplace[j] = "Occupé";
+                    }
+                }
+            }
+            String etage = strProp.substring(6,7);
+            r.replaceEtage(ad, "Etage " + etage.trim(), tabReplace);
+            frameEnvoie.dispose();
+        }
+    }
+
     public static class ActionEnvoie implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String adresse = tab[0];
-            String ad = "";
             if(adresse.equalsIgnoreCase(r.getNomBat(0))) {
                 ad = r.getNomBat(0);
             } else if(adresse.equalsIgnoreCase(r.getNomBat(1))) {
@@ -110,14 +135,37 @@ public class Location {
                 JPanel prop2 = new JPanel();
                 JPanel prop3 = new JPanel();
                 JPanel prop4 = new JPanel();
-                setTextLabel("Prop 1", prop1);
-                setTextLabel("Prop 2", prop2);
-                setTextLabel("Prop 3", prop3);
-                setTextLabel("Prop 4", prop4);
+                setTextLabel("Proposition 1" + " -> " + proposition(ad, Integer.parseInt(tab[3]))[0], prop1);
+                setTextLabel("Proposition 2" + " -> " + proposition(ad, Integer.parseInt(tab[3]))[1], prop2);
+                setTextLabel("Proposition 3" + " -> " + proposition(ad, Integer.parseInt(tab[3]))[2], prop3);
+                setTextLabel("Proposition 4" + " -> " + proposition(ad, Integer.parseInt(tab[3]))[3], prop4);
                 panelEnvoie.add(prop1);
                 panelEnvoie.add(prop2);
                 panelEnvoie.add(prop3);
                 panelEnvoie.add(prop4);
+
+                String[] listeProp = {"Proposition 1", "Proposition 2", "Proposition 3", "Proposition 4"};
+                JComboBox<String> listePropo = new JComboBox(listeProp);
+                listePropo.setBounds(10, 10, 120, 23);
+                listePropo.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        e.getSource();
+                        String s=(String) listePropo.getSelectedItem();
+                        propV = Integer.parseInt(s.replace("Proposition ", ""));
+                    }
+                });
+
+                panelEnvoie.add(listePropo);
+
+                final JButton buttonValide = new JButton("Validé");
+                buttonValide.addActionListener(new ActionValide());
+                buttonValide.setFont(new Font("Calibri", Font.PLAIN, 14));
+                buttonValide.setBackground(new Color(0x3C4DCE));
+                buttonValide.setForeground(Color.white);
+                buttonValide.setUI(new HomeLocation.StyledButtonUI());
+
+                panelEnvoie.add(buttonValide);
+
                 frameEnvoie.add(panelEnvoie);
                 frameEnvoie.setSize(500, 500);
                 frameEnvoie.setVisible(true);
@@ -130,6 +178,420 @@ public class Location {
                 frameErreur.setVisible(true);
             }
         }
+    }
+
+    public static String[] proposition(String bat, int nbSalle) {
+        int compt = nbSalle;
+        String[] strTab = new String[5];
+        String str = "";
+        String tab[] = new String[18];
+        if(bat.equalsIgnoreCase(r.getNomBat(0))) {
+            if(r.getNbSalleDispo(bat, "Etage 1") >= nbSalle) {
+                str = "Etage 1 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 1").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 1")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[0] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 2") >= nbSalle) {
+                str = "Etage 2 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 2").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 2")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[1] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 3") >= nbSalle) {
+                str = "Etage 3 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 3").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 3")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[2] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 4") >= nbSalle) {
+                str = "Etage 4 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 4").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 4")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[3] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 5") >= nbSalle) {
+                str = "Etage 5 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 5").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 5")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[4] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+        } else if(bat.equalsIgnoreCase(r.getNomBat(1))) {
+            if(r.getNbSalleDispo(bat, "Etage 1") >= nbSalle) {
+                str = "Etage 1 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 1").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 1")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[0] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 2") >= nbSalle) {
+                str = "Etage 2 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 2").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 2")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[1] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 3") >= nbSalle) {
+                str = "Etage 3 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 3").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 3")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[2] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 4") >= nbSalle) {
+                str = "Etage 4 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 4").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 4")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[3] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 5") >= nbSalle) {
+                str = "Etage 5 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 5").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 5")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[4] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+        } else if(bat.equalsIgnoreCase(r.getNomBat(2))) {
+            if(r.getNbSalleDispo(bat, "Etage 1") >= nbSalle) {
+                str = "Etage 1 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 1").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 1")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[0] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 2") >= nbSalle) {
+                str = "Etage 2 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 2").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 2")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[1] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 3") >= nbSalle) {
+                str = "Etage 3 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 3").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 3")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[2] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 4") >= nbSalle) {
+                str = "Etage 4 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 4").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 4")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[3] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 5") >= nbSalle) {
+                str = "Etage 5 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 5").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 5")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[4] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+        } else if(bat.equalsIgnoreCase(r.getNomBat(3))) {
+            if(r.getNbSalleDispo(bat, "Etage 1") >= nbSalle) {
+                str = "Etage 1 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 1").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 1")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[0] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 2") >= nbSalle) {
+                str = "Etage 2 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 2").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 2")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[1] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 3") >= nbSalle) {
+                str = "Etage 3 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 3").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 3")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[2] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 4") >= nbSalle) {
+                str = "Etage 4 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 4").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 4")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[3] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 5") >= nbSalle) {
+                str = "Etage 5 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 5").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 5")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[4] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+        } else if(bat.equalsIgnoreCase(r.getNomBat(4))) {
+            if(r.getNbSalleDispo(bat, "Etage 1") >= nbSalle) {
+                str = "Etage 1 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 1").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 1")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[0] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 2") >= nbSalle) {
+                str = "Etage 2 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 2").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 2")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[1] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 3") >= nbSalle) {
+                str = "Etage 3 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 3").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 3")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[2] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 4") >= nbSalle) {
+                str = "Etage 4 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 4").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 4")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[3] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+            if(r.getNbSalleDispo(bat, "Etage 5") >= nbSalle) {
+                str = "Etage 5 : Salles ";
+                for (int i = 0; i < r.getDispoEtage(bat, "Etage 5").length; i++) {
+                    if (compt > 0) {
+                        if (r.getDispoEtage(bat, "Etage 5")[i].equalsIgnoreCase("Libre")) {
+                            str += (i + 1) + " / ";
+                            compt--;
+                        }
+                    } else {
+                        compt = nbSalle;
+                        strTab[4] = str;
+                        str = "";
+                        break;
+                    }
+                }
+            }
+        }
+        return strTab;
     }
 
     static void setTextLabel(String text, JPanel p) {
@@ -224,7 +686,7 @@ public class Location {
         buttonAccueil.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonAccueil.setBackground(new Color(0x3C4DCE));
         buttonAccueil.setForeground(Color.white);
-        buttonAccueil.setUI(new Home.StyledButtonUI());
+        buttonAccueil.setUI(new HomeLocation.StyledButtonUI());
         toolbar.add(buttonAccueil);
 
         final JButton buttonPlan = new JButton("Plan");
@@ -232,7 +694,7 @@ public class Location {
         buttonPlan.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonPlan.setBackground(new Color(0x3C4DCE));
         buttonPlan.setForeground(Color.white);
-        buttonPlan.setUI(new Home.StyledButtonUI());
+        buttonPlan.setUI(new HomeLocation.StyledButtonUI());
         toolbar.add(buttonPlan);
 
         final JButton buttonFormulaire = new JButton("Formulaire");
@@ -240,7 +702,7 @@ public class Location {
         buttonFormulaire.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonFormulaire.setBackground(new Color(0x3C4DCE));
         buttonFormulaire.setForeground(Color.white);
-        buttonFormulaire.setUI(new Home.StyledButtonUI());
+        buttonFormulaire.setUI(new HomeLocation.StyledButtonUI());
         //panelTop.add(buttonPlan, BorderLayout.CENTER);
         toolbar.add(buttonFormulaire);
 
@@ -249,7 +711,7 @@ public class Location {
         buttonEnvoie.setFont(new Font("Calibri", Font.PLAIN, 14));
         buttonEnvoie.setBackground(new Color(0x3C4DCE));
         buttonEnvoie.setForeground(Color.white);
-        buttonEnvoie.setUI(new Home.StyledButtonUI());
+        buttonEnvoie.setUI(new HomeLocation.StyledButtonUI());
 
 
         panelTop.add(toolbar, BorderLayout.NORTH);
@@ -274,7 +736,7 @@ public class Location {
         panel.add(buttonEnvoie, BorderLayout.SOUTH);
 
 
-        frame.setSize(1000,800);
+        frame.setSize(800,600);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
