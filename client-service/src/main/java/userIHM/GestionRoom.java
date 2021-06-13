@@ -24,10 +24,10 @@ public class GestionRoom extends JPanel implements MouseListener {
             g.drawImage(currentEquipment, 0, 0, 750, 750, null);
             imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
             currentEquipment = ImageIO.read(imgURL);
-           /* g.drawImage(currentEquipment, 195, 460, 50, 50, null);
-            g.drawImage(currentEquipment, 533, 201, 50, 50, null);
-            g.drawImage(currentEquipment, 550, 549, 50, 50, null);
-            g.drawImage(currentEquipment, 99, 377, 50, 50, null);*/
+            g.drawImage(currentEquipment, 625, 220, 50, 50, null); /*fenetre*/
+            g.drawImage(currentEquipment, 236, 189, 50, 50, null); /*capteur*/
+            g.drawImage(currentEquipment, 557, 560, 50, 50, null); /*prise*/
+            g.drawImage(currentEquipment, 111, 430, 50, 50, null); /*écran*/
 
 
         } catch (IOException e) {
