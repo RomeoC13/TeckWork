@@ -50,8 +50,6 @@ public class Gestion extends JPanel implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(e.getX());
-        System.out.println(e.getY());
 
         BufferedImage currentEquipment;
         URL mapUrl = Thread.currentThread().getContextClassLoader().getResource("écran.jpg");
@@ -87,6 +85,7 @@ public class Gestion extends JPanel implements MouseListener {
             }
 
         }
+
         URL mapUrl1 = Thread.currentThread().getContextClassLoader().getResource("fenetre.jpg");
         if (e.getX() >= 550 & e.getX() <= 600 & e.getY() >= 549 & e.getY() <= 599) {
 
