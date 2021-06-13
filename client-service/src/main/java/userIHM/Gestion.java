@@ -42,11 +42,8 @@ public class Gestion extends JPanel implements MouseListener {
     }
 
 
-
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println(e.getX());
-        System.out.println(e.getY());
 
 
     }
@@ -76,35 +73,51 @@ public class Gestion extends JPanel implements MouseListener {
 
         URL mapUrl2 = Thread.currentThread().getContextClassLoader().getResource("prise.jpg");
         if (e.getX() >= 533 & e.getX() <= 583 & e.getY() >= 201 & e.getY() <= 251) {
-            System.out.println("Réservation  libre prise");
-            try {
-                currentEquipment = ImageIO.read(mapUrl2);
-                getGraphics().drawImage(currentEquipment, 533, 201, 50, 50, null);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+
+            int reponsePrise = JOptionPane.showConfirmDialog(null, "Emplacement prise. Voulez vous continuer?");
+
+            if (reponsePrise == JOptionPane.YES_OPTION) {
+
+                try {
+                    currentEquipment = ImageIO.read(mapUrl2);
+                    getGraphics().drawImage(currentEquipment, 533, 201, 50, 50, null);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
 
         }
         URL mapUrl1 = Thread.currentThread().getContextClassLoader().getResource("fenetre.jpg");
         if (e.getX() >= 550 & e.getX() <= 600 & e.getY() >= 549 & e.getY() <= 599) {
-            System.out.println("Réservation  libre prise");
-            try {
-                currentEquipment = ImageIO.read(mapUrl1);
-                getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+
+            int reponseFenetre = JOptionPane.showConfirmDialog(null, "Emplacement Fenêtre. Voulez vous continuer?");
+
+            if (reponseFenetre == JOptionPane.YES_OPTION) {
+
+                try {
+                    currentEquipment = ImageIO.read(mapUrl1);
+                    getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
 
         }
 
         URL mapUrl3 = Thread.currentThread().getContextClassLoader().getResource("capteur.jpg");
         if (e.getX() >= 99 & e.getX() <= 149 & e.getY() >= 377 & e.getY() <= 427) {
-            System.out.println("Réservation  libre prise");
-            try {
-                currentEquipment = ImageIO.read(mapUrl3);
-                getGraphics().drawImage(currentEquipment, 99, 377, 50, 50, null);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+
+            int reponseCapteur = JOptionPane.showConfirmDialog(null, "Emplacement Fenêtre. Voulez vous continuer?");
+
+            if (reponseCapteur == JOptionPane.YES_OPTION) {
+
+
+                try {
+                    currentEquipment = ImageIO.read(mapUrl3);
+                    getGraphics().drawImage(currentEquipment, 99, 377, 50, 50, null);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         }
     }

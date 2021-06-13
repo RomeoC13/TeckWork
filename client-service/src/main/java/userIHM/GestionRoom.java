@@ -37,6 +37,8 @@ public class GestionRoom extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        System.out.println(e.getX());
+        System.out.println(e.getY());
 
     }
 
