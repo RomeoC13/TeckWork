@@ -78,6 +78,15 @@ public class ClientHandler implements Runnable {
                 ds.writeUTF(requestgetListBuilding(connection, map).toString());
             }
 
+            if (request.split("@")[0].equals("requestGetIdRoom")) {
+                ds.writeUTF(requestGetIdRoom(connection, map).toString());
+            }
+
+            if (request.split("@")[0].equals("requestUpdate")) {
+                ds.writeUTF(requestUpdate(connection, map).toString());
+            }
+
+
 
 
         } catch (Exception e) {
@@ -229,6 +238,52 @@ public class ClientHandler implements Runnable {
         }
         return sb;
     }
+
+    public StringBuilder requestGetIdRoom(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "SELECT id_room FROM company INNER JOIN LOCATION " +
+                    "ON company.company_id = location.company_id INNER JOIN room " +
+                    "ON room.id_location = location.id_location INNER JOIN floor " +
+                    "ON floor.id_floor = room.id_floor INNER JOIN building " +
+                    "ON building.id_building = floor.id_building WHERE room.name_room = '"+map.get("name_room")+"'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder requestUpdate (Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "UPDATE room" +
+                    "set position_screen = "+map.get("value")+"" +
+                    "WHERE id_location = "+map.get("id_room")+"" ;
+
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
 
 
 }

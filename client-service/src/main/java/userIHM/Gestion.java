@@ -9,12 +9,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
-public class Gestion extends JPanel implements MouseListener {
-    String equipment;
+import static client.Client.getSend;
+import static client.Client.map;
 
-    public void setEquipment(String equipment) {
-        this.equipment = equipment;
-    }
+public class Gestion extends JPanel implements MouseListener {
+
+
+
 
     public Gestion() {
         setPreferredSize(new Dimension(750, 750));
@@ -55,9 +56,26 @@ public class Gestion extends JPanel implements MouseListener {
         URL mapUrl = Thread.currentThread().getContextClassLoader().getResource("écran.jpg");
         if (e.getX() >= 195 & e.getX() <= 245 & e.getY() >= 460 & e.getY() <= 510) {
 
-            int reponseScreen = JOptionPane.showConfirmDialog(null, "Emplacement écran. Voulez vous continuer?");
 
-            if (reponseScreen == JOptionPane.YES_OPTION) {
+
+            int id_room = JOptionPane.showConfirmDialog(null, "Emplacement écran. Voulez vous continuer?");
+
+
+            if (id_room == JOptionPane.YES_OPTION) {
+
+
+                String responseScreen = "1";
+                String valueChoose = "1";
+                map.get("requestUpdate").put("value", valueChoose);
+                map.get("requestUpdate").put("id_room", responseScreen);
+                String responseUpdate = getSend("requestUpdate");
+                String[] answers = responseUpdate.split("@");
+                for (String b : answers) {
+                    if (b.contains("@")) {
+                        b.replace("@", "");
+                    }
+                    System.out.println(b);
+                }
 
                 try {
                     currentEquipment = ImageIO.read(mapUrl);

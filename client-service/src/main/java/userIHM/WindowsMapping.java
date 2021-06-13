@@ -40,7 +40,12 @@ public class WindowsMapping extends JFrame implements ActionListener {
     private JComboBox<String> listFloor;
     private Socket socket;
     private String company_name;
+    public static String id_room;
 
+
+    public static String getId_room() {
+        return id_room;
+    }
 
     public WindowsMapping(String company_name) {
         Frame frame = this;
@@ -80,6 +85,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
         for (String b : building) {
             if (b.contains("@")) {
                 b.replace("@", "");
+
             }
             //System.out.println(b);
         }
@@ -123,6 +129,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
         listBuiling.setSize(200, 200);
         panel.add(j);
         panel.add(listBuiling);
+
 
 
         JLabel j3 = new JLabel("          Etage            ");
@@ -186,9 +193,23 @@ public class WindowsMapping extends JFrame implements ActionListener {
             public void itemStateChanged(ItemEvent e) {
                 String roomValue = (String) e.getItem();
                 System.out.println(e.getItem());
+                String name_room = (String) listRoom.getSelectedItem();
+
+                map.get("requestGetIdRoom").put("name_room", name_room);
+                String responseGetIdRoom = getSend("requestGetIdRoom");
+                String[] answersIdRoom  = responseGetIdRoom.split("@");
+                for (String b : answersIdRoom) {
+                    if (b.contains("@")) {
+                        b.replace("@", "");
+                    }
+                    System.out.println(b);
+                }
+                id_room = answersIdRoom[0];
 
 
-                if (roomValue.contains("Bureaux ")) {
+
+
+                if (roomValue.contains("Bureaux")) {
                     cardLayout.show(panels, "panelBureau");
                     frame.repaint();
                 }
