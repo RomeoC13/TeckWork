@@ -47,5 +47,16 @@
   },
   "requestgetListBuilding" : {
     "company_name" : ""
+  },
+  "allBuilding": {
+    "build_id":"",
+    "build_address":"",
+    "build_city":"",
+    "build-name":""
+  },
+  "indicators":{
+    "nature":"",
+    "status":"",
+    "devices":""
   }
 }

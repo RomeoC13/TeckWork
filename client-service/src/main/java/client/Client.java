@@ -19,7 +19,8 @@ import static java.lang.Thread.sleep;
 
 public class Client {
     private final static Logger log = LoggerFactory.getLogger(Client.class.getName());
-    private final static String configur = "Configuration";
+    //private final static String configur = "Configuration";
+    private static final String configvar = "JSONCONF";
     private static String configurations;
     private ClientProperties config;
 
@@ -31,7 +32,7 @@ public class Client {
 
         try {
 
-            configurations = System.getenv(configur);
+            configurations = System.getenv(configvar);
             String values = Files.readString(Path.of(configurations));
            // System.out.println(values);
 

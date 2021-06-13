@@ -7,21 +7,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 //import edu.episen.si.ing1.pds.backend.server.DataSource;
 import org.graalvm.compiler.core.common.spi.ConstantFieldProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
 import java.sql.*;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import static edu.episen.si.ing1.pds.backend.server.release2.Crud.*;
 import static java.lang.Thread.sleep;
 
 
 public class ClientHandler implements Runnable {
+    private final static Logger logger = LoggerFactory.getLogger(ClientHandler.class);
     private final Socket clientSocket;
     private final Connection connection;
     private static String[] requestList = new String[10];
+    private  DataOutputStream ds;
+    private ObjectMapper mapperPrincipal = new ObjectMapper();
+    private Boolean done = false;
 
 
     // Constructor
@@ -40,11 +45,13 @@ public class ClientHandler implements Runnable {
         try {
             OutputStream out = clientSocket.getOutputStream();
             InputStream in = clientSocket.getInputStream();
-            DataOutputStream ds = new DataOutputStream(out);
+             ds = new DataOutputStream(out);
             DataInputStream di = new DataInputStream(in);
 
             String request = di.readUTF();
-            System.out.println(request);
+            logger.info(request);
+
+            Request mapRequest = mapper.readValue(request, Request.class);
 
 
             Map<String, String> map = mapper.readValue(request.split("@")[1], new TypeReference<Map<String, String>>() {
@@ -78,11 +85,37 @@ public class ClientHandler implements Runnable {
                 ds.writeUTF(requestgetListBuilding(connection, map).toString());
             }
 
+            if(mapRequest.getEvent().equals("building"))
+                allBuilding();
+
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void allBuilding() {
+        try {
+            String request = "select * from building";
+            ResultSet reSet = connection.createStatement().executeQuery(request);
+            List<Map<String, String>> result = new ArrayList<>();
+
+            while (reSet.next()) {
+                Map<String, String> resultmap = new HashMap<String, String>();
+                resultmap.put("build_id", reSet.getString(1));
+                resultmap.put("build_name", reSet.getString(2));
+
+                result.add(resultmap);
+            }
+            ds.writeUTF(mapperPrincipal.writeValueAsString(result));
+        } catch (Exception e) {
+            logger.error(e.getLocalizedMessage(), e);
+        } finally {
+            done = true;
+        }
+
+
     }
 
     public static StringBuilder requestbuilding(Connection connection, Map<String, String> map) {
