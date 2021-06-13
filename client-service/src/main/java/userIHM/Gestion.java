@@ -41,13 +41,12 @@ public class Gestion extends JPanel implements MouseListener {
         }
     }
 
+
+
     @Override
     public void mouseClicked(MouseEvent e) {
         System.out.println(e.getX());
         System.out.println(e.getY());
-
-
-
 
 
     }
@@ -61,9 +60,9 @@ public class Gestion extends JPanel implements MouseListener {
         URL mapUrl = Thread.currentThread().getContextClassLoader().getResource("écran.jpg");
         if (e.getX() >= 195 & e.getX() <= 245 & e.getY() >= 460 & e.getY() <= 510) {
 
-            int r=  JOptionPane.showConfirmDialog(null, "Emplacement écran. Voulez vous continuer?");
+            int reponseScreen = JOptionPane.showConfirmDialog(null, "Emplacement écran. Voulez vous continuer?");
 
-            if( r == JOptionPane.YES_OPTION) {
+            if (reponseScreen == JOptionPane.YES_OPTION) {
 
                 try {
                     currentEquipment = ImageIO.read(mapUrl);
@@ -76,7 +75,7 @@ public class Gestion extends JPanel implements MouseListener {
 
 
         URL mapUrl2 = Thread.currentThread().getContextClassLoader().getResource("prise.jpg");
-        if(e.getX() >= 533 & e.getX() <= 583 & e.getY() >= 201 & e.getY() <= 251) {
+        if (e.getX() >= 533 & e.getX() <= 583 & e.getY() >= 201 & e.getY() <= 251) {
             System.out.println("Réservation  libre prise");
             try {
                 currentEquipment = ImageIO.read(mapUrl2);
@@ -87,7 +86,7 @@ public class Gestion extends JPanel implements MouseListener {
 
         }
         URL mapUrl1 = Thread.currentThread().getContextClassLoader().getResource("fenetre.jpg");
-        if(e.getX() >= 550 & e.getX() <= 600 & e.getY() >= 549 & e.getY() <= 599) {
+        if (e.getX() >= 550 & e.getX() <= 600 & e.getY() >= 549 & e.getY() <= 599) {
             System.out.println("Réservation  libre prise");
             try {
                 currentEquipment = ImageIO.read(mapUrl1);
@@ -99,7 +98,7 @@ public class Gestion extends JPanel implements MouseListener {
         }
 
         URL mapUrl3 = Thread.currentThread().getContextClassLoader().getResource("capteur.jpg");
-        if(e.getX() >= 99 & e.getX() <= 149 & e.getY() >= 377 & e.getY() <= 427) {
+        if (e.getX() >= 99 & e.getX() <= 149 & e.getY() >= 377 & e.getY() <= 427) {
             System.out.println("Réservation  libre prise");
             try {
                 currentEquipment = ImageIO.read(mapUrl3);

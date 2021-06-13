@@ -19,7 +19,7 @@
   "requestRoom" : {
     "id_room" : "",
     "id_floor" : "",
-    "states" : "",
+    "name_room" : "",
     "company_name" : "",
     "building_name" : "",
     "floor_name" : ""

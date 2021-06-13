@@ -8,15 +8,13 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.*;
@@ -28,13 +26,13 @@ import static client.Client.*;
 
 public class WindowsMapping extends JFrame implements ActionListener {
     JPanel panel = new JPanel();
-    Gestion pan;
+    Gestion panelBureau;
+    GestionRoom panelRoom;
+
     JButton button1 = new JButton("Batiment");
     JButton button2 = new JButton("Equipements");
     JButton button5 = new JButton("Etage");
     JButton button3 = new JButton("Visualiser carte");
-
-
 
 
     public static JComboBox<String> listBuiling;
@@ -45,11 +43,27 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
 
     public WindowsMapping(String company_name) {
+        Frame frame = this;
+
+        CardLayout cardLayout = new CardLayout();
+        JPanel panels = new JPanel();
+        panels.setLayout(cardLayout);
+
+        panelBureau = new Gestion();
+        panelRoom = new GestionRoom();
+
+
+        panels.add(panelBureau, "panelBureau");
+        panels.add(panelRoom, "panelRoom");
+        getContentPane().add(panels);
+
+
         this.company_name = company_name;
-       // listB = new JComboBox<>();
+        // listB = new JComboBox<>();
         listFloor = new JComboBox<>();
         listRoom = new JComboBox<>();
-        pan = new Gestion();
+
+
         this.setTitle("Bienvenue à l'affichage");
         this.setSize(1000, 1000);
         //this.setResizable(false);
@@ -72,11 +86,12 @@ public class WindowsMapping extends JFrame implements ActionListener {
         listBuiling = new JComboBox(building);
 
         listBuiling.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 String str = (String) listBuiling.getSelectedItem();
-               // System.out.println(str);
+                // System.out.println(str);
                 map.get("request_id_building").put("name_building", str);
                 String response = getSend("request_id_building");
                 listFloor.removeAllItems();
@@ -85,7 +100,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
                     if (b.contains("@")) {
                         b.replace("@", "");
                     }
-                   // System.out.println(b);
+                    // System.out.println(b);
                 }
                 map.get("requestFloor").put("id_building", idbuilding[0]);
                 response = getSend("requestFloor");
@@ -94,7 +109,7 @@ public class WindowsMapping extends JFrame implements ActionListener {
                     if (b.contains("@")) {
                         b.replace("@", "");
                     }
-                   // System.out.println(b);
+                    //  System.out.println(b);
                 }
 
                 for (String elem : floor) {
@@ -116,12 +131,13 @@ public class WindowsMapping extends JFrame implements ActionListener {
         listFloor.setSize(200, 200);
         panel.add(j3);
         panel.add(listFloor);
-        listFloor.addActionListener(new ActionListener() {
+        listFloor.addItemListener(new ItemListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String floorvalue = (String) listFloor.getSelectedItem();
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println("Je suis l'étage");
+                String floorvalue = (String) e.getItem();
                 String buildingvalue = (String) listBuiling.getSelectedItem();
-                System.out.println(floorvalue);
+                //System.out.println(floorvalue + "wesh");
                 /*map.get("request_id_floor").put("name_floor", str);
                 String response = getSend("request_id_floor");
                 System.out.println(response);
@@ -135,17 +151,18 @@ public class WindowsMapping extends JFrame implements ActionListener {
                 }
                 System.out.println(idfloor[0] + " variable");
                 System.out.println(" ça passe ici");*/
-                map.get("requestRoom").put("company_name",company_name);
-                map.get("requestRoom").put("floor_name",floorvalue);
-                map.get("requestRoom").put("building_name",buildingvalue);
+                map.get("requestRoom").put("company_name", company_name);
+                map.get("requestRoom").put("floor_name", floorvalue);
+                map.get("requestRoom").put("building_name", buildingvalue);
                 String response = getSend("requestRoom");
+                System.out.println(map.get("requestRoom") + "jd");
 
                 String[] room = response.split("@");
                 for (String b : room) {
                     if (b.contains("@")) {
                         b.replace("@", "");
                     }
-                    System.out.println(b);
+                    //  System.out.println(b);
                 }
                 listRoom.removeAllItems();
 
@@ -164,9 +181,30 @@ public class WindowsMapping extends JFrame implements ActionListener {
         listRoom.setSize(200, 200);
         panel.add(j1);
         panel.add(listRoom);
+        listRoom.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                String roomValue = (String) e.getItem();
+                System.out.println(e.getItem());
+
+
+                if (roomValue.contains("Bureaux ")) {
+                    cardLayout.show(panels, "panelBureau");
+                    frame.repaint();
+                }
+
+                if (roomValue.contains("Salle de conférence")) {
+                    cardLayout.show(panels, "panelRoom");
+                    frame.repaint();
+                }
+
+
+            }
+        });
 
         getContentPane().add(panel, BorderLayout.WEST);
-        this.getContentPane().add(pan, BorderLayout.CENTER);
+        // this.getContentPane().add(panelBureau, BorderLayout.CENTER);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
