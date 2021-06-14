@@ -52,5 +52,9 @@
 
   "requestGetIdRoom" : {
     "name_room": ""
+  },
+
+  "requestScreenIsEmpty" : {
+    "id_room" : ""
   }
 }

@@ -103,6 +103,7 @@ public class Side_Menu extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if ((JButton) e.getSource() == mapping)
                     new WindowsMapping(company_name);
+
             }
 
         });

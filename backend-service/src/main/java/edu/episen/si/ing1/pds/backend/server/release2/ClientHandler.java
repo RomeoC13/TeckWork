@@ -85,6 +85,9 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("requestUpdate")) {
                 ds.writeUTF(requestUpdate(connection, map).toString());
             }
+            if (request.split("@")[0].equals("requestScreenIsEmpty")) {
+                ds.writeUTF(requestScreenIsEmpty(connection, map).toString());
+            }
 
 
 
@@ -269,6 +272,25 @@ public class ClientHandler implements Runnable {
 
             String sql = "UPDATE room set position_screen = '"+map.get("value")+"'"+"WHERE id_room = "+map.get("id_room")+"";
 
+            connection.createStatement().executeUpdate(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            sb.append("Update done");
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder requestScreenIsEmpty(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "SELECT position_screen FROM room" +
+                    "    WHERE id_room = '"+map.get("id_room")+"'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -281,6 +303,8 @@ public class ClientHandler implements Runnable {
         }
         return sb;
     }
+
+
 
 
 
