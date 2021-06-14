@@ -9,12 +9,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+import static client.Client.getSend;
+import static client.Client.map;
+
 public class GestionRoom extends JPanel implements MouseListener {
+    public boolean roomselected;
 
     public GestionRoom() {
         setPreferredSize(new Dimension(750, 750));
         this.addMouseListener(this);
     }
+
 
     public void paint(Graphics g) {
         URL imgURL = Thread.currentThread().getContextClassLoader().getResource("salle de conférence.jpg");
@@ -22,18 +27,50 @@ public class GestionRoom extends JPanel implements MouseListener {
         try {
             currentEquipment = ImageIO.read(imgURL);
             g.drawImage(currentEquipment, 0, 0, 750, 750, null);
-            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-            currentEquipment = ImageIO.read(imgURL);
-            g.drawImage(currentEquipment, 625, 220, 50, 50, null); /*fenetre*/
-            g.drawImage(currentEquipment, 236, 189, 50, 50, null); /*capteur*/
-            g.drawImage(currentEquipment, 557, 560, 50, 50, null); /*prise*/
-            g.drawImage(currentEquipment, 111, 430, 50, 50, null); /*écran*/
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if (roomselected) {
+            drawPositions();
+            revalidate();
+
+        }
     }
+
+
+    public void drawPositions() {
+        URL imgURL;
+        BufferedImage currentEquipment;
+
+        try {
+            String id_room = WindowsMapping.getId_room();
+            map.get("requestScreenIsEmpty").put("id_room", id_room);
+            String responseScreenIsEmpty = getSend("requestScreenIsEmpty");
+            String[] answers = responseScreenIsEmpty.split("@");
+            for (String b : answers) {
+                if (b.contains("@")) {
+                    b.replace("@", "");
+                }
+                System.out.println(b);
+            }
+            if (!answers[0].contains("t")) {
+                imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+            } else {
+                imgURL = Thread.currentThread().getContextClassLoader().getResource("écran.jpg");
+            }
+            currentEquipment = ImageIO.read(imgURL);
+            getGraphics().drawImage(currentEquipment, 111, 430, 50, 50, null);
+            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+            currentEquipment = ImageIO.read(imgURL);
+            getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null); //*fenetre*//*
+            getGraphics().drawImage(currentEquipment, 236, 189, 50, 50, null); //*capteur*//*
+            getGraphics().drawImage(currentEquipment, 557, 560, 50, 50, null);  //prise
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -97,15 +134,67 @@ public class GestionRoom extends JPanel implements MouseListener {
         URL mapUrl3 = Thread.currentThread().getContextClassLoader().getResource("écran.jpg");
         if (e.getX() >= 111 & e.getX() <= 161 & e.getY() >= 430 & e.getY() <= 480) {
 
-            int reponseScreen = JOptionPane.showConfirmDialog(null, "Emplacement écran. Voulez vous continuer?");
+            String id_room = WindowsMapping.getId_room();
 
-            if (reponseScreen == JOptionPane.YES_OPTION) {
+            map.get("requestScreenIsEmpty").put("id_room", id_room);
+            String responseScreenIsEmpty = getSend("requestScreenIsEmpty");
+            String[] answers = responseScreenIsEmpty.split("@");
+            for (String b : answers) {
+                if (b.contains("@")) {
+                    b.replace("@", "");
+                }
+                System.out.println(b);
+            }
 
-                try {
-                    currentEquipment = ImageIO.read(mapUrl3);
-                    getGraphics().drawImage(currentEquipment, 111, 430, 50, 50, null);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+            if (!answers[0].contains("t")) {
+                int responseScreen = JOptionPane.showConfirmDialog(null, " Voulez vous placer un écran?");
+                if (responseScreen == JOptionPane.YES_OPTION) {
+
+
+                    String valueChoose = "1";
+                    map.get("requestUpdate").put("value", valueChoose);
+                    map.get("requestUpdate").put("id_room", id_room);
+                    String responseUpdate = getSend("requestUpdate");
+                    answers = responseUpdate.split("@");
+                    for (String b : answers) {
+                        if (b.contains("@")) {
+                            b.replace("@", "");
+                        }
+                        System.out.println(b);
+                    }
+
+                    try {
+                        currentEquipment = ImageIO.read(mapUrl);
+                        getGraphics().drawImage(currentEquipment, 111, 430, 50, 50, null);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            } else {
+                int responseScreen = JOptionPane.showConfirmDialog(null, " Voulez vous supprimer un écran?");
+                if (responseScreen == JOptionPane.YES_OPTION) {
+
+
+                    String valueChoose = "0";
+                    map.get("requestUpdate").put("value", valueChoose);
+                    map.get("requestUpdate").put("id_room", id_room);
+                    String responseUpdate = getSend("requestUpdate");
+                    answers = responseUpdate.split("@");
+                    for (String b : answers) {
+                        if (b.contains("@")) {
+                            b.replace("@", "");
+                        }
+                        System.out.println(b);
+                    }
+
+                    try {
+                        URL imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+                        currentEquipment = ImageIO.read(imgURL);
+                        getGraphics().clearRect(111, 430, 50, 50);
+                        getGraphics().drawImage(currentEquipment, 111, 430, 50, 50, null);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
             }
 

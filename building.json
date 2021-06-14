@@ -49,12 +49,19 @@
     "id_room": "",
     "value": ""
   },
+  "requestUpdatePrise" : {
+    "id_room": "",
+    "value": ""
+  },
 
   "requestGetIdRoom" : {
     "name_room": ""
   },
 
   "requestScreenIsEmpty" : {
+    "id_room" : ""
+  },
+  "requestPriseIsEmpty" : {
     "id_room" : ""
   }
 }

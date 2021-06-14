@@ -13,7 +13,8 @@ import static client.Client.getSend;
 import static client.Client.map;
 
 public class Gestion extends JPanel implements MouseListener {
-    public boolean roomselected;
+    public boolean roomScreenSelected;
+    public boolean roomPriseSelected;
     public Gestion() {
         setPreferredSize(new Dimension(750, 750));
         this.addMouseListener(this);
@@ -29,8 +30,12 @@ public class Gestion extends JPanel implements MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (roomselected) {
-            drawPositions();
+        if (roomScreenSelected) {
+           drawPositions();
+            revalidate();
+        }
+        if (roomPriseSelected) {
+            drawPrisePosition();
             revalidate();
         }
 
@@ -40,7 +45,9 @@ public class Gestion extends JPanel implements MouseListener {
         URL imgURL;
         BufferedImage currentEquipment;
         try {
+
             String id_room = WindowsMapping.getId_room();
+
             map.get("requestScreenIsEmpty").put("id_room", id_room);
             String responseScreenIsEmpty = getSend("requestScreenIsEmpty");
             String[] answers = responseScreenIsEmpty.split("@");
@@ -50,6 +57,7 @@ public class Gestion extends JPanel implements MouseListener {
                 }
                 System.out.println(b);
             }
+
             if (!answers[0].contains("t")) {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
             } else {
@@ -57,14 +65,53 @@ public class Gestion extends JPanel implements MouseListener {
             }
             currentEquipment = ImageIO.read(imgURL);
             getGraphics().drawImage(currentEquipment, 195, 460, 50, 50, null);
+
             imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
             currentEquipment = ImageIO.read(imgURL);
-            getGraphics().drawImage(currentEquipment, 533, 201, 50, 50, null);
+
             getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
             getGraphics().drawImage(currentEquipment, 99, 377, 50, 50, null);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void drawPrisePosition () {
+        URL imgURL;
+        BufferedImage currentEquipment;
+
+        try {
+            String id_room = WindowsMapping.getId_room();
+            map.get("requestPriseIsEmpty").put("id_room", id_room);
+            String responsePriseIsEmpty = getSend("requestPriseIsEmpty");
+            String[] answers = responsePriseIsEmpty.split("@");
+            for (String b : answers) {
+                if (b.contains("@")) {
+                    b.replace("@", "");
+                }
+                System.out.println(b);
+            }
+            if (!answers[0].contains("t")) {
+                imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+            } else {
+                imgURL = Thread.currentThread().getContextClassLoader().getResource("prise.jpg");
+            }
+            currentEquipment = ImageIO.read(imgURL);
+            getGraphics().drawImage(currentEquipment, 533, 201, 50, 50, null);
+
+            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+            currentEquipment = ImageIO.read(imgURL);
+
+            getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
+            getGraphics().drawImage(currentEquipment, 99, 377, 50, 50, null);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
@@ -152,15 +199,67 @@ public class Gestion extends JPanel implements MouseListener {
         URL mapUrl2 = Thread.currentThread().getContextClassLoader().getResource("prise.jpg");
         if (e.getX() >= 533 & e.getX() <= 583 & e.getY() >= 201 & e.getY() <= 251) {
 
-            int reponsePrise = JOptionPane.showConfirmDialog(null, "Emplacement prise. Voulez vous continuer?");
+            String id_room = WindowsMapping.getId_room();
 
-            if (reponsePrise == JOptionPane.YES_OPTION) {
+            map.get("requestPriseIsEmpty").put("id_room", id_room);
+            String responsePriseIsEmpty = getSend("requestPriseIsEmpty");
+            String[] answers = responsePriseIsEmpty.split("@");
+            for (String b : answers) {
+                if (b.contains("@")) {
+                    b.replace("@", "");
+                }
+                System.out.println(b);
+            }
 
-                try {
-                    currentEquipment = ImageIO.read(mapUrl2);
-                    getGraphics().drawImage(currentEquipment, 533, 201, 50, 50, null);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+            if (!answers[0].contains("t")) {
+                int responsePrise = JOptionPane.showConfirmDialog(null, " Voulez vous placer une prise?");
+                if (responsePrise == JOptionPane.YES_OPTION) {
+
+
+                    String valueChoose = "1";
+                    map.get("requestUpdatePrise").put("value", valueChoose);
+                    map.get("requestUpdatePrise").put("id_room", id_room);
+                    String responseUpdate = getSend("requestUpdatePrise");
+                    answers = responseUpdate.split("@");
+                    for (String b : answers) {
+                        if (b.contains("@")) {
+                            b.replace("@", "");
+                        }
+                        System.out.println(b);
+                    }
+
+                    try {
+                        currentEquipment = ImageIO.read(mapUrl2);
+                        getGraphics().drawImage(currentEquipment, 533, 201, 50, 50, null);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            } else {
+                int responseScreen = JOptionPane.showConfirmDialog(null, " Voulez vous supprimer une prise?");
+                if (responseScreen == JOptionPane.YES_OPTION) {
+
+
+                    String valueChoose = "0";
+                    map.get("requestUpdatePrise").put("value", valueChoose);
+                    map.get("requestUpdatePrise").put("id_room", id_room);
+                    String responseUpdate = getSend("requestUpdatePrise");
+                    answers = responseUpdate.split("@");
+                    for (String b : answers) {
+                        if (b.contains("@")) {
+                            b.replace("@", "");
+                        }
+                        System.out.println(b);
+                    }
+
+                    try {
+                        URL imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+                        currentEquipment = ImageIO.read(imgURL);
+                        getGraphics().clearRect(533, 201, 50, 50);
+                        getGraphics().drawImage(currentEquipment, 533, 201, 50, 50, null);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
             }
 

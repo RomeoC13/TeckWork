@@ -89,6 +89,15 @@ public class ClientHandler implements Runnable {
                 ds.writeUTF(requestScreenIsEmpty(connection, map).toString());
             }
 
+            if (request.split("@")[0].equals("requestUpdatePrise")) {
+                ds.writeUTF(requestUpdatePrise(connection, map).toString());
+            }
+
+            if (request.split("@")[0].equals("requestPriseIsEmpty")) {
+                ds.writeUTF(requestPriseIsEmpty(connection, map).toString());
+            }
+
+
 
 
 
@@ -304,8 +313,44 @@ public class ClientHandler implements Runnable {
         return sb;
     }
 
+    public StringBuilder requestUpdatePrise (Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "UPDATE room set position_plug = '"+map.get("value")+"'"+"WHERE id_room = "+map.get("id_room")+"";
+
+            connection.createStatement().executeUpdate(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            sb.append("Update done");
 
 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder requestPriseIsEmpty (Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "SELECT position_plug FROM room" +
+                    "    WHERE id_room = '"+map.get("id_room")+"'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
 
 
 }

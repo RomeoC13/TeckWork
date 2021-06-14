@@ -47,6 +47,11 @@ public class WindowsMapping extends JFrame {
         JPanel panels = new JPanel();
         panels.setLayout(cardLayout);
 
+        panelBureau = new Gestion();
+        panelRoom = new GestionRoom();
+        panels.add(panelBureau, "panelBureau");
+        panels.add(panelRoom, "panelRoom");
+
         this.company_name = company_name;
         // listB = new JComboBox<>();
         listFloor = new JComboBox<>();
@@ -167,18 +172,20 @@ public class WindowsMapping extends JFrame {
                     System.out.println(b);
                 }
                 id_room = answersIdRoom[0];
-                panelBureau = new Gestion();
-                panelRoom = new GestionRoom();
-                panels.add(panelBureau, "panelBureau");
-                panels.add(panelRoom, "panelRoom");
+
+
                 getContentPane().add(panels);
                 if (roomValue.contains("Bureaux")) {
-                    panelBureau.roomselected = true;
+                    panelBureau.roomScreenSelected = true;
+                    panelBureau.roomPriseSelected = true;
                     panelBureau.revalidate();
                     cardLayout.show(panels, "panelBureau");
                     frame.repaint();
                 }
                 if (roomValue.contains("Salle de conférence")) {
+
+                    panelRoom.roomselected = true;
+                    panelRoom.revalidate();
                     cardLayout.show(panels, "panelRoom");
                     frame.repaint();
                 }
