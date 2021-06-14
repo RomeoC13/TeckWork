@@ -161,7 +161,12 @@ public class ClientHandler implements Runnable {
         StringBuilder sb = null;
 
         try {
-            String sql = "SELECT name_room FROM room INNER JOIN floor ON room.id_floor = floor.id_floor WHERE name_floor = '" + map.get("name_floor") + "'";
+            String sql = "SELECT name_room FROM company INNER JOIN LOCATION ON company.company_id = location.company_id " +
+                    "INNER JOIN room ON room.id_location = location.id_location INNER JOIN floor ON floor.id_floor = room.id_floor " +
+                    "INNER JOIN building ON building.id_building = floor.id_building WHERE company.company_name = '" + map.get("company_name") +
+                    "' AND floor.name_floor = '" + map.get("floor_name") +
+                    "' AND building.building_name = '" + map.get("building_name") + "'";
+
 
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
