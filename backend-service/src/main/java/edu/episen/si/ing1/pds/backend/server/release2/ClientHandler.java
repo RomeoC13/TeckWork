@@ -267,9 +267,7 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "UPDATE room" +
-                    "set position_screen = "+map.get("value")+"" +
-                    "WHERE id_location = "+map.get("id_room")+"" ;
+            String sql = "UPDATE room set position_screen = '"+map.get("value")+"'"+"WHERE id_room = "+map.get("id_room")+"";
 
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
