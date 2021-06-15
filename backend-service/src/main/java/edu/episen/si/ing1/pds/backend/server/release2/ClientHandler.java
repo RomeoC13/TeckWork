@@ -370,7 +370,7 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "UPDATE room set position_plug = '"+map.get("value")+"'"+"WHERE id_room = "+map.get("id_room")+"";
+            String sql = "UPDATE room set position_sensor = '"+map.get("value")+"'"+"WHERE id_room = "+map.get("id_room")+"";
 
             connection.createStatement().executeUpdate(sql);
             System.out.println(sql);
@@ -389,7 +389,7 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "SELECT position_plug FROM room" +
+            String sql = "SELECT position_sensor FROM room" +
                     "    WHERE id_room = '"+map.get("id_room")+"'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
