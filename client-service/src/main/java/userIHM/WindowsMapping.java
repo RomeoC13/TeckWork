@@ -186,6 +186,7 @@ public class WindowsMapping extends JFrame {
                 if (roomValue.contains("Salle de conférence")) {
                     panelRoom.roomselected = true;
                     panelRoom.roomPriseSelected = true;
+                    panelRoom.roomSensorSelected = true;
                     panelRoom.revalidate();
                     cardLayout.show(panels, "panelRoom");
                     frame.repaint();
