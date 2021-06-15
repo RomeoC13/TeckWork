@@ -53,6 +53,10 @@
     "id_room": "",
     "value": ""
   },
+  "requestUpdateSensor" : {
+    "id_room": "",
+    "value": ""
+  },
 
   "requestGetIdRoom" : {
     "name_room": ""
@@ -62,6 +66,10 @@
     "id_room" : ""
   },
   "requestPriseIsEmpty" : {
+    "id_room" : ""
+  },
+
+  "requestSensorIsEmpty" : {
     "id_room" : ""
   }
 }
