@@ -24,23 +24,21 @@ import static client.Client.*;
 
 //import static userIHM.Request.getEquipment;
 
-public class WindowsMapping extends JFrame implements ActionListener {
+public class WindowsMapping extends JFrame {
     JPanel panel = new JPanel();
     Gestion panelBureau;
     GestionRoom panelRoom;
-
-    JButton button1 = new JButton("Batiment");
-    JButton button2 = new JButton("Equipements");
-    JButton button5 = new JButton("Etage");
-    JButton button3 = new JButton("Visualiser carte");
-
 
     public static JComboBox<String> listBuiling;
     private JComboBox<String> listRoom;
     private JComboBox<String> listFloor;
     private Socket socket;
     private String company_name;
+    public static String id_room;
 
+    public static String getId_room() {
+        return id_room;
+    }
 
     public WindowsMapping(String company_name) {
         Frame frame = this;
@@ -51,21 +49,16 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
         panelBureau = new Gestion();
         panelRoom = new GestionRoom();
-
-
         panels.add(panelBureau, "panelBureau");
         panels.add(panelRoom, "panelRoom");
-        getContentPane().add(panels);
-
 
         this.company_name = company_name;
         // listB = new JComboBox<>();
         listFloor = new JComboBox<>();
         listRoom = new JComboBox<>();
 
-
         this.setTitle("Bienvenue à l'affichage");
-        this.setSize(1000, 1000);
+        this.setSize(800, 800);
         //this.setResizable(false);
         getContentPane().setBackground(Color.white);
         panel.setBackground(Color.BLUE);
@@ -89,7 +82,6 @@ public class WindowsMapping extends JFrame implements ActionListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 String str = (String) listBuiling.getSelectedItem();
                 // System.out.println(str);
                 map.get("request_id_building").put("name_building", str);
@@ -111,7 +103,6 @@ public class WindowsMapping extends JFrame implements ActionListener {
                     }
                     //  System.out.println(b);
                 }
-
                 for (String elem : floor) {
                     listFloor.addItem(elem);
                 }
@@ -119,11 +110,9 @@ public class WindowsMapping extends JFrame implements ActionListener {
         });
 
         listBuiling.setBounds(1000, 1000, 20000, 1000);
-        listBuiling.addActionListener(this);
         listBuiling.setSize(200, 200);
         panel.add(j);
         panel.add(listBuiling);
-
 
         JLabel j3 = new JLabel("          Etage            ");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
@@ -137,20 +126,6 @@ public class WindowsMapping extends JFrame implements ActionListener {
                 System.out.println("Je suis l'étage");
                 String floorvalue = (String) e.getItem();
                 String buildingvalue = (String) listBuiling.getSelectedItem();
-                //System.out.println(floorvalue + "wesh");
-                /*map.get("request_id_floor").put("name_floor", str);
-                String response = getSend("request_id_floor");
-                System.out.println(response);
-
-                String[] idfloor = response.split("@");
-                for (String b : idfloor) {
-                    if (b.contains("@")) {
-                        b.replace("@", "");
-                    }
-                   // System.out.println(b);
-                }
-                System.out.println(idfloor[0] + " variable");
-                System.out.println(" ça passe ici");*/
                 map.get("requestRoom").put("company_name", company_name);
                 map.get("requestRoom").put("floor_name", floorvalue);
                 map.get("requestRoom").put("building_name", buildingvalue);
@@ -176,7 +151,6 @@ public class WindowsMapping extends JFrame implements ActionListener {
         JLabel j1 = new JLabel("Choix de la salle");
         j.setFont(new Font("TimesRoman", Font.BOLD, 14));
 
-
         listRoom.setBounds(1000, 1000, 20000, 1000);
         listRoom.setSize(200, 200);
         panel.add(j1);
@@ -186,36 +160,44 @@ public class WindowsMapping extends JFrame implements ActionListener {
             public void itemStateChanged(ItemEvent e) {
                 String roomValue = (String) e.getItem();
                 System.out.println(e.getItem());
+                String name_room = (String) listRoom.getSelectedItem();
+
+                map.get("requestGetIdRoom").put("name_room", name_room);
+                String responseGetIdRoom = getSend("requestGetIdRoom");
+                String[] answersIdRoom = responseGetIdRoom.split("@");
+                for (String b : answersIdRoom) {
+                    if (b.contains("@")) {
+                        b.replace("@", "");
+                    }
+                    System.out.println(b);
+                }
+                id_room = answersIdRoom[0];
 
 
-                if (roomValue.contains("Bureaux ")) {
+                getContentPane().add(panels);
+                if (roomValue.contains("Bureaux")) {
+                    panelBureau.roomScreenSelected = true;
+                    panelBureau.roomPriseSelected = true;
+                    panelBureau.roomSensorSelected = true;
+                    panelBureau.revalidate();
                     cardLayout.show(panels, "panelBureau");
                     frame.repaint();
                 }
-
                 if (roomValue.contains("Salle de conférence")) {
+                    panelRoom.roomselected = true;
+                    panelRoom.roomPriseSelected = true;
+                    panelRoom.roomSensorSelected = true;
+                    panelRoom.revalidate();
                     cardLayout.show(panels, "panelRoom");
                     frame.repaint();
                 }
-
 
             }
         });
 
         getContentPane().add(panel, BorderLayout.WEST);
-        // this.getContentPane().add(panelBureau, BorderLayout.CENTER);
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-
-
-    }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-
     }
 }
 

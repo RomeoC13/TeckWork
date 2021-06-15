@@ -38,7 +38,7 @@ public class Home {
 
         myFrame.setVisible(true);
         myFrame.setTitle("page d'accueil");
-        myFrame.setSize(500, 300);
+        myFrame.setSize(700, 400);
         myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         myFrame.setLocationRelativeTo(null);
 
@@ -59,43 +59,13 @@ public class Home {
         }
 
         comboboxCompany = new JComboBox(company);
-		/*comboboxCompany.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				String strCompany = (String) comboboxCompany.getSelectedItem();
-				System.out.println("combobox = " +strCompany);
-				System.out.println(strCompany + " regarde");
-				map.get("request_get_company").put("name_company", strCompany);
-				String responseCompany = getSend("request_get_company");
-
-				String[] idCompany = responseCompany.split("@");
-				System.out.println(responseCompany);
-				System.out.println(idCompany +" yesyes");
-				for (String b : idCompany) {
-					if (b.contains("@")) {
-						b.replace("@", "");
-					}
-					System.out.println(b);
-
-				}
-				listBuiling.removeAllItems();
-
-
-
-				for (String elem : idCompany) {
-					listBuiling.addItem(elem);
-				}
-			}
-
-		});*/
-
 
         comboboxCompany.setPreferredSize(new Dimension(70, 70));
 
         contentPane.add(topOptionPanel());
         contentPane.add(comboboxCompany);
         contentPane.add(southOptionPanel());
+        contentPane.revalidate();
 
     }
 
