@@ -19,8 +19,8 @@ import static java.lang.Thread.sleep;
 
 public class Client {
     private final static Logger log = LoggerFactory.getLogger(Client.class.getName());
-    //private final static String configur = "Configuration";
-    private static final String configvar = "JSONCONF";
+    private final static String configur = "CONFJSON";
+
     private static String configurations;
     private ClientProperties config;
 
@@ -31,22 +31,13 @@ public class Client {
     public static void main(String[] args) {
 
         try {
-
-            configurations = System.getenv(configvar);
-            String values = Files.readString(Path.of(configurations));
-           // System.out.println(values);
-
-
             ObjectMapper jmapper = new ObjectMapper(new JsonFactory());
-
-            map = jmapper.readValue(values,
-                    new TypeReference<Map<String, Map<String, String>>>() {
-                    });
-
-
+            configurations = System.getenv(configur);
+            String values = Files.readString(Path.of(configurations));
+            map = jmapper.readValue(values, new TypeReference<Map<String, Map<String, String>>>(){});
             sleep(1000);
 
-            new Home();
+            Home h = new Home();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,6 +53,7 @@ public class Client {
         String answer = null;
 
         try {
+
             Socket socket = new Socket(new ClientConfiguration().getConfig().getAdressIP(), new ClientConfiguration().getConfig().getPort());
             InputStream in = socket.getInputStream();
             OutputStream out = socket.getOutputStream();
@@ -75,7 +67,7 @@ public class Client {
             //System.out.println(data);
             outputData.writeUTF(request + "@" + data);
             answer = inputData.readUTF();
-           // System.out.println(answer);
+            log.info(answer);
 
 
         } catch (IOException e) {

@@ -23,10 +23,10 @@ import ui.indicator.Indicator;
 import userIHM.WindowsMapping;
 
 public class Side_Menu extends JPanel {
-    private final JButton home = new JButton("Home");
-    private final JButton card = new JButton("Card");
+    private final JButton home = new JButton("Accueil");
+    private final JButton card = new JButton("Carte");
     private final JButton mapping = new JButton("Mapping");
-    private final JButton indicator = new JButton("Indicator");
+    private final JButton indicator = new JButton("Indicateur");
     private final JLabel companyLabel = new JLabel();
     private final JSeparator separator = new JSeparator();
     private final JPanel panel = new JPanel();
