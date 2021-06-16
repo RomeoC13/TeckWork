@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ClientConfiguration {
-    private final String configvar = "CONF";
+    private final String configvar = "CONFCLIENT";
     private final String configlocation;
     private ClientProperties config;
 

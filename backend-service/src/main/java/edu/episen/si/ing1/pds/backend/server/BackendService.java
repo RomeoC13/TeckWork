@@ -68,54 +68,57 @@ public class BackendService {
 				.build();
 
 		options.addOption(sqlReq);
+		
+		
+		
 
-		CommandLineParser parser = new DefaultParser();
-		CommandLine cmd = null;
-		try {
-			cmd = parser.parse(options, args);
-		} catch (ParseException e) {
-			logger.error("Options parser error : " + e.getMessage());
-		}
-
-		String loggerInfo = "BackendService is running.";
-		if (cmd.hasOption("testMode")) {
-			isInTestMode = true;
-			loggerInfo += "\n Test mode is on";
-		}
-		if (cmd.hasOption("maxConnections")) {
-			maxCo = Integer.parseInt(cmd.getOptionValue("maxConnections"));
-			loggerInfo += "\n Max connections has been set to " + maxCo;
-
-		}
-		if(!yamlProps.getSqlReq().isEmpty()){
-			executeSqlRequest(ds,yamlProps.getSqlReq());
-		}
-
-		if(cmd.hasOption("sqlReq")){
-			String request =cmd.getOptionValue("sqlReq");
-			Connection con = ds.addData();;
-			//logger.info(request);
-			try(Statement stm= con.createStatement(); ResultSet result = stm.executeQuery(request)){
-				stm.execute(request);
-				ResultSetMetaData rsmd = result.getMetaData();
-				int columnsNumber = rsmd.getColumnCount();
-				while(result.next()){
-					for(int i = 1; i <= columnsNumber; i++) {
-						if (i < columnsNumber) {
-							logger.info(result.getString(i));
-						} else {
-							logger.info(result.getString(i) + " / ");
-						}
-					}
-				}
-			} catch (Exception e){
-				logger.error("Error with executing to db : " +e.getMessage());
-			}
-			finally {
-				ds.removeData(con);
-			}
-		}
-		logger.info(loggerInfo);
+//		CommandLineParser parser = new DefaultParser();
+//		CommandLine cmd = null;
+//		try {
+//			cmd = parser.parse(options, args);
+//		} catch (ParseException e) {
+//			logger.error("Options parser error : " + e.getMessage());
+//		}
+//
+//		String loggerInfo = "BackendService is running.";
+//		if (cmd.hasOption("testMode")) {
+//			isInTestMode = true;
+//			loggerInfo += "\n Test mode is on";
+//		}
+//		if (cmd.hasOption("maxConnections")) {
+//			maxCo = Integer.parseInt(cmd.getOptionValue("maxConnections"));
+//			loggerInfo += "\n Max connections has been set to " + maxCo;
+//
+//		}
+//		if(!yamlProps.getSqlReq().isEmpty()){
+//			executeSqlRequest(ds,yamlProps.getSqlReq());
+//		}
+//
+//		if(cmd.hasOption("sqlReq")){
+//			String request =cmd.getOptionValue("sqlReq");
+//			Connection con = ds.addData();;
+//			//logger.info(request);
+//			try(Statement stm= con.createStatement(); ResultSet result = stm.executeQuery(request)){
+//				stm.execute(request);
+//				ResultSetMetaData rsmd = result.getMetaData();
+//				int columnsNumber = rsmd.getColumnCount();
+//				while(result.next()){
+//					for(int i = 1; i <= columnsNumber; i++) {
+//						if (i < columnsNumber) {
+//							logger.info(result.getString(i));
+//						} else {
+//							logger.info(result.getString(i) + " / ");
+//						}
+//					}
+//				}
+//			} catch (Exception e){
+//				logger.error("Error with executing to db : " +e.getMessage());
+//			}
+//			finally {
+//				ds.removeData(con);
+//			}
+//		}
+//		logger.info(loggerInfo);
 
 	}
 

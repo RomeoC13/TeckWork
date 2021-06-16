@@ -21,7 +21,7 @@ public class Server {
             Properties props = new Properties();
             props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties"));
             this.ds = new DataSource(c.getN(), props);
-            
+
             log.debug("Server starting...");
         } catch (IOException e) {
             e.printStackTrace();
