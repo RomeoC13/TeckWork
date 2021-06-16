@@ -179,6 +179,7 @@ public class WindowsMapping extends JFrame {
                     panelBureau.roomScreenSelected = true;
                     panelBureau.roomPriseSelected = true;
                     panelBureau.roomSensorSelected = true;
+                    panelBureau.roomWindowsSelected = true;
                     panelBureau.revalidate();
                     cardLayout.show(panels, "panelBureau");
                     frame.repaint();
@@ -187,6 +188,7 @@ public class WindowsMapping extends JFrame {
                     panelRoom.roomselected = true;
                     panelRoom.roomPriseSelected = true;
                     panelRoom.roomSensorSelected = true;
+                    panelRoom.roomWindowsSelected = true;
                     panelRoom.revalidate();
                     cardLayout.show(panels, "panelRoom");
                     frame.repaint();

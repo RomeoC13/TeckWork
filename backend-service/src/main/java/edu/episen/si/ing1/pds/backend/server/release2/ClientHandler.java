@@ -105,13 +105,13 @@ public class ClientHandler implements Runnable {
                 ds.writeUTF(requestSensorIsEmpty(connection, map).toString());
             }
 
+            if (request.split("@")[0].equals("requestUpdateWindows")) {
+                ds.writeUTF(requestUpdateWindows(connection, map).toString());
+            }
 
-
-
-
-
-
-
+            if (request.split("@")[0].equals("requestWindowsIsEmpty")) {
+                ds.writeUTF(requestWindowsIsEmpty(connection, map).toString());
+            }
 
 
         } catch (Exception e) {
@@ -250,7 +250,7 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "SELECT DISTINCT building_name FROM company INNER JOIN location ON company.company_id = location.company_id INNER JOIN room ON location.id_location = room.id_location INNER JOIN floor ON floor.id_floor = room.id_floor INNER JOIN building ON building.id_building = floor.id_building WHERE company.company_name = '"+map.get("company_name")+"'";
+            String sql = "SELECT DISTINCT building_name FROM company INNER JOIN location ON company.company_id = location.company_id INNER JOIN room ON location.id_location = room.id_location INNER JOIN floor ON floor.id_floor = room.id_floor INNER JOIN building ON building.id_building = floor.id_building WHERE company.company_name = '" + map.get("company_name") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -273,7 +273,7 @@ public class ClientHandler implements Runnable {
                     "ON company.company_id = location.company_id INNER JOIN room " +
                     "ON room.id_location = location.id_location INNER JOIN floor " +
                     "ON floor.id_floor = room.id_floor INNER JOIN building " +
-                    "ON building.id_building = floor.id_building WHERE room.name_room = '"+map.get("name_room")+"'";
+                    "ON building.id_building = floor.id_building WHERE room.name_room = '" + map.get("name_room") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -287,12 +287,12 @@ public class ClientHandler implements Runnable {
         return sb;
     }
 
-    public StringBuilder requestUpdate (Connection connection, Map<String, String> map) {
+    public StringBuilder requestUpdate(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
 
         try {
 
-            String sql = "UPDATE room set position_screen = '"+map.get("value")+"'"+"WHERE id_room = "+map.get("id_room")+"";
+            String sql = "UPDATE room set position_screen = '" + map.get("value") + "'" + "WHERE id_room = " + map.get("id_room") + "";
 
             connection.createStatement().executeUpdate(sql);
             System.out.println(sql);
@@ -312,7 +312,7 @@ public class ClientHandler implements Runnable {
         try {
 
             String sql = "SELECT position_screen FROM room" +
-                    "    WHERE id_room = '"+map.get("id_room")+"'";
+                    "    WHERE id_room = '" + map.get("id_room") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -326,12 +326,12 @@ public class ClientHandler implements Runnable {
         return sb;
     }
 
-    public StringBuilder requestUpdatePrise (Connection connection, Map<String, String> map) {
+    public StringBuilder requestUpdatePrise(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
 
         try {
 
-            String sql = "UPDATE room set position_plug = '"+map.get("value")+"'"+"WHERE id_room = "+map.get("id_room")+"";
+            String sql = "UPDATE room set position_plug = '" + map.get("value") + "'" + "WHERE id_room = " + map.get("id_room") + "";
 
             connection.createStatement().executeUpdate(sql);
             System.out.println(sql);
@@ -345,13 +345,13 @@ public class ClientHandler implements Runnable {
         return sb;
     }
 
-    public StringBuilder requestPriseIsEmpty (Connection connection, Map<String, String> map) {
+    public StringBuilder requestPriseIsEmpty(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
 
         try {
 
             String sql = "SELECT position_plug FROM room" +
-                    "    WHERE id_room = '"+map.get("id_room")+"'";
+                    "    WHERE id_room = '" + map.get("id_room") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -365,12 +365,12 @@ public class ClientHandler implements Runnable {
         return sb;
     }
 
-    public StringBuilder requestUpdateSensor (Connection connection, Map<String, String> map) {
+    public StringBuilder requestUpdateSensor(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
 
         try {
 
-            String sql = "UPDATE room set position_sensor = '"+map.get("value")+"'"+"WHERE id_room = "+map.get("id_room")+"";
+            String sql = "UPDATE room set position_sensor = '" + map.get("value") + "'" + "WHERE id_room = " + map.get("id_room") + "";
 
             connection.createStatement().executeUpdate(sql);
             System.out.println(sql);
@@ -384,13 +384,52 @@ public class ClientHandler implements Runnable {
         return sb;
     }
 
-    public StringBuilder requestSensorIsEmpty (Connection connection, Map<String, String> map) {
+    public StringBuilder requestSensorIsEmpty(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
 
         try {
 
             String sql = "SELECT position_sensor FROM room" +
-                    "    WHERE id_room = '"+map.get("id_room")+"'";
+                    "    WHERE id_room = '" + map.get("id_room") + "'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                sb.append(rs.getString(1) + "@");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder requestUpdateWindows(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "UPDATE room set position_windows = '" + map.get("value") + "'" + "WHERE id_room = " + map.get("id_room") + "";
+
+            connection.createStatement().executeUpdate(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            sb.append("Update done");
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder requestWindowsIsEmpty(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+
+        try {
+
+            String sql = "SELECT position_windows FROM room" +
+                    "    WHERE id_room = '" + map.get("id_room") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();

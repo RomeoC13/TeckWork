@@ -57,6 +57,10 @@
     "id_room": "",
     "value": ""
   },
+  "requestUpdateWindows" : {
+    "id_room": "",
+    "value": ""
+  },
 
   "requestGetIdRoom" : {
     "name_room": ""
@@ -70,6 +74,9 @@
   },
 
   "requestSensorIsEmpty" : {
+    "id_room" : ""
+  },
+  "requestWindowsIsEmpty" : {
     "id_room" : ""
   }
 }
