@@ -6,6 +6,8 @@ import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import client.Client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ui.Side_Menu;
 import ui.WindowsMenu;
 
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Indicator extends JFrame {
-	
+	private final Logger log = LoggerFactory.getLogger(Indicator.class.getName());
 	JTextField occupationField = new JTextField();
 	JTextField itemsField =  new JTextField();
 	JTextField equipmentField = new JTextField();
@@ -60,28 +62,22 @@ public class Indicator extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String request1 = Client.getSend("rateOccupation");
-				String response1 = request1.toString();
-				occupationField.setText(response1);
+				occupationField.setText(request1);
 
 				String request2 = Client.getSend("connectedObject");
-				String response2 = request2.toString();
-				itemsField.setText(response2);
+				itemsField.setText(request2);
 
 				String request3 = Client.getSend("AllEquipment");
-				String response3= request3.toString();
-				equipmentField.setText(response3);
+				equipmentField.setText(request3);
 
 				String request4 = Client.getSend("allSensor");
-				String response4 = request4.toString();
-				equipmentField.setText(response4);
+				equipmentField.setText(request4);
 
 				String request5 = Client.getSend("AllCompany");
-				String response5 = request1.toString();
-				companyField.setText(response5);
+				companyField.setText(request5);
 
 				String request6 = Client.getSend("energyConsommation");
-				String response6  = request6.toString();
-				equipmentField.setText(response6);
+				equipmentField.setText(request6);
 
 			}
 		});
@@ -97,34 +93,99 @@ public class Indicator extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JPanel pan  = new JPanel(new BorderLayout());
-				JComboBox jComboBox = new JComboBox();
-				String request = Client.getSend("comboxNameCompany");
-
-				List<String> entreprise = new ArrayList<>();
-					entreprise.add(request.toString());
-				jComboBox.addItem(entreprise);
+				String request = Client.getSend("requestCompany");
+				List test = List.of(request.split("@"));
+				JTextField text = new JTextField();
+				JComboBox comboBox = new JComboBox();
+				comboBox.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String item = comboBox.getSelectedItem().toString();
+						text.setText(item);
+					}
+				});
+				for(Object o: test)
+					comboBox.addItem(o);
 				pan.add(new JLabel("Veuillez entrer le nom d'une entreprise"), BorderLayout.NORTH);
-				pan.add(jComboBox, BorderLayout.SOUTH);
+				pan.add(comboBox, BorderLayout.SOUTH);
 
-				pan.add(new JTextField(), BorderLayout.CENTER);
+				pan.add(text, BorderLayout.CENTER);
 
-                JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
+                int response = JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
+				if(response == JOptionPane.OK_OPTION){
+					companyField.setText("ok");
+					String request1 = Client.getSend("rateOccupation");
+					occupationField.setText(request1);
 
-				
+					String request2 = Client.getSend("connectedObject");
+					itemsField.setText(request2);
+
+					String request3 = Client.getSend("AllEquipment");
+					equipmentField.setText(request3);
+
+					String request4 = Client.getSend("allSensor");
+					equipmentField.setText(request4);
+
+					String request5 = Client.getSend("AllCompany");
+					companyField.setText(request5);
+
+					String request6 = Client.getSend("energyConsommation");
+					equipmentField.setText(request6);
+				}else {
+					companyField.setText("cancel");
+				}
 			}
+				
+
 		});
 		topPanel.add(infoByCompany);
 		JButton infoByBuilding = new JButton("indicateur par batiments");
 		infoByBuilding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JPanel pan  = new JPanel(new BorderLayout());
-				pan.add(new JLabel("Veuillez entrer le nom du batiments"), BorderLayout.NORTH);
-			//	pan.add(new JButton("valider"),BorderLayout.SOUTH);
-				pan.add(new JTextField(), BorderLayout.CENTER);
+				JPanel pan = new JPanel(new BorderLayout());
+				String request = Client.getSend("requestBuilding");
+				List test = List.of(request.split("@"));
+				JTextField text = new JTextField();
+				JComboBox comboBox = new JComboBox();
+				comboBox.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String item = comboBox.getSelectedItem().toString();
+						text.setText(item);
+					}
+				});
+				for (Object o : test)
+					comboBox.addItem(o);
+				pan.add(new JLabel("Veuillez choisir un batiment"), BorderLayout.NORTH);
+				pan.add(comboBox, BorderLayout.SOUTH);
 
-                JOptionPane.showConfirmDialog(null, pan, "choix d'un batiment", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				pan.add(text, BorderLayout.CENTER);
+
+				int response = JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
+				if(response == JOptionPane.OK_OPTION){
+					companyField.setText("ok");
+					String request1 = Client.getSend("rateOccupation");
+					occupationField.setText(request1);
+
+					String request2 = Client.getSend("connectedObject");
+					itemsField.setText(request2);
+
+					String request3 = Client.getSend("AllEquipment");
+					equipmentField.setText(request3);
+
+					String request4 = Client.getSend("allSensor");
+					equipmentField.setText(request4);
+
+					String request5 = Client.getSend("AllCompany");
+					companyField.setText(request5);
+
+					String request6 = Client.getSend("energyConsommation");
+					equipmentField.setText(request6);
+				}else {
+					companyField.setText("cancel");
+				}
 			}
-		});
+			});
 		topPanel.add(infoByBuilding);
 		mainTopPanel.add(topPanel, BorderLayout.NORTH);
 		JPanel titlePane = new JPanel();
