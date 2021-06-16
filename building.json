@@ -51,5 +51,28 @@
   },
   "requestgetListBuilding" : {
     "company_name" : ""
+  },
+  "rateOccupation" : {
+
+  },
+  "connectedObject" : {
+
+  },
+  "AllEquipment" : {
+
+  },
+  "allSensor" : {
+
+  },
+  "AllCompany" : {
+    "company_name" : ""
+  },
+  "energyConsommation" : {
+
+  },
+  "comboxNameCompany" : {
+    "company_name" : ""
   }
+
+
 }
