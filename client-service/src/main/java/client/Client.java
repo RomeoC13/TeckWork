@@ -41,7 +41,7 @@ public class Client {
             map = jmapper.readValue(values,
                     new TypeReference<Map<String, Map<String, String>>>() {
                     });
-
+            System.out.println("finis");
 
             sleep(1000);
 
