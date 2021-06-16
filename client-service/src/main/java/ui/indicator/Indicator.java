@@ -1,26 +1,18 @@
 package ui.indicator;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import client.Client;
 import ui.Side_Menu;
+import ui.WindowsMenu;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Indicator extends JFrame {
 	
@@ -64,22 +56,60 @@ public class Indicator extends JFrame {
 		
 		JPanel topPanel = new JPanel(new FlowLayout());
 		JButton allInfo = new JButton("information generale");
+		allInfo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String request1 = Client.getSend("rateOccupation");
+				String response1 = request1.toString();
+				occupationField.setText(response1);
+
+				String request2 = Client.getSend("connectedObject");
+				String response2 = request2.toString();
+				itemsField.setText(response2);
+
+				String request3 = Client.getSend("AllEquipment");
+				String response3= request3.toString();
+				equipmentField.setText(response3);
+
+				String request4 = Client.getSend("allSensor");
+				String response4 = request4.toString();
+				equipmentField.setText(response4);
+
+				String request5 = Client.getSend("AllCompany");
+				String response5 = request1.toString();
+				companyField.setText(response5);
+
+				String request6 = Client.getSend("energyConsommation");
+				String response6  = request6.toString();
+				equipmentField.setText(response6);
+
+			}
+		});
 		topPanel.add(allInfo);
+
+
+
+
+
 		JButton infoByCompany = new JButton("information par entreprise");
 		infoByCompany.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JPanel pan  = new JPanel(new BorderLayout());
+				JComboBox jComboBox = new JComboBox();
+				String request = Client.getSend("comboxNameCompany");
+
+				List<String> entreprise = new ArrayList<>();
+					entreprise.add(request.toString());
+				jComboBox.addItem(entreprise);
 				pan.add(new JLabel("Veuillez entrer le nom d'une entreprise"), BorderLayout.NORTH);
-				//pan.add(new JButton("valider"),BorderLayout.SOUTH);
+				pan.add(jComboBox, BorderLayout.SOUTH);
+
 				pan.add(new JTextField(), BorderLayout.CENTER);
 
                 JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
-                
-                	
-                
-				
+
 				
 			}
 		});
