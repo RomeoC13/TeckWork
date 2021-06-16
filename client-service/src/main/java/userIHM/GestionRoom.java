@@ -16,6 +16,7 @@ public class GestionRoom extends JPanel implements MouseListener {
     public boolean roomselected;
     public boolean roomPriseSelected;
     public boolean roomSensorSelected;
+    public boolean roomWindowsSelected;
 
     public GestionRoom() {
         setPreferredSize(new Dimension(750, 750));
@@ -43,6 +44,11 @@ public class GestionRoom extends JPanel implements MouseListener {
         }
         if (roomSensorSelected) {
             drawSensorPosition();
+            revalidate();
+        }
+
+        if (roomWindowsSelected) {
+            drawWindowsPosition();
             revalidate();
         }
 
@@ -121,6 +127,37 @@ public class GestionRoom extends JPanel implements MouseListener {
 
     }
 
+    public void drawWindowsPosition() {
+        URL imgURL;
+        BufferedImage currentEquipment;
+
+        try {
+            String id_room = WindowsMapping.getId_room();
+            map.get("requestWindowsIsEmpty").put("id_room", id_room);
+            String requestWindowsIsEmpty = getSend("requestWindowsIsEmpty");
+            String[] answers = requestWindowsIsEmpty.split("@");
+            for (String b : answers) {
+                if (b.contains("@")) {
+                    b.replace("@", "");
+                }
+                System.out.println(b);
+            }
+            if (!answers[0].contains("t")) {
+                imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+            } else {
+                imgURL = Thread.currentThread().getContextClassLoader().getResource("fenetre.jpg");
+            }
+            currentEquipment = ImageIO.read(imgURL);
+            getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null);
+
+            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+            currentEquipment = ImageIO.read(imgURL);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void drawSensorPosition() {
         URL imgURL;
         BufferedImage currentEquipment;
@@ -168,18 +205,70 @@ public class GestionRoom extends JPanel implements MouseListener {
         URL mapUrl = Thread.currentThread().getContextClassLoader().getResource("fenetre.jpg");
         if (e.getX() >= 625 & e.getX() <= 675 & e.getY() >= 220 & e.getY() <= 270) {
 
-            int reponseWindows = JOptionPane.showConfirmDialog(null, "Emplacement fenêtre. Voulez vous continuer?");
+            String id_room = WindowsMapping.getId_room();
 
-            if (reponseWindows == JOptionPane.YES_OPTION) {
+            map.get("requestWindowsIsEmpty").put("id_room", id_room);
+            String requestWindowsIsEmpty = getSend("requestWindowsIsEmpty");
+            String[] answers = requestWindowsIsEmpty.split("@");
+            for (String b : answers) {
+                if (b.contains("@")) {
+                    b.replace("@", "");
+                }
+                System.out.println(b);
+            }
 
-                try {
-                    currentEquipment = ImageIO.read(mapUrl);
-                    getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null);
+            if (!answers[0].contains("t")) {
+                int responsePrise = JOptionPane.showConfirmDialog(null, " Voulez vous placer une fenetre?");
+                if (responsePrise == JOptionPane.YES_OPTION) {
 
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+
+                    String valueChoose = "1";
+                    map.get("requestUpdateWindows").put("value", valueChoose);
+                    map.get("requestUpdateWindows").put("id_room", id_room);
+                    String responseUpdate = getSend("requestUpdateWindows");
+                    answers = responseUpdate.split("@");
+                    for (String b : answers) {
+                        if (b.contains("@")) {
+                            b.replace("@", "");
+                        }
+                        System.out.println(b);
+                    }
+
+                    try {
+                        currentEquipment = ImageIO.read(mapUrl);
+                        getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            } else {
+                int responseScreen = JOptionPane.showConfirmDialog(null, " Voulez vous supprimer une fenetre?");
+                if (responseScreen == JOptionPane.YES_OPTION) {
+
+
+                    String valueChoose = "0";
+                    map.get("requestUpdateWindows").put("value", valueChoose);
+                    map.get("requestUpdateWindows").put("id_room", id_room);
+                    String responseUpdate = getSend("requestUpdateWindows");
+                    answers = responseUpdate.split("@");
+                    for (String b : answers) {
+                        if (b.contains("@")) {
+                            b.replace("@", "");
+                        }
+                        System.out.println(b);
+                    }
+
+                    try {
+                        URL imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+                        currentEquipment = ImageIO.read(imgURL);
+                        getGraphics().clearRect(625, 220, 50, 50);
+                        getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
             }
+
         }
 
         URL mapUrl2 = Thread.currentThread().getContextClassLoader().getResource("capteur.jpg");
