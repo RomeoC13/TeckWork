@@ -7,10 +7,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 //import edu.episen.si.ing1.pds.backend.server.DataSource;
 import org.graalvm.compiler.core.common.spi.ConstantFieldProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -22,6 +26,7 @@ public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private final Connection connection;
     private static String[] requestList = new String[10];
+    private final static Logger log = LoggerFactory.getLogger(ClientHandler.class.getName());
 
 
     // Constructor
@@ -104,6 +109,18 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("requestSensorIsEmpty")) {
                 ds.writeUTF(requestSensorIsEmpty(connection, map).toString());
             }
+            if (request.split("@")[0].equals("requestAllCompany")){
+                ds.writeUTF(NberCompany(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("comboxCompany")){
+                ds.writeUTF(comboxNameCompany(connection, map).toString());
+            }
+
+            //starting condition for indicators
+
+            if (request.split("@")[0].equals("rateOccupation")){
+                ds.writeUTF(rateOccupation(connection, map).toString());
+            }
 
             if (request.split("@")[0].equals("requestUpdateWindows")) {
                 ds.writeUTF(requestUpdateWindows(connection, map).toString());
@@ -112,11 +129,134 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("requestWindowsIsEmpty")) {
                 ds.writeUTF(requestWindowsIsEmpty(connection, map).toString());
             }
+            if (request.split("@")[0].equals("rateOccupation")) {
+                ds.writeUTF(rateOccupation(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("connectedObject")) {
+                ds.writeUTF(getConnectedObjets(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("AllEquipment")) {
+                ds.writeUTF(getAllEquipments(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("allSensor")) {
+                ds.writeUTF(getAllSensor(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("allCompany")) {
+                ds.writeUTF(getAllCompany(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("energyConsommation")) {
+                ds.writeUTF(getEnergy(connection, map).toString());
+            }
 
+            //ending conditions for indicators
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String getEnergy(Connection connection, Map<String, String> map) {
+        String value = null;
+        try{
+            String sql = "select sum(energy) from building";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            while (rs.next())
+                value = rs.getString(1);
+            log.info(value);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    private String getAllCompany(Connection connection, Map<String, String> map) {
+        String value = null;
+        try{
+            String sql = "select count(*) from company";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            while (rs.next())
+                value = rs.getString(1);
+            log.info(value);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+
+    }
+
+    private String getAllSensor(Connection connection, Map<String, String> map) {
+        String value = null;
+        String value2 = null;
+        String resp = null;
+        try{
+            String sql = "select count(position_sensor) from room where position_sensor=true ";
+            String sql2 = "select count(position_sensor) from room where position_sensor=false";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            ResultSet rs2 = connection.createStatement().executeQuery(sql2);
+            while (rs.next())
+                value = rs.getString(1);
+            while (rs2.next())
+                value2 = rs2.getString(1);
+            log.info(resp);
+            resp = value+"/"+value2;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return resp;
+    }
+
+    private StringBuilder getAllEquipments(Connection connection, Map<String, String> map) {
+        return null;
+    }
+
+    private StringBuilder getConnectedObjets(Connection connection, Map<String, String> map) {
+        return null;
+    }
+
+    private StringBuilder rateOccupation(Connection connection, Map<String, String> map) {
+        StringBuilder value = null;
+
+        try {
+            String sql = "(select count(*) from room where status = 'booked'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            while (rs.next()){
+                value.append(rs.getString(1));
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    private List<String> comboxNameCompany(Connection connection, Map<String, String> map)  {
+        List<String> name = new ArrayList<>();
+        try {
+            String request = "select company_name from company";
+            ResultSet rs = connection.createStatement().executeQuery(request);
+            while (rs.next()) {
+                name.add(rs.getString(1));
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return name;
+    }
+
+    private String NberCompany(Connection connection, Map<String, String> map) {
+        String nbre = null;
+        try {
+            String sql = "select count(company_name) from company";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            log.info(sql);
+            while (rs.next()){
+                nbre = rs.getString(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return nbre;
     }
 
     public static StringBuilder requestbuilding(Connection connection, Map<String, String> map) {
@@ -250,7 +390,12 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "SELECT DISTINCT building_name FROM company INNER JOIN location ON company.company_id = location.company_id INNER JOIN room ON location.id_location = room.id_location INNER JOIN floor ON floor.id_floor = room.id_floor INNER JOIN building ON building.id_building = floor.id_building WHERE company.company_name = '" + map.get("company_name") + "'";
+            String sql = "SELECT DISTINCT building_name FROM company INNER JOIN location ON" +
+                    " company.company_id = location.company_id INNER JOIN room" +
+                    " ON location.id_location = room.id_location INNER JOIN floor ON" +
+                    " floor.id_floor = room.id_floor INNER JOIN building ON" +
+                    " building.id_building = floor.id_building " +
+                    "WHERE company.company_name = '" + map.get("company_name") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -292,7 +437,8 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "UPDATE room set position_screen = '" + map.get("value") + "'" + "WHERE id_room = " + map.get("id_room") + "";
+            String sql = "UPDATE room set position_screen = '" + map.get("value") +
+                    "'" + "WHERE id_room = " + map.get("id_room") + "";
 
             connection.createStatement().executeUpdate(sql);
             System.out.println(sql);
@@ -331,7 +477,8 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "UPDATE room set position_plug = '" + map.get("value") + "'" + "WHERE id_room = " + map.get("id_room") + "";
+            String sql = "UPDATE room set position_plug = '" + map.get("value") +
+                    "'" + "WHERE id_room = " + map.get("id_room") + "";
 
             connection.createStatement().executeUpdate(sql);
             System.out.println(sql);
@@ -370,7 +517,8 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "UPDATE room set position_sensor = '" + map.get("value") + "'" + "WHERE id_room = " + map.get("id_room") + "";
+            String sql = "UPDATE room set position_sensor = '" + map.get("value") +
+                    "'" + "WHERE id_room = " + map.get("id_room") + "";
 
             connection.createStatement().executeUpdate(sql);
             System.out.println(sql);
