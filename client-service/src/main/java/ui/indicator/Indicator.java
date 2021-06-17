@@ -29,6 +29,7 @@ public class Indicator extends JFrame {
 	private JTextField textField;
 	private JTextField titleField;
 	private String company_name;
+	private DataIndicator data = new DataIndicator();
 
 	public Indicator(String company_name) {
 		this.company_name = company_name;
@@ -46,7 +47,7 @@ public class Indicator extends JFrame {
 
 	private JPanel addingAllMenu() {
 		seconJPanel = new JPanel(new BorderLayout());
-		
+
 		seconJPanel.add(optionOFTop(), BorderLayout.NORTH);
 		seconJPanel.add(optionOFCentered(), BorderLayout.CENTER);
 
@@ -55,30 +56,19 @@ public class Indicator extends JFrame {
 
 	private JPanel optionOFTop() {
 		JPanel mainTopPanel = new JPanel(new BorderLayout());
-		
+
 		JPanel topPanel = new JPanel(new FlowLayout());
 		JButton allInfo = new JButton("information generale");
 		allInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String request1 = Client.getSend("rateOccupation");
-				occupationField.setText(request1);
 
-				String request2 = Client.getSend("connectedObject");
-				itemsField.setText(request2);
-
-				String request3 = Client.getSend("AllEquipment");
-				equipmentField.setText(request3);
-
-				String request4 = Client.getSend("allSensor");
-				equipmentField.setText(request4);
-
-				String request5 = Client.getSend("AllCompany");
-				companyField.setText(request5);
-
-				String request6 = Client.getSend("energyConsommation");
-				equipmentField.setText(request6);
-
+				//occupationField.setText(data.getOccupancy());
+						/*itemsField.setText(data.getConnectedObject());
+						equipmentField.setText(data.getEquipment());*/
+				sensorField.setText(data.getSensor());
+				companyField.setText(data.getCompany());
+				energyField.setText(data.energyConsumption());
 			}
 		});
 		topPanel.add(allInfo);
@@ -89,7 +79,7 @@ public class Indicator extends JFrame {
 
 		JButton infoByCompany = new JButton("information par entreprise");
 		infoByCompany.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JPanel pan  = new JPanel(new BorderLayout());
@@ -135,7 +125,7 @@ public class Indicator extends JFrame {
 					companyField.setText("cancel");
 				}
 			}
-				
+
 
 		});
 		topPanel.add(infoByCompany);
@@ -181,7 +171,8 @@ public class Indicator extends JFrame {
 
 					String request6 = Client.getSend("energyConsommation");
 					equipmentField.setText(request6);
-				}else {
+				}
+				{
 					companyField.setText("cancel");
 				}
 			}
@@ -200,13 +191,13 @@ public class Indicator extends JFrame {
 		mainTopPanel.setPreferredSize(new Dimension(100,200));
 		return mainTopPanel;
 	}
-	
+
 	private JPanel optionOFCentered() {
 		JPanel mainPanel = new JPanel(new FlowLayout());
-		
 
-		
-		
+
+
+
 
 		//set in a panel all the list of indicators
 		JPanel indicatorPanel = new JPanel(new GridLayout(6,1));
@@ -224,9 +215,9 @@ public class Indicator extends JFrame {
 		JLabel energy = new JLabel("Consommation �nerg�tique");
 		indicatorPanel.add(energy);
 		mainPanel.add(indicatorPanel);
-		
-	
-		
+
+
+
 		// set in a panel all the list of each indicators result
 		JPanel fieldPanel = new JPanel(new GridLayout(6,1));
 		fieldPanel.setPreferredSize(new Dimension(100, 200));

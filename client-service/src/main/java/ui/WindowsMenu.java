@@ -82,5 +82,11 @@ public class WindowsMenu extends JFrame {
         return panelTop;
     }
 
+    public JPanel getPanelCenter() {
+        return panelCenter;
+    }
 
+    public void setPanelCenter(JPanel panelCenter) {
+        this.panelCenter = panelCenter;
+    }
 }
