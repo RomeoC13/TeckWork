@@ -1,29 +1,23 @@
 package ui.indicator;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
+import client.Client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ui.Side_Menu;
+import ui.WindowsMenu;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Indicator extends JFrame {
-	
+	private final Logger log = LoggerFactory.getLogger(Indicator.class.getName());
 	JTextField occupationField = new JTextField();
 	JTextField itemsField =  new JTextField();
 	JTextField equipmentField = new JTextField();
@@ -64,37 +58,134 @@ public class Indicator extends JFrame {
 		
 		JPanel topPanel = new JPanel(new FlowLayout());
 		JButton allInfo = new JButton("information generale");
+		allInfo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String request1 = Client.getSend("rateOccupation");
+				occupationField.setText(request1);
+
+				String request2 = Client.getSend("connectedObject");
+				itemsField.setText(request2);
+
+				String request3 = Client.getSend("AllEquipment");
+				equipmentField.setText(request3);
+
+				String request4 = Client.getSend("allSensor");
+				equipmentField.setText(request4);
+
+				String request5 = Client.getSend("AllCompany");
+				companyField.setText(request5);
+
+				String request6 = Client.getSend("energyConsommation");
+				equipmentField.setText(request6);
+
+			}
+		});
 		topPanel.add(allInfo);
+
+
+
+
+
 		JButton infoByCompany = new JButton("information par entreprise");
 		infoByCompany.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JPanel pan  = new JPanel(new BorderLayout());
+				String request = Client.getSend("requestCompany");
+				List test = List.of(request.split("@"));
+				JTextField text = new JTextField();
+				JComboBox comboBox = new JComboBox();
+				comboBox.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String item = comboBox.getSelectedItem().toString();
+						text.setText(item);
+					}
+				});
+				for(Object o: test)
+					comboBox.addItem(o);
 				pan.add(new JLabel("Veuillez entrer le nom d'une entreprise"), BorderLayout.NORTH);
-				//pan.add(new JButton("valider"),BorderLayout.SOUTH);
-				pan.add(new JTextField(), BorderLayout.CENTER);
+				pan.add(comboBox, BorderLayout.SOUTH);
 
-                JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
-                
-                	
-                
-				
-				
+				pan.add(text, BorderLayout.CENTER);
+
+                int response = JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
+				if(response == JOptionPane.OK_OPTION){
+					companyField.setText("ok");
+					String request1 = Client.getSend("rateOccupation");
+					occupationField.setText(request1);
+
+					String request2 = Client.getSend("connectedObject");
+					itemsField.setText(request2);
+
+					String request3 = Client.getSend("AllEquipment");
+					equipmentField.setText(request3);
+
+					String request4 = Client.getSend("allSensor");
+					equipmentField.setText(request4);
+
+					String request5 = Client.getSend("AllCompany");
+					companyField.setText(request5);
+
+					String request6 = Client.getSend("energyConsommation");
+					equipmentField.setText(request6);
+				}else {
+					companyField.setText("cancel");
+				}
 			}
+				
+
 		});
 		topPanel.add(infoByCompany);
 		JButton infoByBuilding = new JButton("indicateur par batiments");
 		infoByBuilding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JPanel pan  = new JPanel(new BorderLayout());
-				pan.add(new JLabel("Veuillez entrer le nom du batiments"), BorderLayout.NORTH);
-			//	pan.add(new JButton("valider"),BorderLayout.SOUTH);
-				pan.add(new JTextField(), BorderLayout.CENTER);
+				JPanel pan = new JPanel(new BorderLayout());
+				String request = Client.getSend("requestBuilding");
+				List test = List.of(request.split("@"));
+				JTextField text = new JTextField();
+				JComboBox comboBox = new JComboBox();
+				comboBox.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String item = comboBox.getSelectedItem().toString();
+						text.setText(item);
+					}
+				});
+				for (Object o : test)
+					comboBox.addItem(o);
+				pan.add(new JLabel("Veuillez choisir un batiment"), BorderLayout.NORTH);
+				pan.add(comboBox, BorderLayout.SOUTH);
 
-                JOptionPane.showConfirmDialog(null, pan, "choix d'un batiment", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				pan.add(text, BorderLayout.CENTER);
+
+				int response = JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
+				if(response == JOptionPane.OK_OPTION){
+					companyField.setText("ok");
+					String request1 = Client.getSend("rateOccupation");
+					occupationField.setText(request1);
+
+					String request2 = Client.getSend("connectedObject");
+					itemsField.setText(request2);
+
+					String request3 = Client.getSend("AllEquipment");
+					equipmentField.setText(request3);
+
+					String request4 = Client.getSend("allSensor");
+					equipmentField.setText(request4);
+
+					String request5 = Client.getSend("AllCompany");
+					companyField.setText(request5);
+
+					String request6 = Client.getSend("energyConsommation");
+					equipmentField.setText(request6);
+				}else {
+					companyField.setText("cancel");
+				}
 			}
-		});
+			});
 		topPanel.add(infoByBuilding);
 		mainTopPanel.add(topPanel, BorderLayout.NORTH);
 		JPanel titlePane = new JPanel();

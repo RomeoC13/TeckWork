@@ -78,5 +78,30 @@
   },
   "requestWindowsIsEmpty" : {
     "id_room" : ""
+  },
+
+
+
+  "rateOccupation" : {
+
+  },
+  "connectedObject" : {
+
+  },
+  "AllEquipment": {
+
+  },
+  "allSensor" : {
+
+  },
+  "AllCompany" : {
+
+  },
+  "energyConsommation" : {
+
   }
+
+
+
+
 }
