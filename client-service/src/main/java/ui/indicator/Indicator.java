@@ -30,6 +30,7 @@ public class Indicator extends JFrame {
 	private JTextField titleField;
 	private String company_name;
 	private DataIndicator data = new DataIndicator();
+	protected IndicOption option = new IndicOption();
 
 	public Indicator(String company_name) {
 		this.company_name = company_name;
@@ -58,11 +59,12 @@ public class Indicator extends JFrame {
 		JPanel mainTopPanel = new JPanel(new BorderLayout());
 
 		JPanel topPanel = new JPanel(new FlowLayout());
+		topPanel.setPreferredSize(new Dimension(10, 110));
 		JButton allInfo = new JButton("information generale");
 		allInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+			titleField.setText("vous êtes sur les informations génerales des batiments");
 				//occupationField.setText(data.getOccupancy());
 						/*itemsField.setText(data.getConnectedObject());
 						equipmentField.setText(data.getEquipment());*/
@@ -85,13 +87,13 @@ public class Indicator extends JFrame {
 				JPanel pan  = new JPanel(new BorderLayout());
 				String request = Client.getSend("requestCompany");
 				List test = List.of(request.split("@"));
-				JTextField text = new JTextField();
+				JTextField field = new JTextField();
 				JComboBox comboBox = new JComboBox();
 				comboBox.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String item = comboBox.getSelectedItem().toString();
-						text.setText(item);
+						field.setText(comboBox.getSelectedItem().toString());
+						titleField.setText("vous êtes sur les informations génerales de l'entreprise "+ field.getText());
 					}
 				});
 				for(Object o: test)
@@ -99,28 +101,18 @@ public class Indicator extends JFrame {
 				pan.add(new JLabel("Veuillez entrer le nom d'une entreprise"), BorderLayout.NORTH);
 				pan.add(comboBox, BorderLayout.SOUTH);
 
-				pan.add(text, BorderLayout.CENTER);
+				pan.add(field, BorderLayout.CENTER);
 
                 int response = JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
 				if(response == JOptionPane.OK_OPTION){
-					companyField.setText("ok");
-					String request1 = Client.getSend("rateOccupation");
-					occupationField.setText(request1);
-
-					String request2 = Client.getSend("connectedObject");
-					itemsField.setText(request2);
-
-					String request3 = Client.getSend("AllEquipment");
-					equipmentField.setText(request3);
-
-					String request4 = Client.getSend("allSensor");
-					equipmentField.setText(request4);
-
-					String request5 = Client.getSend("AllCompany");
-					companyField.setText(request5);
-
-					String request6 = Client.getSend("energyConsommation");
-					equipmentField.setText(request6);
+					Client.map.get("CompanyConnectedObject").put("company_name", field.getText());
+					itemsField.setText(option.objectCompany());
+					Client.map.get("AllEquipmentCompany").put("company_name", field.getText());
+					equipmentField.setText(option.equipmentCompany());
+					Client.map.get("allSensorCompany").put("company_name", field.getText());
+					sensorField.setText(option.sensorCompany());
+					Client.map.get("energyConsommationCompany").put("company_name", field.getText());
+					energyField.setText(option.energyCompany());
 				}else {
 					companyField.setText("cancel");
 				}
@@ -135,42 +127,41 @@ public class Indicator extends JFrame {
 				JPanel pan = new JPanel(new BorderLayout());
 				String request = Client.getSend("requestBuilding");
 				List test = List.of(request.split("@"));
-				JTextField text = new JTextField();
+				JTextField field = new JTextField();
 				JComboBox comboBox = new JComboBox();
 				comboBox.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String item = comboBox.getSelectedItem().toString();
-						text.setText(item);
+						field.setText(comboBox.getSelectedItem().toString());
+						titleField.setText("vous êtes sur les informations génerales du bâtiment "+ field.getText());
 					}
 				});
+
+
 				for (Object o : test)
 					comboBox.addItem(o);
 				pan.add(new JLabel("Veuillez choisir un batiment"), BorderLayout.NORTH);
 				pan.add(comboBox, BorderLayout.SOUTH);
 
-				pan.add(text, BorderLayout.CENTER);
+				pan.add(field, BorderLayout.CENTER);
 
 				int response = JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
+				//log.info("deuxieme "+field.getText());
 				if(response == JOptionPane.OK_OPTION){
-					companyField.setText("ok");
-					String request1 = Client.getSend("rateOccupation");
-					occupationField.setText(request1);
 
-					String request2 = Client.getSend("connectedObject");
-					itemsField.setText(request2);
+//					Client.map.get("rateBuilding").put("building_name", field.getText());
+//					occupationField.setText(option.buildingRate());
+//					Client.map.get("objectBuilding").put("building_name", field.getText());
+//					itemsField.setText(option.objectBuilding());
+//					Client.map.get("equipmentBuilding").put("building_name", field.getText());
+//					equipmentField.setText(option.equipmentBuilding());
+//					Client.map.get("sensorBuilding").put("building_name", field.getText());
+//					sensorField.setText(option.sensorBuilding());
 
-					String request3 = Client.getSend("AllEquipment");
-					equipmentField.setText(request3);
-
-					String request4 = Client.getSend("allSensor");
-					equipmentField.setText(request4);
-
-					String request5 = Client.getSend("AllCompany");
-					companyField.setText(request5);
-
-					String request6 = Client.getSend("energyConsommation");
-					equipmentField.setText(request6);
+					log.info("le client "+Client.map.get("energyBuilding").put("building_name", field.getText()));
+					Client.map.get("energyBuilding").put("building_name", field.getText());
+					log.info("je vois " + field.getText());
+					energyField.setText(option.energyBuilding());
 				}
 				{
 					companyField.setText("cancel");
@@ -179,15 +170,17 @@ public class Indicator extends JFrame {
 			});
 		topPanel.add(infoByBuilding);
 		mainTopPanel.add(topPanel, BorderLayout.NORTH);
-		JPanel titlePane = new JPanel();
 		titleField = new JTextField();
-		titlePane.add(titleField);
-		titleField.setColumns(10);
-		titlePane.setPreferredSize(new Dimension(100,100));
-		topPanel.add(titlePane);
+		titleField.setBorder(null);
+		titleField.setEditable(false);
+		titleField.setBackground(Color.LIGHT_GRAY);
+		titleField.setFont(new Font("Century Gothic", Font.BOLD, 15));
+		titleField.setPreferredSize(new Dimension(13, 9));
+	
+
 		
 		
-		mainTopPanel.add(titlePane, BorderLayout.SOUTH);
+		mainTopPanel.add(titleField, BorderLayout.CENTER);
 		mainTopPanel.setPreferredSize(new Dimension(100,200));
 		return mainTopPanel;
 	}
@@ -204,21 +197,21 @@ public class Indicator extends JFrame {
 		indicatorPanel.setPreferredSize(new Dimension(200, 200));
 		JLabel occupation = new JLabel("Taux d'occupation");
 		indicatorPanel.add(occupation);
-		JLabel connectedItems = new JLabel("Objets connect�s");
+		JLabel connectedItems = new JLabel("Objets connectés");
 		indicatorPanel.add(connectedItems);
-		JLabel equipment = new JLabel("Nombre d��quipements");
+		JLabel equipment = new JLabel("Nombre d'equipements");
 		indicatorPanel.add(equipment);
-		JLabel sensor = new JLabel("Capteurs install�s");
+		JLabel sensor = new JLabel("Capteurs installés");
 		indicatorPanel.add(sensor);
-		JLabel company = new JLabel("Nombre d�entreprise");
+		JLabel company = new JLabel("Nombre d'entreprise");
 		indicatorPanel.add(company);
-		JLabel energy = new JLabel("Consommation �nerg�tique");
+		JLabel energy = new JLabel("Consommation énergétique");
 		indicatorPanel.add(energy);
 		mainPanel.add(indicatorPanel);
 
+/********** set in a panel all the list of each indicators result*****************/
 
 
-		// set in a panel all the list of each indicators result
 		JPanel fieldPanel = new JPanel(new GridLayout(6,1));
 		fieldPanel.setPreferredSize(new Dimension(100, 200));
 		fieldPanel.add(occupationField);

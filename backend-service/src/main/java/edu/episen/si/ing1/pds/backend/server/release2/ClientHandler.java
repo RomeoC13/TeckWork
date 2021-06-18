@@ -54,7 +54,6 @@ public class ClientHandler implements Runnable {
 
             Map<String, String> map = mapper.readValue(request.split("@")[1], new TypeReference<Map<String, String>>() {
             });
-
             if (request.split("@")[0].equals("requestBuilding")) {
                 ds.writeUTF(requestbuilding(connection, map).toString());
             }
@@ -109,19 +108,12 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("requestSensorIsEmpty")) {
                 ds.writeUTF(requestSensorIsEmpty(connection, map).toString());
             }
-            if (request.split("@")[0].equals("requestAllCompany")){
-                ds.writeUTF(NberCompany(connection, map).toString());
-            }
+//            if (request.split("@")[0].equals("requestAllCompany")){
+//                ds.writeUTF(NberCompany(connection, map).toString());
+//            }
             if (request.split("@")[0].equals("comboxCompany")){
                 ds.writeUTF(comboxNameCompany(connection, map).toString());
             }
-
-            //starting condition for indicators
-
-            if (request.split("@")[0].equals("rateOccupation")){
-                ds.writeUTF(rateOccupation(connection, map).toString());
-            }
-
             if (request.split("@")[0].equals("requestUpdateWindows")) {
                 ds.writeUTF(requestUpdateWindows(connection, map).toString());
             }
@@ -129,6 +121,10 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("requestWindowsIsEmpty")) {
                 ds.writeUTF(requestWindowsIsEmpty(connection, map).toString());
             }
+
+/******************************************starting condition for indicators***********************/
+
+   /*****************his the start of general information of the indicators***************/
             if (request.split("@")[0].equals("rateOccupation")) {
                 ds.writeUTF(rateOccupation(connection, map).toString());
             }
@@ -147,14 +143,139 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("energyConsommation")) {
                 ds.writeUTF(getEnergy(connection, map).toString());
             }
+     /***************this the end of general information for indicators***************/
 
-            //ending conditions for indicators
+        /*****************************staring for company indicators***********************************/
+            if (request.split("@")[0].equals("companyOccupation")){
+                ds.writeUTF(rateCompany(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("CompanyConnectedObject")) {
+                ds.writeUTF(objectCompany(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("AllEquipmentCompany")) {
+                ds.writeUTF(equipmentCompany(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("allSensorCompany")) {
+                ds.writeUTF(sensorCompany(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("energyConsommationCompany")) {
+                ds.writeUTF(energyCompany(connection, map).toString());
+            }
+/************************* ending company indicators ****************************/
+/***********starting for building conditions indicators***************************/
+
+            if (request.split("@")[0].equals("rateBuilding")) {
+                ds.writeUTF(rateBuilding(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("objectBuilding")) {
+                ds.writeUTF(objectBuilding(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("equipmentBuilding")) {
+                ds.writeUTF(equipmentBuilding(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("sensorBuilding")) {
+                ds.writeUTF(sensorBuilding(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("companyBuilding")) {
+                ds.writeUTF(companyBuilding(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("energyBuilding")) {
+                ds.writeUTF(energyBuilding(connection, map).toString());
+            }
+        /*******************ending building indicators****************************/
+
+/*******************ending conditions for all indicators**********************************/
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+/*************** starting method request for building indicators*********************/
+    private String equipmentBuilding(Connection connection, Map<String, String> map) {return null;
+    }
 
+    private String objectBuilding(Connection connection, Map<String, String> map) {return null;
+    }
+
+    private String rateBuilding(Connection connection, Map<String, String> map) {return null;
+    }
+
+    private String energyBuilding(Connection connection, Map<String, String> map) {
+        String value = null;
+        log.info(map.get("je suis là"+"building_name"));
+        try{
+            String sql = "select energy from building where " +
+                    "building_name = '"+ map.get("building_name") + "'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            while (rs.next())
+                value = rs.getString(1);
+            log.info(map.get("building_name"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    private String sensorBuilding(Connection connection, Map<String, String> map) {return null;
+    }
+
+    private String companyBuilding(Connection connection, Map<String, String> map) { return null;
+    }
+/********************** end of method for building indicators******************/
+/************************starting request methods for company indicators*****************************/
+    private String equipmentCompany(Connection connection, Map<String, String> map) {
+        String value = null;
+        try{
+            String sql = "select count(*) from company " +
+                    "where company_name = '" + map.get("company_name") + "'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            while (rs.next())
+                value = rs.getString(1);
+            log.info(value);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    private String sensorCompany(Connection connection, Map<String, String> map) {
+        String value = null;
+        try{
+            String sql = "select count(*) from company where " +
+                    "company_name = '" + map.get("company_name") + "'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            while (rs.next())
+                value = rs.getString(1);
+            log.info(value);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    private String energyCompany(Connection connection, Map<String, String> map) {
+        return null;
+    }
+
+    private String objectCompany(Connection connection, Map<String, String> map) {
+        String value = null;
+        try{
+            String sql = "select count(*) from company where company_name = '" + map.get("company_name") + "'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            while (rs.next())
+                value = rs.getString(1);
+            log.info(value);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    private Object rateCompany(Connection connection, Map<String, String> map) {
+        return null;
+    }/** end of company indicators**/
+
+/** information general*/
     private String getEnergy(Connection connection, Map<String, String> map) {
         String value = null;
         try{
@@ -228,7 +349,8 @@ public class ClientHandler implements Runnable {
         }
         return value;
     }
-
+    /** end  of information general*/
+/* for selecting company in to a combobox**/
     private List<String> comboxNameCompany(Connection connection, Map<String, String> map)  {
         List<String> name = new ArrayList<>();
         try {
@@ -243,22 +365,7 @@ public class ClientHandler implements Runnable {
         }
         return name;
     }
-
-    private String NberCompany(Connection connection, Map<String, String> map) {
-        String nbre = null;
-        try {
-            String sql = "select count(company_name) from company";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            log.info(sql);
-            while (rs.next()){
-                nbre = rs.getString(1);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return nbre;
-    }
-
+/* end of combobox**/
     public static StringBuilder requestbuilding(Connection connection, Map<String, String> map) {
 
         StringBuilder sb = null;
@@ -276,6 +383,7 @@ public class ClientHandler implements Runnable {
 
         return sb;
     }
+/************************** end of request method of general information***********************/
 
     public static StringBuilder requestFloor(Connection connection, Map<String, String> map) {
         StringBuilder sb = null;
@@ -283,7 +391,9 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "SELECT name_floor FROM floor INNER JOIN building ON building.id_building = floor.id_building WHERE building.id_building = '" + map.get("id_building") + "'";
+            String sql = "SELECT name_floor FROM floor INNER JOIN building ON " +
+                    "building.id_building = floor.id_building WHERE " +
+                    "building.id_building = '" + map.get("id_building") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();

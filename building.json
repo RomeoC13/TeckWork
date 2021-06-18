@@ -82,26 +82,26 @@
 
 
 
-  "rateOccupation" : {
+  "rateOccupation" : {},
+  "connectedObject" : {},
+  "allEquipment": {},
+  "allSensor" : {},
+  "allCompany" : {},
+  "energyConsommation" : {},
 
-  },
-  "connectedObject" : {
 
-  },
-  "allEquipment": {
-
-  },
-  "allSensor" : {
-
-  },
-  "allCompany" : {
-
-  },
-  "energyConsommation" : {
-
-  }
+  "companyOccupation": {"company_name": ""},
+  "CompanyConnectedObject": {"company_name": ""},
+  "AllEquipmentCompany": {"company_name": ""},
+  "allSensorCompany": {"company_name": ""},
+ "energyConsommationCompany": {"company_name": ""},
 
 
 
-
+  "rateBuilding" : {"building_name": ""},
+  "objectBuilding" : {"building_name": ""},
+  "equipmentBuilding" : {"building_name": ""},
+  "sensorBuilding": {"building_name": ""},
+  "companyBuilding" : {"building_name": ""},
+  "energyBuilding": {"building_name": ""}
 }
