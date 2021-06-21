@@ -193,7 +193,6 @@ public class Indicator extends JFrame {
 					itemsField.setText(option.objectBuilding());
 					Client.map.get("equipmentBuilding").put("building_name", field.getText());
 					equipmentField.setText(option.equipmentBuilding());
-
 					Client.map.get("sensorBuilding").put("building_name", field.getText());
 					sensorField.setText(option.sensorBuilding());
 					Client.map.get("companyBuilding").put("building_name", field.getText());
