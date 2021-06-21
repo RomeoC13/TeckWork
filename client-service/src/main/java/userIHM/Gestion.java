@@ -12,6 +12,17 @@ import java.net.URL;
 import static client.Client.getSend;
 import static client.Client.map;
 
+/**
+ * This class is used by the equipment display on the map.
+ * As soon as a piece of equipment is added or deleted, the map is updated automatically.
+ * This class is executed if the user chooses to place equipment in an office.
+ *
+ * @author Michael CHACHA
+ * * @version 1.0
+ * */
+
+
+
 public class Gestion extends JPanel implements MouseListener {
     public boolean roomScreenSelected;
     public boolean roomPriseSelected;

@@ -24,6 +24,15 @@ import static client.Client.*;
 
 //import static userIHM.Request.getEquipment;
 
+/**
+ * Access class to the data contained in the table.
+ * This class allows to retrieve information from the database and
+ * to update it in the Jcombobox as the information is added in the database
+ *
+ * @author Michael CHACHA
+ * * @version 1.0
+ * */
+
 public class WindowsMapping extends JFrame {
     JPanel panel = new JPanel();
     Gestion panelBureau;

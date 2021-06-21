@@ -655,7 +655,7 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "SELECT company_name FROM room INNER JOIN company ON  company.company_id = room.id_room";
+            String sql = "SELECT company_name FROM room INNER JOIN company ON  company.company_id = room.id_room ORDER BY company_name";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();

@@ -42,7 +42,7 @@ public class Server {
                 // create a new thread object
                 Connection connection = ds.addData();
                 ClientHandler clientSock = new ClientHandler(client, connection);
-                System.out.println("ggggggggggggggggggggggggggggggggggggggggggggg");
+
                 // This thread will handle the client
                 // separately
                 new Thread(clientSock).start();
