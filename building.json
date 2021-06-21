@@ -105,5 +105,29 @@
   "sensorBuilding": {"building_name": ""},
   "companyBuilding" : {"building_name": ""},
   "energyBuilding": {"building_name": ""},
-  "allFloor": {"building_name": ""}
+  "allFloor": {"building_name": ""},
+
+  "initPlanLocation": {
+    "rl_building":  "",
+    "rl_floor":  ""
+  },
+  "getPlace": {
+    "rl_building":  ""
+  },
+  "getListBuilding": {
+  },
+  "getListFloor": {
+    "rl_building":  ""
+  },
+  "getNameBuilding": {
+    "rl_building":  ""
+  },
+  "getNbFloorFree": {
+    "rl_building":  "",
+    "rl_floor":  ""
+  },
+  "getFloorStatu": {
+    "rl_building":  "",
+    "rl_floor":  ""
+  }
 }
