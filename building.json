@@ -95,6 +95,7 @@
   "AllEquipmentCompany": {"company_name": ""},
   "allSensorCompany": {"company_name": ""},
  "energyConsommationCompany": {"company_name": ""},
+  "usedBatiment": {"company_name": ""},
 
 
 
@@ -103,5 +104,6 @@
   "equipmentBuilding" : {"building_name": ""},
   "sensorBuilding": {"building_name": ""},
   "companyBuilding" : {"building_name": ""},
-  "energyBuilding": {"building_name": ""}
+  "energyBuilding": {"building_name": ""},
+  "allFloor": {"building_name": ""}
 }
