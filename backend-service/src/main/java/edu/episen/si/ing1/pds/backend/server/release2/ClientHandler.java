@@ -117,10 +117,10 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("requestUpdateWindows")) {
                 ds.writeUTF(requestUpdateWindows(connection, map).toString());
             }
+
             if (request.split("@")[0].equals("requestWindowsIsEmpty")) {
                 ds.writeUTF(requestWindowsIsEmpty(connection, map).toString());
             }
-
 
 /******************************************starting condition for indicators***********************/
 
@@ -182,34 +182,6 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("energyBuilding")) {
                 ds.writeUTF(energyBuilding(connection, map).toString());
             }
-
-            // LOCATION
-            if (request.split("@")[0].equals("requestInitPlan")) {
-                ds.writeUTF(requestInitPlan(connection, map).toString());
-            }
-            if (request.split("@")[0].equals("getPlace")) {
-                ds.writeUTF(getPlace(connection, map).toString());
-            }
-            if (request.split("@")[0].equals("getListBuilding")) {
-                ds.writeUTF(getListBuilding(connection, map).toString());
-            }
-            if (request.split("@")[0].equals("getListFloor)) {
-                ds.writeUTF(getListFloor(connection, map).toString());
-            }
-            if (request.split("@")[0].equals("getNameBuilding)) {
-                ds.writeUTF(getNameBuilding(connection, map).toString());
-            }
-            if (request.split("@")[0].equals("getNameBuilding)) {
-                ds.writeUTF(getNameBuilding(connection, map).toString());
-            }
-            if (request.split("@")[0].equals("getNbRoomFree)) {
-                ds.writeUTF(getNbRoomFree(connection, map).toString());
-            }
-
-
-
-
-
         /*******************ending building indicators****************************/
 
 /*******************ending conditions for all indicators**********************************/
@@ -728,155 +700,7 @@ public class ClientHandler implements Runnable {
         }
         return sb;
     }
-    // LOCATION
 
-    public StringBuilder requestInitPlan(Connection connection, Map<String, String> map) {
-        StringBuilder sb = null;
-        String str = "";
-
-        try {
-
-            String sql = "SELECT RL_STATU FROM room_loc" +
-                    "    WHERE rl_building = '" + map.get("rl_building") + "'" +
-                    " and rl_floor='" + map.get("rl_floor") + "';";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            System.out.println(sql);
-            sb = new StringBuilder();
-            while (rs.next()) {
-                str += (rs.getString("RL_STATU").equalsIgnoreCase("free") && !rs.isLast()) ? "Libre-" : "Occupé-";
-                str += (rs.getString("RL_STATU").equalsIgnoreCase("free") && rs.isLast()) ? "Libre" : "Occupé";
-            }
-            sb.append(str);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return sb;
-    }
-
-    public StringBuilder getPlace(Connection connection, Map<String, String> map) {
-        StringBuilder sb = null;
-        int nb = 0;
-        try {
-
-            String sql = "SELECT count(*) FROM room_loc" +
-                    "    WHERE rl_building = '" + map.get("rl_building") + "'" +
-                    "    and rl_statu = 'free'";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            System.out.println(sql);
-            sb = new StringBuilder();
-            while (rs.next()) {
-                nb++;
-            }
-            sb.append(nb);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return sb;
-    }
-    public StringBuilder getListBuilding(Connection connection, Map<String, String> map) {
-        StringBuilder sb = null;
-        String str = "";
-        try {
-
-            String sql = "select building_name from building order by id_building;";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            System.out.println(sql);
-            sb = new StringBuilder();
-            while (rs.next()) {
-                str += (!rs.isLast()) ? rs.getString("building_name") + "-" : rs.getString("building_name");
-            }
-            sb.append(str);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return sb;
-    }
-    public StringBuilder getListFloor(Connection connection, Map<String, String> map) {
-        StringBuilder sb = null;
-        String str = "";
-        try {
-
-            String sql = "select distinct(RL_FLOOR) from room_loc where RL_BUILDING='"+ map.get("rl_building") +
-                    "' order by RL_FLOOR;";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            System.out.println(sql);
-            sb = new StringBuilder();
-            while (rs.next()) {
-                str += (!rs.isLast()) ? rs.getString("RL_FLOOR") + "-" : rs.getString("RL_FLOOR");
-            }
-            sb.append(str);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return sb;
-    }
-
-    public StringBuilder getNameBuilding(Connection connection, Map<String, String> map) {
-        StringBuilder sb = null;
-        String str = "";
-        try {
-
-            String sql = "select building_name from building where id_building='"+ map.get("rl_building") +"';";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            System.out.println(sql);
-            sb = new StringBuilder();
-            while (rs.next()) {
-                str = rs.getString("building_name");
-            }
-            sb.append(str);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return sb;
-    }
-
-    public StringBuilder getNameBuilding(Connection connection, Map<String, String> map) {
-        StringBuilder sb = null;
-        String str = "";
-        try {
-
-            String sql = "select RL_STATU from room_loc where RL_building='"+ map.get("rl_building") +
-                    "' and RL_FLOOR='"+ map.get("rl_floor") +"';";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            System.out.println(sql);
-            sb = new StringBuilder();
-            while (rs.next()) {
-                str += (!rs.isLast()) ? rs.getString("RL_STATU") + "-" : rs.getString("RL_STATU");
-            }
-            sb.append(str);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return sb;
-    }
-
-    public StringBuilder getNbRoomFree(Connection connection, Map<String, String> map) {
-        StringBuilder sb = null;
-        int nb = 0;
-        try {
-
-            String sql = "select count(*) from room_loc where RL_building='"+ map.get("rl_building") +
-                    " and RL_STATU='free'" +
-                    "' and RL_FLOOR='"+ map.get("rl_floor") +"';";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            System.out.println(sql);
-            sb = new StringBuilder();
-            while (rs.next()) {
-                nb++;
-            }
-            sb.append(nb);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return sb;
-    }
 
 }
 

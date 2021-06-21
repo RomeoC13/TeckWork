@@ -28,8 +28,17 @@ public class IndicOption {
 	public String energyCompany() {
 		return Client.getSend("energyConsommationCompany");
 	}
+	public String buildingUse(){
+		return Client.getSend("buildingUse");
+	}
+	public String usedBatiments(){
+		return Client.getSend("usedBatiment");
+	}
 
 	/****************for the building implementation*********************/
+	public String Nbrfloor(){
+		return  Client.getSend("floorNumber");
+	}
 	public String buildingRate() {
 		return Client.getSend("rateBuilding");
 	}
@@ -46,8 +55,15 @@ public class IndicOption {
 		return Client.getSend("sensorBuilding");
 	}
 
+	public String companyInBuilding(){
+		return Client.getSend("companyBuilding");
+	}
+
 	public String energyBuilding() {
 		return Client.getSend("energyBuilding");
+	}
+	public String allFloor(){
+		return Client.getSend("allFloor");
 	}
 
 }
