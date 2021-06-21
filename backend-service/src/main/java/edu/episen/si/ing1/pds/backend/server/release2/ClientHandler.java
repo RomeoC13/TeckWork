@@ -9,12 +9,10 @@ import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import org.graalvm.compiler.core.common.spi.ConstantFieldProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.jvm.hotspot.debugger.remote.RemoteDebuggerServer;
 
 import java.io.*;
 import java.net.Socket;
 import java.sql.*;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +131,7 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("connectedObject")) {
                 ds.writeUTF(getConnectedObjets(connection, map).toString());
             }
-            if (request.split("@")[0].equals("allEquipment")) {
+            if (request.split("@")[0].equals("AllEquipment")) {
                 ds.writeUTF(getAllEquipments(connection, map).toString());
             }
             if (request.split("@")[0].equals("allSensor")) {
@@ -163,9 +161,6 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("energyConsommationCompany")) {
                 ds.writeUTF(energyCompany(connection, map).toString());
             }
-            if (request.split("@")[0].equals("usedBatiment")) {
-                ds.writeUTF(usedBatiment(connection, map).toString());
-            }
 /************************* ending company indicators ****************************/
 /***********starting for building conditions indicators***************************/
 
@@ -187,213 +182,92 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("energyBuilding")) {
                 ds.writeUTF(energyBuilding(connection, map).toString());
             }
-            if (request.split("@")[0].equals("allFloor")) {
-                ds.writeUTF(getAllfloor(connection, map).toString());
-            }
         /*******************ending building indicators****************************/
 
 /*******************ending conditions for all indicators**********************************/
+
+            // LOCATION
+
+
+            if (request.split("@")[0].equals("energyBuildinginitPlanLocation")) {
+                ds.writeUTF(initPlanLocation(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("getPlace")) {
+                ds.writeUTF(getPlace(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("getListBuilding")) {
+                ds.writeUTF(getListBuilding(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("getListFloor")) {
+                ds.writeUTF(getListFloor(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("getNameBuilding")) {
+                ds.writeUTF(getNameBuilding(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("getNbFloorFree")) {
+                ds.writeUTF(getNbFloorFree(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("getFloorStatu")) {
+                ds.writeUTF(getFloorStatu(connection, map).toString());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
-
-    /*************** starting method request for building indicators*********************/
-
-    private String getAllfloor(Connection connection, Map<String, String> map) {
-        String value = null;
-        try {
-            String sql ="select count(name_floor) from floor" +
-                    " inner join building on floor.id_building = building.id_building " +
-                    "where building_name='"+ map.get("building_name") + "'";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            while (rs.next())
-                value = rs.getString(1);
-
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return value;
+/*************** starting method request for building indicators*********************/
+    private String equipmentBuilding(Connection connection, Map<String, String> map) {return null;
     }
 
-    private String equipmentBuilding(Connection connection, Map<String, String> map) {
-        String value = null;
-        try {
-            String sql ="select count(position_screen)" +
-                    " from room inner join floor on floor.id_floor = room.id_floor " +
-                    "inner join building on building.id_building = floor.id_building " +
-                    "where building_name='"+ map.get("building_name") + "'";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            while (rs.next())
-                value = rs.getString(1);
-
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return value;
-    }
-
-    private Integer objectBuilding(Connection connection, Map<String, String> map) {
-        int sum = 0;
-        int col1 =0;
-        int col2 =0;
-        int col3 = 0;
-        try {
-            String sql ="select count(position_screen), count(position_plug), count(position_windows)" +
-                    " from room inner join floor on floor.id_floor = room.id_floor " +
-                    "inner join building on building.id_building = floor.id_building " +
-                    "where building_name='"+ map.get("building_name") + "'";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            while (rs.next()){
-                col1 = rs.getInt(1);
-                col2 = rs.getInt(2);
-                col3 = rs.getInt(3);
-            }
-            sum = col1 + col2 + col3;
-
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return sum;
+    private String objectBuilding(Connection connection, Map<String, String> map) {return null;
     }
 
     private String rateBuilding(Connection connection, Map<String, String> map) {return null;
     }
 
     private String energyBuilding(Connection connection, Map<String, String> map) {
-        NumberFormat format = NumberFormat.getInstance();
-        format.setMinimumFractionDigits(2);
         String value = null;
-        double resp = 0.0;
+        log.info(map.get("je suis là"+"building_name"));
         try{
             String sql = "select energy from building where " +
                     "building_name = '"+ map.get("building_name") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
-                resp = rs.getDouble(1);
-            value = format.format(resp);
+                value = rs.getString(1);
+            log.info(map.get("building_name"));
         }catch (Exception e){
             e.printStackTrace();
         }
         return value;
     }
 
-    private String sensorBuilding(Connection connection, Map<String, String> map) {
-        String value = null;
-        try {
-
-            String sql = "select count(position_sensor) from room inner join floor" +
-                    " on floor.id_floor = room.id_floor inner join building on" +
-                    " building.id_building = floor.id_building " +
-                    "where building_name='" + map.get("building_name") + "'";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            while (rs.next())
-                value = rs.getString(1);
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return value;
+    private String sensorBuilding(Connection connection, Map<String, String> map) {return null;
     }
 
-    private String companyBuilding(Connection connection, Map<String, String> map) {
-        String value = null;
-        try {
-
-        String sql = "select count(distinct company_name) from company inner join location" +
-                " on company.company_id= location.id_location inner join room" +
-                " on room.id_location = location.id_location inner join floor " +
-                "on floor.id_floor = room.id_floor inner join building " +
-                "on building.id_building = floor.id_building " +
-                "where building_name='"+ map.get("building_name") +"'";
-        ResultSet rs = connection.createStatement().executeQuery(sql);
-        while (rs.next())
-            value = rs.getString(1);
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return value;
+    private String companyBuilding(Connection connection, Map<String, String> map) { return null;
     }
 /********************** end of method for building indicators******************/
 /************************starting request methods for company indicators*****************************/
-
-
-    private String usedBatiment(Connection connection, Map<String, String> map) {
+    private String equipmentCompany(Connection connection, Map<String, String> map) {
         String value = null;
         try{
-            String sql = "select distinct building_name from building inner join floor\n" +
-                    "on building.id_building = floor.id_building inner join room\n" +
-                    "on floor.id_floor = room.id_floor inner join location on\n" +
-                    "room.id_location = location.id_location inner join company on\n" +
-                    "company.company_id= location.id_location " +
+            String sql = "select count(*) from company " +
                     "where company_name = '" + map.get("company_name") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
                 value = rs.getString(1);
+            log.info(value);
         }catch (Exception e){
             e.printStackTrace();
         }
         return value;
-
-    }
-
-    private Integer equipmentCompany(Connection connection, Map<String, String> map) {
-
-        int val1 = 0;
-        int val2 = 0;
-        int val3 = 0;
-        try{
-            String sql ="select distinct (select count(position_screen) " +
-                    "from room where position_screen = true) from room" +
-                    " inner join location on room.id_location = location.id_location" +
-                    " inner join company on company.company_id= location.id_location" +
-                    " where company_name ='" + map.get("company_name") + "'";
-
-            String sql2 = "select distinct (select count(position_windows) " +
-                    "from room where position_windows = true) from room" +
-                    " inner join location on room.id_location = location.id_location" +
-                    " inner join company on company.company_id= location.id_location" +
-                    " where company_name ='" + map.get("company_name") + "'";
-
-            String sql3 = "select distinct (select count(position_plug) " +
-                    "from room where position_plug = true) from room" +
-                    " inner join location on room.id_location = location.id_location" +
-                    " inner join company on company.company_id= location.id_location" +
-                    " where company_name ='" + map.get("company_name") + "'";
-            ResultSet rs1 = connection.createStatement().executeQuery(sql);
-            while (rs1.next())
-                val1 = rs1.getInt(1);
-            log.info(" je suis là val1 " +val1);
-            ResultSet rs2 = connection.createStatement().executeQuery(sql);
-            while (rs2.next())
-                val2 = rs2.getInt(1);
-            log.info(" je suis là val2 " +val2);
-            ResultSet rs3 = connection.createStatement().executeQuery(sql);
-            while (rs3.next())
-                val3 = rs3.getInt(1);
-            log.info(" je suis là val3 " +val3);
-
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return val1+val3+val2;
     }
 
     private String sensorCompany(Connection connection, Map<String, String> map) {
         String value = null;
         try{
-            String sql = "select distinct (select count(position_sensor) from room where position_sensor = true) from room inner join location\n" +
-                    "on room.id_location = location.id_location inner join company on\n" +
-                    "company.company_id= location.id_location\n" +
-                    "where company_name = '" + map.get("company_name") + "'";
+            String sql = "select count(*) from company where " +
+                    "company_name = '" + map.get("company_name") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
                 value = rs.getString(1);
@@ -428,20 +302,17 @@ public class ClientHandler implements Runnable {
 
 /** information general*/
     private String getEnergy(Connection connection, Map<String, String> map) {
-        NumberFormat format = NumberFormat.getInstance();
-        format.setMinimumFractionDigits(2);
-        String s = null ;
-        double d = 0.0;
+        String value = null;
         try{
             String sql = "select sum(energy) from building";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
-                d = rs.getDouble(1);
-            s=format.format(d);
+                value = rs.getString(1);
+            log.info(value);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return s;
+        return value;
     }
 
     private String getAllCompany(Connection connection, Map<String, String> map) {
@@ -465,13 +336,14 @@ public class ClientHandler implements Runnable {
         String resp = null;
         try{
             String sql = "select count(position_sensor) from room where position_sensor=true ";
-            String sql2 = "select count(position_sensor) from room";
+            String sql2 = "select count(position_sensor) from room where position_sensor=false";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             ResultSet rs2 = connection.createStatement().executeQuery(sql2);
             while (rs.next())
                 value = rs.getString(1);
             while (rs2.next())
                 value2 = rs2.getString(1);
+            log.info(resp);
             resp = value+"/"+value2;
         }catch (Exception e){
             e.printStackTrace();
@@ -479,68 +351,28 @@ public class ClientHandler implements Runnable {
         return resp;
     }
 
-    private String getAllEquipments(Connection connection, Map<String, String> map) {
-
-        String value = null;
-        String value2 = null;
-        String resp = null;
-        try{
-            String sql = "select count(position_screen) from room where position_screen=true";
-            String sql2 = "select count(position_screen) from room";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            ResultSet rs2 = connection.createStatement().executeQuery(sql2);
-            while (rs.next())
-                value = rs.getString(1);
-            while (rs2.next())
-                value2 = rs2.getString(1);
-            resp = value+"/"+value2;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return resp;
+    private StringBuilder getAllEquipments(Connection connection, Map<String, String> map) {
+        return null;
     }
 
-    private Integer getConnectedObjets(Connection connection, Map<String, String> map) {
-       Integer load = 0;
-        int val1 = 0;
-        int val2 = 0;
-        try {
-
-
-            String sql = " select sum(n) from (\n" +
-                    "select count(*) n from room where position_screen = true union\n" +
-                    "select count (*) from room where position_plug = true union\n" +
-                    "select count(*) from room where position_windows = true) as mesRequest";
-            String sql2 = "select count(position_sensor) from room where position_sensor=true";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            ResultSet rs2 = connection.createStatement().executeQuery(sql2);
-            while (rs.next())
-                val1 = rs.getInt(1);
-            while (rs.next())
-                 val2 = rs2.getInt(1);
-            load = val1 + val2;
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return load;
+    private StringBuilder getConnectedObjets(Connection connection, Map<String, String> map) {
+        return null;
     }
 
-    private String rateOccupation(Connection connection, Map<String, String> map) {
-        NumberFormat format = NumberFormat.getInstance();
-        format.setMinimumFractionDigits(2);
-        String s = null;
+    private StringBuilder rateOccupation(Connection connection, Map<String, String> map) {
+        StringBuilder value = null;
 
         try {
-            String sql =" select * from room" ;
+            String sql = "(select count(*) from room where status = 'booked'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
-            while (rs.next())
-                s =(rs.getString(1));
-
+            while (rs.next()){
+                value.append(rs.getString(1));
+            }
 
         }catch (Exception e){
             e.printStackTrace();
         }
-        return s;
+        return value;
     }
     /** end  of information general*/
 /* for selecting company in to a combobox**/
@@ -894,7 +726,160 @@ public class ClientHandler implements Runnable {
         return sb;
     }
 
+    // LOCATION
 
+    public StringBuilder initPlanLocation(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        String str = "";
+        try {
+
+            String sql = "SELECT RL_STATU FROM room_loc" +
+                    "    WHERE RL_BUILDING = '" + map.get("rl_building") + "'" +
+                    " and RL_FLOOR='" + map.get("rl_floor") + "';";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                str+=(!rs.isLast() && rs.getString("RL_STATU").equalsIgnoreCase("free")) ? "Libre-" : "Occupé-";
+                str+=(rs.isLast() && rs.getString("RL_STATU").equalsIgnoreCase("free")) ? "Libre" : "Occupé";
+            }
+            sb.append(str);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder getPlace(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        int nb = 0;
+        try {
+
+            String sql = "SELECT count(*) FROM room_loc" +
+                    "    WHERE RL_BUILDING = '" + map.get("rl_building") + "'" +
+                    " and RL_STATU='free';";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                nb++;
+            }
+            sb.append(nb);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder getListBuilding(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        String str = "";
+        try {
+
+            String sql = "SELECT building_name FROM building order by id_building";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                str += (!rs.isLast()) ? rs.getString("building_name") + "-" : rs.getString("building_name");
+            }
+            sb.append(str);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder getListFloor(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        String str = "";
+        try {
+
+            String sql = "SELECT distinct(RL_FLOOR) FROM ROOM_LOC"+
+                    " where RL_BUILDING='" + map.get("rl_building") + "'"
+                    " order by RL_FLOOR";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                str += (!rs.isLast()) ? rs.getString("RL_FLOOR") + "-" : rs.getString("RL_FLOOR");
+            }
+            sb.append(str);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder getNameBuilding(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        String str = "";
+        try {
+
+            String sql = "SELECT building_name FROM building where id_building='" + map.get("rl_building") + "'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                str = rs.getString("building_name");
+            }
+            sb.append(str);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder getNbFloorFree(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        int nb = 0;
+        try {
+
+            String sql = "SELECT count(*) from room_loc"+
+                    "    WHERE RL_BUILDING = '" + map.get("rl_building") + "'" +
+                    " and RL_FLOOR='" + map.get("rl_floor") + "'" +
+                    " and RL_STATU='free'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                nb++;
+            }
+            sb.append(nb);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder getFloorStatu(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        String str = "";
+        try {
+
+            String sql = "SELECT RL_STATU from room_loc"+
+                    "    WHERE RL_BUILDING = '" + map.get("rl_building") + "'" +
+                    " and RL_FLOOR='" + map.get("rl_floor") + "'";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                str += (!rs.isLast() && rs.getString("RL_STATU").equalsIgnoreCase("free")) ? "Libre-" : "Occupé-";
+                str += (rs.isLast() && rs.getString("RL_STATU").equalsIgnoreCase("free")) ? "Libre" : "Occupé";
+            }
+            sb.append(str);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
 }
 
 
