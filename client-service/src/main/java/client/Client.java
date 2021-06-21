@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import ui.Home;
 import userIHM.WindowsMapping;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -44,8 +45,23 @@ public class Client {
             System.out.println("finis");
 
             sleep(1000);
+/****** setting a beautiful lookandfeel******/
+            try {
+                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
 
-            new Home();
+                        new Home();
+                        break;
+                    } else {
+                        UIManager.setLookAndFeel  ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                    }
+                }
+            } catch (Exception e) {
+                // If Nimbus is not available, you can set to another look and feel.
+                // I can't get it to compile or work.
+            }
+
 
         } catch (IOException e) {
             e.printStackTrace();
