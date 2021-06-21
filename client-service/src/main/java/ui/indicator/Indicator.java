@@ -36,6 +36,7 @@ public class Indicator extends JFrame {
 	protected JButton allInfo;
 	protected JButton infoByCompany;
 	protected JButton infoByBuilding;
+	protected JButton cleaner;
 
 
 	public Indicator(String company_name) {
@@ -64,14 +65,30 @@ public class Indicator extends JFrame {
 	private JPanel optionOFTop() {
 		JPanel mainTopPanel = new JPanel(new BorderLayout());
 
-		JPanel topPanel = new JPanel(new FlowLayout());
+		JPanel topPanel = new JPanel(new GridLayout(2,2));
 		topPanel.setPreferredSize(new Dimension(10, 110));
+		cleaner = new JButton("effaceur");
+		cleaner.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				companyField.setText("");
+				itemsField.setText("");
+				equipmentField.setText("");
+				sensorField.setText("");
+				energyField.setText("");
+				occupationField.setText("");
+				batimentField.setText("");
+				floorField.setText("");
+
+			}
+		});
+		topPanel.add(cleaner);
 		allInfo = new JButton("information generale");
 		allInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				titleField.setText("vous êtes sur les informations génerales des batiments");
+				titleField.setText("Vous êtes sur les informations génerales de toute la location");
 				occupationField.setText(data.getOccupancy());
 				itemsField.setText(data.getConnectedObject());
 				equipmentField.setText(data.getEquipment());

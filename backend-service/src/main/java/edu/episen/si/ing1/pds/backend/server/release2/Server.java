@@ -10,7 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
 import java.util.Properties;
-import edu.episen.si.ing1.pds.backend.server.release2.ClientHandler;
+
 
 public class Server {
     private final static Logger log = LoggerFactory.getLogger(Server.class.getName());
