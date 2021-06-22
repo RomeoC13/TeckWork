@@ -129,5 +129,10 @@
   "getFloorStatu": {
     "rl_building":  "",
     "rl_floor":  ""
+  },
+  "setFloorStatu": {
+    "rl_building":  "",
+    "rl_floor":  "",
+    "rl_floor_to_set":""
   }
 }
