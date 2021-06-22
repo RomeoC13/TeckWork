@@ -5,13 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.SystemColor;
 
@@ -47,7 +41,10 @@ public class WindowsMenu extends JFrame {
         // the top panel contains
         //panel.add(BorderLayout.NORTH, optionTopPanel());
         //this.setd
-
+        if(!companyName.equals("Mairie"))
+            sm.getIndicator().setEnabled(false);
+        else if (sm.getDeconnexion().getActionCommand().equals("D�connexion"))
+            this.dispose();
 
     }
 
@@ -89,4 +86,8 @@ public class WindowsMenu extends JFrame {
     public void setPanelCenter(JPanel panelCenter) {
         this.panelCenter = panelCenter;
     }
+
+    public static void main(String[] args) {
+		new WindowsMenu(null);
+	}
 }
