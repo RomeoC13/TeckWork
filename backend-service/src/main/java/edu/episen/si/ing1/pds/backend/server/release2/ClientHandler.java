@@ -348,10 +348,10 @@ public class ClientHandler implements Runnable {
     private String usedBatiment(Connection connection, Map<String, String> map) {
         String value = "";
         try{
-            String sql = "select distinct building_name from building inner join floor\n" +
-                    "on building.id_building = floor.id_building inner join room\n" +
-                    "on floor.id_floor = room.id_floor inner join location on\n" +
-                    "room.id_location = location.id_location inner join company on\n" +
+            String sql = "select distinct building_name from building inner join floor" +
+                    "on building.id_building = floor.id_building inner join room" +
+                    "on floor.id_floor = room.id_floor inner join location on" +
+                    "room.id_location = location.id_location inner join company on" +
                     "company.company_id= location.id_location " +
                     "where company_name = '" + map.get("company_name") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
@@ -411,9 +411,9 @@ public class ClientHandler implements Runnable {
         String value = "";
         try{
             String sql = "select distinct (select count(position_sensor) from room" +
-                    " where position_sensor = true) from room inner join location\n" +
-                    "on room.id_location = location.id_location inner join company on\n" +
-                    "company.company_id= location.id_location\n" +
+                    " where position_sensor = true) from room inner join location" +
+                    "on room.id_location = location.id_location inner join company on" +
+                    "company.company_id= location.id_location" +
                     "where company_name = '" + map.get("company_name") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
@@ -530,9 +530,9 @@ public class ClientHandler implements Runnable {
         try {
 
 
-            String sql = " select sum(n) from (\n" +
-                    "select count(*) n from room where position_screen = true union\n" +
-                    "select count (*) from room where position_plug = true union\n" +
+            String sql = " select sum(n) from (" +
+                    "select count(*) n from room where position_screen = true union" +
+                    "select count (*) from room where position_plug = true union" +
                     "select count(*) from room where position_windows = true) as mesRequest";
             String sql2 = "select count(position_sensor) from room where position_sensor=true";
             ResultSet rs = connection.createStatement().executeQuery(sql);
@@ -607,11 +607,20 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "SELECT name_floor FROM floor INNER JOIN building ON " +
-                    "building.id_building = floor.id_building WHERE " +
-                    "building.id_building = '" + map.get("id_building") + "'";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
+            String sql = "SELECT DISTINCT name_floor " +
+                    "FROM floor " +
+                    "INNER JOIN building  " +
+                    "ON building.id_building = floor.id_building " +
+                    "INNER JOIN room " +
+                    "ON room.id_floor = floor.id_floor " +
+                    "InNER JOIN location " +
+                    "ON room.id_location = location.id_location " +
+                    "INNER JOIN company " +
+                    "ON company.company_id = location.company_id" +
+                    " WHERE company.company_name = '"+map.get("company_name")+"' AND building.building_name = '"+map.get("building_name")+"'";
             System.out.println(sql);
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+
             sb = new StringBuilder();
             while (rs.next()) {
                 sb.append(rs.getString(1) + "@");

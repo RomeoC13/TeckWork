@@ -6,7 +6,8 @@
     "occupied": ""
   },
   "requestFloor": {
-    "id_building": ""
+    "company_name": "",
+    "building_name":""
   },
   "requestObjetConn": {
     "id_location": "",

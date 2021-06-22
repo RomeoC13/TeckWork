@@ -103,7 +103,8 @@ public class WindowsMapping extends JFrame {
                     }
                     // System.out.println(b);
                 }
-                map.get("requestFloor").put("id_building", idbuilding[0]);
+                map.get("requestFloor").put("company_name", company_name);
+                map.get("requestFloor").put("building_name", str);
                 response = getSend("requestFloor");
                 String[] floor = response.split("@");
                 for (String b : floor) {
@@ -184,16 +185,18 @@ public class WindowsMapping extends JFrame {
 
 
                 getContentPane().add(panels);
-                if (roomValue.contains("Bureaux")) {
+                if (roomValue.contains("Bureau") | roomValue.contains("Petite salle")) {
                     panelBureau.roomScreenSelected = true;
                     panelBureau.roomPriseSelected = true;
                     panelBureau.roomSensorSelected = true;
                     panelBureau.roomWindowsSelected = true;
-                    panelBureau.revalidate();
+                   // panelBureau.revalidate();
                     cardLayout.show(panels, "panelBureau");
-                    frame.repaint();
+                    //frame.repaint();
+
+
                 }
-                if (roomValue.contains("Salle de conférence")) {
+                if (roomValue.contains("Salle de conférence") | roomValue.contains("Salle ouverte")) {
                     panelRoom.roomselected = true;
                     panelRoom.roomPriseSelected = true;
                     panelRoom.roomSensorSelected = true;
@@ -201,6 +204,8 @@ public class WindowsMapping extends JFrame {
                     panelRoom.revalidate();
                     cardLayout.show(panels, "panelRoom");
                     frame.repaint();
+
+
                 }
 
             }

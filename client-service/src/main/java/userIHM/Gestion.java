@@ -19,8 +19,7 @@ import static client.Client.map;
  *
  * @author Michael CHACHA
  * * @version 1.0
- * */
-
+ */
 
 
 public class Gestion extends JPanel implements MouseListener {
@@ -28,6 +27,7 @@ public class Gestion extends JPanel implements MouseListener {
     public boolean roomPriseSelected;
     public boolean roomSensorSelected;
     public boolean roomWindowsSelected;
+
     public Gestion() {
         setPreferredSize(new Dimension(750, 750));
         this.addMouseListener(this);
@@ -43,23 +43,12 @@ public class Gestion extends JPanel implements MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (roomScreenSelected) {
-           drawPositions();
-            revalidate();
-        }
-        if (roomPriseSelected) {
-            drawPrisePosition();
-            revalidate();
-        }
-        if (roomSensorSelected) {
-            drawSensorPosition();
-            revalidate();
-        }
-        if (roomWindowsSelected) {
-            drawWindowsPosition();
-            revalidate();
-        }
 
+        drawPositions();
+        drawPrisePosition();
+        drawSensorPosition();
+        drawWindowsPosition();
+        revalidate();
 
 
     }
@@ -78,7 +67,7 @@ public class Gestion extends JPanel implements MouseListener {
                 if (b.contains("@")) {
                     b.replace("@", "");
                 }
-                System.out.println(b);
+                //System.out.println(b);
             }
 
             if (!answers[0].contains("t")) {
@@ -93,14 +82,14 @@ public class Gestion extends JPanel implements MouseListener {
             currentEquipment = ImageIO.read(imgURL);
 
             getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
-            getGraphics().drawImage(currentEquipment, 99, 377, 50, 50, null);
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void drawPrisePosition () {
+    public void drawPrisePosition() {
         URL imgURL;
         BufferedImage currentEquipment;
 
@@ -113,7 +102,7 @@ public class Gestion extends JPanel implements MouseListener {
                 if (b.contains("@")) {
                     b.replace("@", "");
                 }
-                System.out.println(b);
+               // System.out.println(b);
             }
             if (!answers[0].contains("t")) {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
@@ -122,12 +111,6 @@ public class Gestion extends JPanel implements MouseListener {
             }
             currentEquipment = ImageIO.read(imgURL);
             getGraphics().drawImage(currentEquipment, 533, 201, 50, 50, null);
-
-            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-            currentEquipment = ImageIO.read(imgURL);
-
-            getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
-
 
 
         } catch (IOException e) {
@@ -148,7 +131,7 @@ public class Gestion extends JPanel implements MouseListener {
                 if (b.contains("@")) {
                     b.replace("@", "");
                 }
-                System.out.println(b);
+               // System.out.println(b);
             }
             if (!answers[0].contains("t")) {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
@@ -158,10 +141,6 @@ public class Gestion extends JPanel implements MouseListener {
             currentEquipment = ImageIO.read(imgURL);
             getGraphics().drawImage(currentEquipment, 99, 377, 50, 50, null);
 
-            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-            currentEquipment = ImageIO.read(imgURL);
-
-            getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -182,7 +161,7 @@ public class Gestion extends JPanel implements MouseListener {
                 if (b.contains("@")) {
                     b.replace("@", "");
                 }
-                System.out.println(b);
+               // System.out.println(b);
             }
             if (!answers[0].contains("t")) {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
@@ -192,8 +171,6 @@ public class Gestion extends JPanel implements MouseListener {
             currentEquipment = ImageIO.read(imgURL);
             getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
 
-            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-            currentEquipment = ImageIO.read(imgURL);
 
         } catch (IOException e) {
             e.printStackTrace();
