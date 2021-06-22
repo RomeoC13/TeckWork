@@ -554,19 +554,25 @@ public class ClientHandler implements Runnable {
     private String rateOccupation(Connection connection, Map<String, String> map) {
         NumberFormat format = NumberFormat.getInstance();
         format.setMinimumFractionDigits(2);
-        String s = null;
+        double d = 0.0;
+        double d2 =0.0;
+        String value ="";
 
         try {
             String sql = "select count(*) from room where status = 'booked'";
+            String sql2 ="select count(*) from room";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
-                s =rs.getString(1);
-
+                d =rs.getDouble(1);
+            ResultSet rs2 = connection.createStatement().executeQuery(sql2);
+            while (rs2.next())
+                d2 =rs2.getDouble(1);
+            value = format.format((d/d2) * 100);
 
         }catch (Exception e){
             e.printStackTrace();
         }
-        return s;
+        return value+"%";
     }
 /******************************************* end  of information general*****************************/
 /* for selecting company in to a combobox**/
@@ -998,7 +1004,7 @@ public class ClientHandler implements Runnable {
 
             String sql = "SELECT distinct(f.name_floor) FROM floor f"+
                     " inner join building b on b.id_building = f.id_building" +
-                    " where b.building_name='" + map.get("rl_building") + "'"
+                    " where b.building_name='" + map.get("rl_building") + "'"+
                     " order by f.name_floor";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);

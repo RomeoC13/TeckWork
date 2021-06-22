@@ -36,9 +36,6 @@ public class IndicOption {
 	}
 
 	/****************for the building implementation*********************/
-	public String Nbrfloor(){
-		return  Client.getSend("floorNumber");
-	}
 	public String buildingRate() {
 		return Client.getSend("rateBuilding");
 	}
