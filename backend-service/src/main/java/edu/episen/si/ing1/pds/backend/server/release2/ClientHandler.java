@@ -282,28 +282,28 @@ public class ClientHandler implements Runnable {
     private String rateBuilding(Connection connection, Map<String, String> map) {
         NumberFormat format = NumberFormat.getInstance();
         format.setMinimumFractionDigits(2);
-        double d = 0.0;
+        double d = 0;
         double d2 =0.0;
         String value ="";
 
         try {
-            String sql = "select count(distinct name_room) from room inner join floor " +
+            String sql = "select  count(name_room) from room inner join floor " +
                     "on room.id_floor = floor.id_floor inner join building " +
                     "on floor.id_building = building.id_building " +
-                    "where status = 'booked' and building_name = '"+map.get("building.name")+"'";
+                    "where status = 'booked' and building_name = '"+map.get("building_name")+"'";
 
-            String sql2 ="select count(distinct name_room) from room inner join floor " +
+            String sql2 ="select count(name_room) from room inner join floor " +
                     "on room.id_floor = floor.id_floor inner join building " +
                     "on floor.id_building = building.id_building " +
                     "where building_name = '"+map.get("building_name")+"'";
 
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
-                d =rs.getDouble(1);
+                d = rs.getDouble(1);
             log.info("je suis d "+d);
             ResultSet rs2 = connection.createStatement().executeQuery(sql2);
             while (rs2.next())
-                d2 =rs2.getDouble(1);
+                d2 = rs2.getDouble(1);
             log.info("je suis d2 "+ d2);
             value = format.format((d/d2) * 100);
             log.info("je suis val "+value);
