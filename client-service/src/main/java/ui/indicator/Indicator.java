@@ -102,14 +102,12 @@ public class Indicator extends JFrame {
 				String request = Client.getSend("requestCompany");
 				/**sorting my list of building*********/
 				String[] sortRequest = request.split("@");
-
+				Arrays.sort(sortRequest);
 
 				/***** adding to my combobox**********/
 				JComboBox comboBox = new JComboBox();
-				for (Object o : sortRequest ){
-					Arrays.sort(sortRequest);
+				for (Object o : sortRequest )
 					comboBox.addItem(o);
-				}
 				comboBox.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
