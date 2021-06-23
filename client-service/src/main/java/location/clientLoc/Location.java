@@ -186,11 +186,11 @@ public class Location {
         String str = "";
         String tab[] = new String[18];
         if(bat.equalsIgnoreCase(r.getNomBat(0))) {
-            if(r.getNbSalleDispo(bat, "Etage 1") >= nbSalle) {
+            if(r.getNbSalleDispo(bat, "etage 1") >= nbSalle) {
                 str = "Etage 1 : Salles ";
-                for (int i = 0; i < r.getDispoEtage(bat, "Etage 1").length; i++) {
+                for (int i = 0; i < r.getDispoEtage(bat, "etage 1").length; i++) {
                     if (compt > 0) {
-                        if (r.getDispoEtage(bat, "Etage 1")[i].equalsIgnoreCase("Libre")) {
+                        if (r.getDispoEtage(bat, "etage 1")[i].equalsIgnoreCase("free")) {
                             str += (i + 1) + " / ";
                             compt--;
                         }

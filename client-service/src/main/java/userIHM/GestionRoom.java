@@ -45,6 +45,7 @@ public class GestionRoom extends JPanel implements MouseListener {
         if (roomselected) {
             drawPositions();
             revalidate();
+
         }
 
         if (roomPriseSelected) {
@@ -88,11 +89,7 @@ public class GestionRoom extends JPanel implements MouseListener {
             currentEquipment = ImageIO.read(imgURL);
             getGraphics().drawImage(currentEquipment, 111, 430, 50, 50, null);
 
-            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-            currentEquipment = ImageIO.read(imgURL);
 
-            getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null); //*fenetre*//*
-            getGraphics().drawImage(currentEquipment, 236, 189, 50, 50, null); //*capteur*//*
 
 
         } catch (Exception e) {
@@ -123,10 +120,7 @@ public class GestionRoom extends JPanel implements MouseListener {
             currentEquipment = ImageIO.read(imgURL);
             getGraphics().drawImage(currentEquipment, 557, 560, 50, 50, null);
 
-            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-            currentEquipment = ImageIO.read(imgURL);
 
-            getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null); //*fenetre*//*
 
 
 
@@ -159,8 +153,6 @@ public class GestionRoom extends JPanel implements MouseListener {
             currentEquipment = ImageIO.read(imgURL);
             getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null);
 
-            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-            currentEquipment = ImageIO.read(imgURL);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -190,10 +182,6 @@ public class GestionRoom extends JPanel implements MouseListener {
             currentEquipment = ImageIO.read(imgURL);
             getGraphics().drawImage(currentEquipment, 236, 189, 50, 50, null);
 
-            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-            currentEquipment = ImageIO.read(imgURL);
-
-            getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null);
 
         } catch (IOException e) {
             e.printStackTrace();
