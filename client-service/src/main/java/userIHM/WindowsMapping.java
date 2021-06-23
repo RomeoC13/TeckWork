@@ -31,7 +31,7 @@ import static client.Client.*;
  *
  * @author Michael CHACHA
  * * @version 1.0
- * */
+ */
 
 public class WindowsMapping extends JFrame {
     JPanel panel = new JPanel();
@@ -67,8 +67,8 @@ public class WindowsMapping extends JFrame {
         listRoom = new JComboBox<>();
 
         this.setTitle("Bienvenue à l'affichage");
-        this.setSize(800, 800);
-        //this.setResizable(false);
+        this.setSize(900, 800);
+        this.setResizable(false);
         getContentPane().setBackground(Color.white);
         panel.setBackground(Color.BLUE);
         panel.setPreferredSize(new Dimension(150, 150));
@@ -186,13 +186,18 @@ public class WindowsMapping extends JFrame {
 
                 getContentPane().add(panels);
                 if (roomValue.contains("Bureau") | roomValue.contains("Petite salle")) {
-                    panelBureau.roomScreenSelected = true;
-                    panelBureau.roomPriseSelected = true;
-                    panelBureau.roomSensorSelected = true;
-                    panelBureau.roomWindowsSelected = true;
-                   // panelBureau.revalidate();
+
+
+
+                    panelBureau.drawPositions();
+                    panelBureau.drawPrisePosition();
+                    panelBureau.drawSensorPosition();
+                    panelBureau.drawWindowsPosition();
+                    panelBureau.revalidate();
+
+
+                    frame.repaint();
                     cardLayout.show(panels, "panelBureau");
-                    //frame.repaint();
 
 
                 }

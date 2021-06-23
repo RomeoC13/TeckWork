@@ -44,11 +44,11 @@ public class Gestion extends JPanel implements MouseListener {
             e.printStackTrace();
         }
 
+
         drawPositions();
         drawPrisePosition();
         drawSensorPosition();
         drawWindowsPosition();
-        revalidate();
 
 
     }
@@ -102,7 +102,7 @@ public class Gestion extends JPanel implements MouseListener {
                 if (b.contains("@")) {
                     b.replace("@", "");
                 }
-               // System.out.println(b);
+                // System.out.println(b);
             }
             if (!answers[0].contains("t")) {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
@@ -131,7 +131,7 @@ public class Gestion extends JPanel implements MouseListener {
                 if (b.contains("@")) {
                     b.replace("@", "");
                 }
-               // System.out.println(b);
+                // System.out.println(b);
             }
             if (!answers[0].contains("t")) {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
@@ -161,7 +161,7 @@ public class Gestion extends JPanel implements MouseListener {
                 if (b.contains("@")) {
                     b.replace("@", "");
                 }
-               // System.out.println(b);
+                // System.out.println(b);
             }
             if (!answers[0].contains("t")) {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
