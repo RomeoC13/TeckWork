@@ -16,8 +16,8 @@ public class Plan extends Canvas{
     static JPanel panelTop = new JPanel();
     static serveurLoc r = new serveurLoc();
 
-    static String bat = "97 avenue de Pages, Paris 15";
-    static String etage = "Etage 1";
+    static String bat = "Batiment A";
+    static String etage = "etage 1";
 
     static class StyledButtonUI extends BasicButtonUI {
 
@@ -53,7 +53,7 @@ public class Plan extends Canvas{
         String[] tabOcu = r.initPlan(bat, etage);
         for(int i = 0; i < 18; i++) {
             if (i < 9) {
-                if (tabOcu[i].equalsIgnoreCase("Occupé")) {
+                if (tabOcu[i].equalsIgnoreCase("booked")) {
                     g.setColor(Color.RED);
                     space = (i == 0) ? 0 : i * 10;
                     g.fillRect(40 + (150 * i) + space, 50, 150, 100);
@@ -63,7 +63,7 @@ public class Plan extends Canvas{
                     g.drawRect(40 + (150 * i) + space, 50, 150, 100);
                 }
             } else if (i >= 9) {
-                if (tabOcu[i].equalsIgnoreCase("Occupé")) {
+                if (tabOcu[i].equalsIgnoreCase("booked")) {
                     g.setColor(Color.RED);
                     space = (i == 9) ? 0 : (i - 9) * 10;
                     g.fillRect(40 + (150 * (i - 9)) + space, 200, 150, 100);

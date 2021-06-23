@@ -13,7 +13,7 @@ import ui.WindowsMenu;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 public class Indicator extends JFrame {
@@ -67,22 +67,6 @@ public class Indicator extends JFrame {
 
 		JPanel topPanel = new JPanel(new GridLayout(2,2));
 		topPanel.setPreferredSize(new Dimension(10, 110));
-		cleaner = new JButton("effaceur");
-		cleaner.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				companyField.setText("");
-				itemsField.setText("");
-				equipmentField.setText("");
-				sensorField.setText("");
-				energyField.setText("");
-				occupationField.setText("");
-				batimentField.setText("");
-				floorField.setText("");
-
-			}
-		});
-		topPanel.add(cleaner);
 		allInfo = new JButton("information generale");
 		allInfo.addActionListener(new ActionListener() {
 			@Override
@@ -112,10 +96,20 @@ public class Indicator extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JPanel pan  = new JPanel(new BorderLayout());
-				String request = Client.getSend("requestCompany");
-				List test = List.of(request.split("@"));
 				JTextField field = new JTextField();
+
+
+				String request = Client.getSend("requestCompany");
+				/**sorting my list of building*********/
+				String[] sortRequest = request.split("@");
+
+
+				/***** adding to my combobox**********/
 				JComboBox comboBox = new JComboBox();
+				for (Object o : sortRequest ){
+					Arrays.sort(sortRequest);
+					comboBox.addItem(o);
+				}
 				comboBox.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -123,10 +117,9 @@ public class Indicator extends JFrame {
 
 					}
 				});
-				for(Object o: test)
-					comboBox.addItem(o);
 				pan.add(new JLabel("Veuillez entrer le nom d'une entreprise"), BorderLayout.NORTH);
 				pan.add(comboBox, BorderLayout.SOUTH);
+
 
 				pan.add(field, BorderLayout.CENTER);
 
@@ -163,10 +156,18 @@ public class Indicator extends JFrame {
 		infoByBuilding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JPanel pan = new JPanel(new BorderLayout());
-				String request = Client.getSend("requestBuilding");
-				List test = List.of(request.split("@"));
 				JTextField field = new JTextField();
+
+
+				String request = Client.getSend("requestBuilding");
+				/**sorting my list of building*********/
+				String[] sortRequest = request.split("@");
+				Arrays.sort(sortRequest);
+
+				/***** adding to my combobox**********/
 				JComboBox comboBox = new JComboBox();
+				for (Object o : sortRequest )
+					comboBox.addItem(o);
 				comboBox.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -174,16 +175,12 @@ public class Indicator extends JFrame {
 						field.setText(comboBox.getSelectedItem().toString());
 					}
 				});
-
-
-				for (Object o : test)
-					comboBox.addItem(o);
 				pan.add(new JLabel("Veuillez choisir un batiment"), BorderLayout.NORTH);
 				pan.add(comboBox, BorderLayout.SOUTH);
 
 				pan.add(field, BorderLayout.CENTER);
-
-				int response = JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
+/***************     using a joption pane to display all the company ***************/
+				int response = JOptionPane.showConfirmDialog(null, pan, "choix d'un bâtiment", JOptionPane.OK_CANCEL_OPTION);
 
 				if(response == JOptionPane.OK_OPTION){
 					titleField.setText("vous êtes sur les informations génerales du bâtiment: " +field.getText());
@@ -213,6 +210,25 @@ public class Indicator extends JFrame {
 			}
 			});
 		topPanel.add(infoByBuilding);
+		/**** cleaner button****************************************/
+
+		cleaner = new JButton("effaceur");
+		cleaner.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				companyField.setText("");
+				itemsField.setText("");
+				equipmentField.setText("");
+				sensorField.setText("");
+				energyField.setText("");
+				occupationField.setText("");
+				batimentField.setText("");
+				floorField.setText("");
+
+			}
+		});
+		topPanel.add(cleaner);
+
 		mainTopPanel.add(topPanel, BorderLayout.NORTH);
 		titleField = new JTextField();
 		titleField.setBorder(null);
@@ -268,6 +284,7 @@ public class Indicator extends JFrame {
 		mainPanel.add(fieldPanel);
 		return mainPanel;
 	}
+
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());

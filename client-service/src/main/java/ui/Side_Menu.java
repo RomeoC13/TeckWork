@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -21,34 +22,50 @@ import javax.swing.border.BevelBorder;
 
 import ui.indicator.Indicator;
 import userIHM.WindowsMapping;
+import java.awt.Insets;
 
 public class Side_Menu extends JPanel {
-    private final JButton home = new JButton("Accueil");
-    private final JButton card = new JButton("Carte");
-    private final JButton mapping = new JButton("Mapping");
-    private final JButton indicator = new JButton("Indicateur");
-    private final JLabel companyLabel = new JLabel();
-    private final JSeparator separator = new JSeparator();
-    private final JPanel panel = new JPanel();
-    private final JButton deconnexion = new JButton("D\u00E9connexion");
-    private String company_name;
+	private JButton home;
+    private  JButton card;
+    private  JButton mapping;
+    private  JButton indicator;
+    private  JButton deconnexion;
+    private  JLabel companyLabel;
+    private  JSeparator separator;
 
+    private String company_name;
+   
 
     public Side_Menu(String company_name) {
-        this.company_name = company_name;
+    	this.company_name = company_name;
         this.setAlignmentY(Component.CENTER_ALIGNMENT);
         this.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.setBackground(new Color(68, 114, 196));
         this.setPreferredSize(new Dimension(222, 500));
-        setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        companyLabel.setBackground(Color.WHITE);
+    	this.setLayout(new BorderLayout());
+    	add(panelNorth(), BorderLayout.NORTH);
+    	add(panelSouth(), BorderLayout.SOUTH);
+    	
+    }
+    
+    private JPanel panelNorth() {
+    	JPanel panelNorth = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+    	panelNorth.setPreferredSize(new Dimension(10, 300));
+    	panelNorth.setBackground(new Color(68, 114, 196));
+    	
+    	
+    	
+    	companyLabel  = new JLabel();
+    	companyLabel.setBackground(Color.BLUE);
         companyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         companyLabel.setPreferredSize(new Dimension(200, 100));
-        companyLabel.setForeground(Color.WHITE);
+        companyLabel.setForeground(Color.BLACK);
         companyLabel.setFont(new Font("Serif", Font.BOLD, 20));
         companyLabel.setText("Teck-work");
-        //+ "<html><body><font color='blanc'>Tech-Work</body></html>\"
-        add(companyLabel);
+        panelNorth.add(companyLabel);
+        
+        
+        separator  = new JSeparator();
         separator.setOpaque(true);
 
         separator.setBounds(new Rectangle(10, 10, 10, 10));
@@ -58,12 +75,19 @@ public class Side_Menu extends JPanel {
         separator.setAlignmentY(Component.TOP_ALIGNMENT);
         separator.setPreferredSize(new Dimension(215, 3));
         separator.setForeground(Color.BLACK);
-        this.add(separator);
-
-        home.setBackground(SystemColor.inactiveCaption);
+        
+        panelNorth.add(separator);
+        
+        home = new JButton("Accueil");
+    	home.setPreferredSize(new Dimension(170, 23));
+        home.setVerticalAlignment(SwingConstants.TOP);
+        home.setVisible(true);
+        
         home.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         home.setForeground(SystemColor.desktop);
-        home.setPreferredSize(new Dimension(170, 25));
+        home.setBackground(SystemColor.inactiveCaption);
+        home.setAlignmentX(Component.CENTER_ALIGNMENT);
+        home.setAlignmentX(10.0f);
         home.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             }
@@ -71,14 +95,17 @@ public class Side_Menu extends JPanel {
         home.setVerticalAlignment(SwingConstants.TOP);
         home.setAlignmentY(10.0f);
         home.setAlignmentX(10.0f);
-        add(home);
-
-        card.setFont(new Font("Sylfaen", Font.PLAIN, 14));
-        card.setForeground(SystemColor.activeCaptionText);
-        card.setBackground(SystemColor.inactiveCaption);
+        panelNorth.add(home);
+        
+        card = new JButton("Carte");
         card.setPreferredSize(new Dimension(170, 23));
         card.setVerticalAlignment(SwingConstants.TOP);
-        card.setAlignmentY(10.0f);
+        card.setVisible(true);
+        
+        card.setFont(new Font("Sylfaen", Font.PLAIN, 14));
+        card.setForeground(SystemColor.desktop);
+        card.setBackground(SystemColor.inactiveCaption);
+        card.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.setAlignmentX(10.0f);
         card.addActionListener(new ActionListener() {
 
@@ -88,8 +115,12 @@ public class Side_Menu extends JPanel {
 
             }
         });
-        add(card);
+        card.setVerticalAlignment(SwingConstants.TOP);
+        card.setAlignmentY(10.0f);
+        card.setAlignmentX(10.0f);
+        panelNorth.add(card);
 
+        mapping  = new JButton("Mapping");
         mapping.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         mapping.setForeground(SystemColor.activeCaptionText);
         mapping.setBackground(SystemColor.inactiveCaption);
@@ -100,7 +131,7 @@ public class Side_Menu extends JPanel {
 
 
         mapping.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        	public void actionPerformed(ActionEvent e) {
                 if ((JButton) e.getSource() == mapping)
                     new WindowsMapping(company_name);
 
@@ -108,40 +139,64 @@ public class Side_Menu extends JPanel {
 
         });
 
-        add(mapping);
+        panelNorth.add(mapping);
 
+        indicator = new JButton("Indicateur");
+    	indicator.setPreferredSize(new Dimension(170, 23));
+        indicator.setVerticalAlignment(SwingConstants.TOP);
+        
+        
         indicator.setFont(new Font("Sylfaen", Font.PLAIN, 14));
         indicator.setForeground(SystemColor.desktop);
         indicator.setBackground(SystemColor.inactiveCaption);
-        indicator.setPreferredSize(new Dimension(170, 23));
-        indicator.setVerticalAlignment(SwingConstants.TOP);
-        indicator.setAlignmentY(10.0f);
+        indicator.setAlignmentX(Component.CENTER_ALIGNMENT);
         indicator.setAlignmentX(10.0f);
         indicator.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+			
+        	public void actionPerformed(ActionEvent e) {
                 if ((JButton) e.getSource() == indicator)
                     new Indicator(company_name);
-
             }
 
         });
-        add(indicator);
-        panel.setPreferredSize(new Dimension(200, 265));
-
-
-        panel.setBackground(new Color(68, 114, 196));
-        panel.setLayout(new BorderLayout());
-        deconnexion.setLocation(new Point(10, 10));
+        panelNorth.add(indicator);
+    	
+    	
+    	
+    	return panelNorth;
+    }
+    
+    private JPanel panelSouth() {
+    	JPanel panelSouth = new JPanel(new FlowLayout());
+    	panelSouth.setBackground(new Color(68, 114, 196));
+    	
+    	setBackground(new Color(68, 114, 196));
+    	
+    	deconnexion = new JButton("Déconnexion");
+    	deconnexion.setPreferredSize(new Dimension(170, 23));
         deconnexion.setVerticalAlignment(SwingConstants.TOP);
-        deconnexion.setPreferredSize(new Dimension(170, 23));
-        deconnexion.setForeground(Color.BLACK);
+        deconnexion.setVisible(true);
+        
         deconnexion.setFont(new Font("Sylfaen", Font.PLAIN, 14));
+        deconnexion.setForeground(SystemColor.desktop);
         deconnexion.setBackground(SystemColor.inactiveCaption);
-        deconnexion.setAlignmentY(10.0f);
+        deconnexion.setAlignmentX(Component.CENTER_ALIGNMENT);
         deconnexion.setAlignmentX(10.0f);
-        panel.add(deconnexion, BorderLayout.SOUTH);
-        this.add(panel);
+        deconnexion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Home();
+            }
+        });
+        panelSouth.add(deconnexion);
+    	return panelSouth;
     }
 
+    public JButton getIndicator() {
+        return indicator;
+    }
 
+    public JButton getDeconnexion() {
+        return deconnexion;
+    }
 }
