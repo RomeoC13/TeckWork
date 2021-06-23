@@ -109,9 +109,6 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("requestSensorIsEmpty")) {
                 ds.writeUTF(requestSensorIsEmpty(connection, map).toString());
             }
-//            if (request.split("@")[0].equals("requestAllCompany")){
-//                ds.writeUTF(NberCompany(connection, map).toString());
-//            }
             if (request.split("@")[0].equals("comboxCompany")){
                 ds.writeUTF(comboxNameCompany(connection, map).toString());
             }
@@ -228,30 +225,27 @@ public class ClientHandler implements Runnable {
 /*************** starting method request for building indicators*********************/
 
     private String getAllfloor(Connection connection, Map<String, String> map) {
-        String value = "";
-        try {
-            String sql ="select count(name_floor) from floor" +
-                    " inner join building on floor.id_building = building.id_building " +
-                    "where building_name='"+ map.get("building_name") + "'";
-            ResultSet rs = connection.createStatement().executeQuery(sql);
-            while (rs.next())
-                value = rs.getString(1);
-
-
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return value;
+            String value = "";
+            try {
+                String sql ="select count(name_floor) from floor " +
+                        "inner join building on floor.id_building = building.id_building " +
+                        "where building_name='"+ map.get("building_name") + "'";
+                ResultSet rs = connection.createStatement().executeQuery(sql);
+                while (rs.next())
+                    value = rs.getString(1);
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return value;
     }
 
     private String equipmentBuilding(Connection connection, Map<String, String> map) {
         String value ="";
         try {
-            String sql ="select count(position_windows) from room inner join floor\n" +
-                    "on floor.id_floor = room.id_floor inner join building on\n" +
-                    "building.id_building = floor.id_building where\n" +
-                    "position_windows = true and building_name='"+ map.get("building_name") + "'";
+            String sql ="select count(position_windows) from room inner join floor " +
+                    "on floor.id_floor = room.id_floor inner join building on " +
+                    "building.id_building = floor.id_building where " +
+                    "position_windows = true and building_name = '"+ map.get("building_name") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
                 value = rs.getString(1);
@@ -285,7 +279,39 @@ public class ClientHandler implements Runnable {
         return val1;
     }
 
-    private String rateBuilding(Connection connection, Map<String, String> map) {return null;
+    private String rateBuilding(Connection connection, Map<String, String> map) {
+        NumberFormat format = NumberFormat.getInstance();
+        format.setMinimumFractionDigits(2);
+        double d = 0.0;
+        double d2 =0.0;
+        String value ="";
+
+        try {
+            String sql = "select count(distinct name_room) from room inner join floor " +
+                    "on room.id_floor = floor.id_floor inner join building " +
+                    "on floor.id_building = building.id_building " +
+                    "where status = 'booked' and building_name = '"+map.get("building.name")+"'";
+
+            String sql2 ="select count(distinct name_room) from room inner join floor " +
+                    "on room.id_floor = floor.id_floor inner join building " +
+                    "on floor.id_building = building.id_building " +
+                    "where building_name = '"+map.get("building_name")+"'";
+
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            while (rs.next())
+                d =rs.getDouble(1);
+            log.info("je suis d "+d);
+            ResultSet rs2 = connection.createStatement().executeQuery(sql2);
+            while (rs2.next())
+                d2 =rs2.getDouble(1);
+            log.info("je suis d2 "+ d2);
+            value = format.format((d/d2) * 100);
+            log.info("je suis val "+value);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return value+"%";
     }
 
     private String energyBuilding(Connection connection, Map<String, String> map) {
@@ -310,9 +336,9 @@ public class ClientHandler implements Runnable {
         String value = "";
         try {
 
-            String sql = "select count(position_sensor) from room inner join floor\n" +
-                    "on floor.id_floor = room.id_floor inner join building on\n" +
-                    "building.id_building = floor.id_building where\n" +
+            String sql = "select count(position_sensor) from room inner join floor " +
+                    "on floor.id_floor = room.id_floor inner join building on " +
+                    "building.id_building = floor.id_building where " +
                     "position_sensor = true and building_name = '"+ map.get("building_name") + "'";
 
             ResultSet rs = connection.createStatement().executeQuery(sql);
@@ -328,12 +354,12 @@ public class ClientHandler implements Runnable {
         int value = 0;
         try {
 
-            String sql = "select count(distinct company_name) from company inner join location" +
-                    " on company.company_id= location.id_location inner join room" +
-                    " on room.id_location = location.id_location inner join floor " +
+            String sql = "select count(distinct company_name) from company inner join location " +
+                    "on company.company_id = location.id_location inner join room " +
+                    "on room.id_location = location.id_location inner join floor " +
                     "on floor.id_floor = room.id_floor inner join building " +
                     "on building.id_building = floor.id_building " +
-                    "where building_name='"+ map.get("building_name") +"'";
+                    "where building_name = '"+ map.get("building_name") +"'";
 
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
@@ -350,11 +376,11 @@ public class ClientHandler implements Runnable {
     private String usedBatiment(Connection connection, Map<String, String> map) {
         String value = "";
         try{
-            String sql = "select distinct building_name from building inner join floor\n" +
-                    "on building.id_building = floor.id_building inner join room\n" +
-                    "on floor.id_floor = room.id_floor inner join location on\n" +
-                    "room.id_location = location.id_location inner join company on\n" +
-                    "company.company_id= location.id_location " +
+            String sql = "select distinct building_name from building inner join floor " +
+                    "on building.id_building = floor.id_building inner join room " +
+                    "on floor.id_floor = room.id_floor inner join location on " +
+                    "room.id_location = location.id_location inner join company on " +
+                    "company.company_id = location.id_location " +
                     "where company_name = '" + map.get("company_name") + "'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
@@ -370,7 +396,7 @@ public class ClientHandler implements Runnable {
         int value = 0;
         try{
             String sql = "select count(position_windows) from room inner join " +
-                    " location on room.id_location = location.id_location " +
+                    "location on room.id_location = location.id_location " +
                     "INNER join company on location.company_id = company.company_id where " +
                     "position_windows = true and company_name = '"+map.get("company_name")+"'";
 
@@ -389,7 +415,7 @@ public class ClientHandler implements Runnable {
             String sql = "select count(position_sensor) from room inner join " +
                     "location on room.id_location = location.id_location " +
                     "INNER join company on location.company_id = company.company_id " +
-                    "where position_sensor = true and company_name= '"+map.get("company_name")+"'";
+                    "where position_sensor = true and company_name = '"+map.get("company_name")+"'";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
                 value = rs.getString(1);
@@ -407,7 +433,7 @@ public class ClientHandler implements Runnable {
     private Integer objectCompany(Connection connection, Map<String, String> map) {
         int value = 0;
         try{
-            String sql = "select sum(n) from (select count(name_room) n from room inner join " +
+            String sql = "select sum(n) from ( select count(name_room) n from room inner join " +
                     "location on room.id_location = location.id_location " +
                     "INNER join company on location.company_id = company.company_id " +
                     "where position_screen = true and company_name = '"+map.get("company_name")+"' " +
@@ -471,9 +497,9 @@ public class ClientHandler implements Runnable {
             String sql = "select count(position_sensor) from room where position_sensor=true ";
             String sql2 = "select count(position_sensor) from room";
             ResultSet rs = connection.createStatement().executeQuery(sql);
-            ResultSet rs2 = connection.createStatement().executeQuery(sql2);
             while (rs.next())
                 value = rs.getString(1);
+            ResultSet rs2 = connection.createStatement().executeQuery(sql2);
             while (rs2.next())
                 value2 = rs2.getString(1);
 

@@ -124,8 +124,8 @@ public class Indicator extends JFrame {
                 int response = JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
 				if(response == JOptionPane.OK_OPTION){
 					titleField.setText("vous êtes sur les informations génerales de l'entreprise : "+field.getText());
-//					Client.map.get("CompanyConnectedObject").put("company_name", field.getText());
-//					itemsField.setText(option.objectCompany());
+					Client.map.get("CompanyConnectedObject").put("company_name", field.getText());
+					itemsField.setText(option.objectCompany());
 					Client.map.get("AllEquipmentCompany").put("company_name", field.getText());
 					equipmentField.setText(option.equipmentCompany());
 					Client.map.get("allSensorCompany").put("company_name", field.getText());
@@ -182,8 +182,8 @@ public class Indicator extends JFrame {
 
 				if(response == JOptionPane.OK_OPTION){
 					titleField.setText("vous êtes sur les informations génerales du bâtiment: " +field.getText());
-//					Client.map.get("rateBuilding").put("building_name", field.getText());
-//					occupationField.setText(option.buildingRate());
+					Client.map.get("rateBuilding").put("building_name", field.getText());
+					occupationField.setText(option.buildingRate());
 					Client.map.get("objectBuilding").put("building_name", field.getText());
 					itemsField.setText(option.objectBuilding());
 					Client.map.get("equipmentBuilding").put("building_name", field.getText());
