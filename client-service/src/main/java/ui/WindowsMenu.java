@@ -4,17 +4,30 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
+
+
 import java.awt.SystemColor;
+import java.net.URL;
+import java.util.Objects;
+import java.awt.Dimension;
+
+/*******
+ *  this class is for implementing the layout of the application
+ *
+ *  there is a side menu which contains the menu button, the name of our application and deconnection
+ *
+ *  and there is the center panel which was for containing our Uc information
+ *
+ */
 
 public class WindowsMenu extends JFrame {
 
 
-    private JPanel panelTop = new JPanel();
-    private JPanel panelLeft = new JPanel();
-    private JPanel panelRight = new JPanel();
     private JPanel panelCenter = new JPanel();
     private JPanel panel;
     private Side_Menu sm;
@@ -33,51 +46,63 @@ public class WindowsMenu extends JFrame {
 
         // the left panel contains the menu
         panel.add(BorderLayout.WEST, sm);
-        // the right panel contains
-        //panel.add(BorderLayout.EAST,optionRightPanel());
-        // the centered panel contains
+
+
         panel.add(BorderLayout.CENTER, optionCenteredPanel());
 
-        // the top panel contains
-        //panel.add(BorderLayout.NORTH, optionTopPanel());
-        //this.setd
         if(!companyName.equals("Mairie"))
             sm.getIndicator().setEnabled(false);
-        else if (sm.getDeconnexion().getActionCommand().equals("D�connexion"))
+        else if (sm.getDeconnexion().getActionCommand().equals("Deconnexion"))
             this.dispose();
 
     }
 
     private JPanel optionCenteredPanel() {
 
-        panelCenter = new JPanel();
-        JLabel lab1 = new JLabel("centre");
-        panelCenter.add(lab1);
+        panelCenter = new JPanel(new BorderLayout());
+        panelCenter.add(centerTopPanel(), BorderLayout.NORTH);
+        
+        // adding image icon here
+        ImageIcon image = new ImageIcon("city.jpg");
+        JLabel labImge = new JLabel();
+        labImge.setIcon(image);
+        panelCenter.add(labImge, BorderLayout.CENTER);
+        
+        
         panelCenter.setBackground(SystemColor.inactiveCaptionBorder);
+        panelCenter.add(centerDownPanel(), BorderLayout.SOUTH);
         return panelCenter;
     }
-
-
-    private JPanel optionRightPanel() {
-        panelRight = new JPanel();
-        JLabel lab2 = new JLabel("droite");
-        panelRight.add(lab2);
-        panelRight.setBackground(SystemColor.inactiveCaptionBorder);
-        return panelRight;
+    
+    private JPanel centerTopPanel() {
+    	JPanel top = new JPanel();
+    	top.setSize(new Dimension(50, 50));
+    	top.setForeground(SystemColor.inactiveCaption);
+    	top.setPreferredSize(new Dimension(10, 50));
+    	
+    	JLabel label = new JLabel("Bienvenue sur TeckWork! Votre application de location");
+    	label.setFont(new Font("Serif", Font.BOLD, 16));
+    	label.setPreferredSize(new Dimension(400, 30));
+    	top.add(label);
+    	
+       
+        top.setBackground(Color.WHITE);
+    	return top;
     }
-
-
-    private JPanel optionTopPanel() {
-        panelTop = new JPanel();
-        JLabel lab4 = new JLabel();
-
-        lab4.setFont(new Font("Serif", Font.CENTER_BASELINE, 20));
-        lab4.setText("<html><body><font color='blanc'>Entreprise: Tech-Work </body></html>");
-        panelTop.add(lab4);
-
-        panelTop.setBackground(Color.white);
-        return panelTop;
+    
+    private JPanel centerDownPanel() {
+    	JPanel down = new JPanel();
+    	down.setPreferredSize(new Dimension(10, 50));
+    	
+    	JLabel footer = new JLabel("� Copyright TeckWork 2020-2021");
+    	footer.setPreferredSize(new Dimension(200, 20));
+    	footer.setFont(new Font("Serif", Font.PLAIN, 12));
+    	
+    	down.add(footer);
+    	return down;
+    	
     }
+    
 
     public JPanel getPanelCenter() {
         return panelCenter;
@@ -86,7 +111,7 @@ public class WindowsMenu extends JFrame {
     public void setPanelCenter(JPanel panelCenter) {
         this.panelCenter = panelCenter;
     }
-
+    
     public static void main(String[] args) {
 		new WindowsMenu(null);
 	}
