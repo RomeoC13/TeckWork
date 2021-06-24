@@ -144,9 +144,7 @@ public class ClientHandler implements Runnable {
      /***************this the end of general information for indicators***************/
 
         /*****************************staring for company indicators***********************************/
-            if (request.split("@")[0].equals("companyOccupation")){
-                ds.writeUTF(rateCompany(connection, map).toString());
-            }
+
             if (request.split("@")[0].equals("CompanyConnectedObject")) {
                 ds.writeUTF(objectCompany(connection, map).toString());
             }
@@ -155,9 +153,6 @@ public class ClientHandler implements Runnable {
             }
             if (request.split("@")[0].equals("allSensorCompany")) {
                 ds.writeUTF(sensorCompany(connection, map).toString());
-            }
-            if (request.split("@")[0].equals("energyConsommationCompany")) {
-                ds.writeUTF(energyCompany(connection, map).toString());
             }
             if (request.split("@")[0].equals("usedBatiment")) {
                 ds.writeUTF(usedBatiment(connection, map).toString());
@@ -426,9 +421,6 @@ public class ClientHandler implements Runnable {
         return value;
     }
 
-    private String energyCompany(Connection connection, Map<String, String> map) {
-        return null;
-    }
 
     private Integer objectCompany(Connection connection, Map<String, String> map) {
         int value = 0;
@@ -452,9 +444,7 @@ public class ClientHandler implements Runnable {
         return value;
     }
 
-    private Object rateCompany(Connection connection, Map<String, String> map) {
-        return null;
-    }/** end of company indicators**/
+/** end of company indicators**/
 
 /** information general*/
     private String getEnergy(Connection connection, Map<String, String> map) {

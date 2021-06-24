@@ -4,6 +4,15 @@ import client.Client;
 
 import java.sql.Connection;
 
+
+/*******
+ * this is a class for only the indicators by company and building, his rule is to get all the
+ * information send by client to and make a method
+ * using request for each indicator
+ *
+ * and it allows me make much clear the event of each button either company button or building button
+ */
+
 public class IndicOption {
 
 	public IndicOption() {}
