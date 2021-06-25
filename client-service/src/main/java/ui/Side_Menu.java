@@ -40,7 +40,7 @@ public class Side_Menu extends JPanel {
     private String company_name;
    
 
-    public Side_Menu(String company_name) {
+    public Side_Menu(String company_name, JFrame frame) {
     	this.company_name = company_name;
         this.setAlignmentY(Component.CENTER_ALIGNMENT);
         this.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -48,7 +48,7 @@ public class Side_Menu extends JPanel {
         this.setPreferredSize(new Dimension(222, 500));
     	this.setLayout(new BorderLayout());
     	add(panelNorth(), BorderLayout.NORTH);
-    	add(panelSouth(), BorderLayout.SOUTH);
+    	add(panelSouth(frame), BorderLayout.SOUTH);
     	
     }
 
@@ -174,7 +174,7 @@ public class Side_Menu extends JPanel {
 
 /************ down panel which contains only the deconnection button ****************/
 
-    private JPanel panelSouth() {
+    private JPanel panelSouth(JFrame frame) {
     	JPanel panelSouth = new JPanel(new FlowLayout());
     	panelSouth.setBackground(new Color(68, 114, 196));
     	
@@ -193,6 +193,7 @@ public class Side_Menu extends JPanel {
         deconnexion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.dispose();
                 new Home();
             }
         });

@@ -39,7 +39,7 @@ public class WindowsMenu extends JFrame {
         this.setSize(676, 500);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        sm = new Side_Menu(companyName);
+        sm = new Side_Menu(companyName, this);
         //the general panel
         panel = (JPanel) this.getContentPane();
         panel.setLayout(new BorderLayout());
@@ -63,7 +63,8 @@ public class WindowsMenu extends JFrame {
         panelCenter.add(centerTopPanel(), BorderLayout.NORTH);
         
         // adding image icon here
-        ImageIcon image = new ImageIcon("city.jpg");
+       URL url =  Thread.currentThread().getContextClassLoader().getResource("city.jpg");
+        ImageIcon image = new ImageIcon(url);
         JLabel labImge = new JLabel();
         labImge.setIcon(image);
         panelCenter.add(labImge, BorderLayout.CENTER);
