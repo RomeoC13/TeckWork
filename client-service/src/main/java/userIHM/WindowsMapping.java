@@ -1,24 +1,10 @@
 package userIHM;
 
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.Socket;
-import java.net.URL;
-import java.sql.*;
-import java.util.Properties;
 
 import static client.Client.*;
 
@@ -186,26 +172,12 @@ public class WindowsMapping extends JFrame {
 
                 getContentPane().add(panels);
                 if (roomValue.contains("Bureau") | roomValue.contains("Petite salle")) {
-
-
-
-                    panelBureau.drawPositions();
-                    panelBureau.drawPrisePosition();
-                    panelBureau.drawSensorPosition();
-                    panelBureau.drawWindowsPosition();
                     panelBureau.revalidate();
-
-
                     frame.repaint();
                     cardLayout.show(panels, "panelBureau");
 
-
                 }
                 if (roomValue.contains("Salle de conférence") | roomValue.contains("Salle ouverte")) {
-                    panelRoom.roomselected = true;
-                    panelRoom.roomPriseSelected = true;
-                    panelRoom.roomSensorSelected = true;
-                    panelRoom.roomWindowsSelected = true;
                     panelRoom.revalidate();
                     cardLayout.show(panels, "panelRoom");
                     frame.repaint();

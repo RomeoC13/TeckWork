@@ -19,13 +19,10 @@ import static client.Client.map;
  *
  * @author Michael CHACHA
  * * @version 1.0
- * */
+ */
 
 public class GestionRoom extends JPanel implements MouseListener {
-    public boolean roomselected;
-    public boolean roomPriseSelected;
-    public boolean roomSensorSelected;
-    public boolean roomWindowsSelected;
+
 
     public GestionRoom() {
         setPreferredSize(new Dimension(750, 750));
@@ -35,38 +32,23 @@ public class GestionRoom extends JPanel implements MouseListener {
 
     public void paint(Graphics g) {
         URL imgURL = Thread.currentThread().getContextClassLoader().getResource("salle de conférence.jpg");
-        BufferedImage currentEquipment;
+        BufferedImage map;
         try {
-            currentEquipment = ImageIO.read(imgURL);
-            g.drawImage(currentEquipment, 0, 0, 750, 750, null);
+            map = ImageIO.read(imgURL);
+            g.drawImage(map, 0, 0, 750, 750, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (roomselected) {
-            drawPositions();
-            revalidate();
-
-        }
-
-        if (roomPriseSelected) {
-            drawPrisePosition();
-            revalidate();
-        }
-        if (roomSensorSelected) {
-            drawSensorPosition();
-            revalidate();
-        }
-
-        if (roomWindowsSelected) {
-            drawWindowsPosition();
-            revalidate();
-        }
+        drawPositions(g);
+        drawPrisePosition(g);
+        drawSensorPosition(g);
+        drawWindowsPosition(g);
 
 
     }
 
 
-    public void drawPositions() {
+    public void drawPositions(Graphics g) {
         URL imgURL;
         BufferedImage currentEquipment;
 
@@ -87,9 +69,7 @@ public class GestionRoom extends JPanel implements MouseListener {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("écran.jpg");
             }
             currentEquipment = ImageIO.read(imgURL);
-            getGraphics().drawImage(currentEquipment, 111, 430, 50, 50, null);
-
-
+            g.drawImage(currentEquipment, 111, 430, 50, 50, null);
 
 
         } catch (Exception e) {
@@ -97,7 +77,7 @@ public class GestionRoom extends JPanel implements MouseListener {
         }
     }
 
-    public void drawPrisePosition() {
+    public void drawPrisePosition(Graphics g) {
         URL imgURL;
         BufferedImage currentEquipment;
 
@@ -118,10 +98,7 @@ public class GestionRoom extends JPanel implements MouseListener {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("prise.jpg");
             }
             currentEquipment = ImageIO.read(imgURL);
-            getGraphics().drawImage(currentEquipment, 557, 560, 50, 50, null);
-
-
-
+            g.drawImage(currentEquipment, 557, 560, 50, 50, null);
 
 
         } catch (IOException e) {
@@ -130,7 +107,7 @@ public class GestionRoom extends JPanel implements MouseListener {
 
     }
 
-    public void drawWindowsPosition() {
+    public void drawWindowsPosition(Graphics g) {
         URL imgURL;
         BufferedImage currentEquipment;
 
@@ -151,7 +128,7 @@ public class GestionRoom extends JPanel implements MouseListener {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("fenetre.jpg");
             }
             currentEquipment = ImageIO.read(imgURL);
-            getGraphics().drawImage(currentEquipment, 625, 220, 50, 50, null);
+            g.drawImage(currentEquipment, 625, 220, 50, 50, null);
 
 
         } catch (IOException e) {
@@ -159,7 +136,7 @@ public class GestionRoom extends JPanel implements MouseListener {
         }
     }
 
-    public void drawSensorPosition() {
+    public void drawSensorPosition(Graphics g) {
         URL imgURL;
         BufferedImage currentEquipment;
 
@@ -180,7 +157,7 @@ public class GestionRoom extends JPanel implements MouseListener {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("capteur.jpg");
             }
             currentEquipment = ImageIO.read(imgURL);
-            getGraphics().drawImage(currentEquipment, 236, 189, 50, 50, null);
+            g.drawImage(currentEquipment, 236, 189, 50, 50, null);
 
 
         } catch (IOException e) {

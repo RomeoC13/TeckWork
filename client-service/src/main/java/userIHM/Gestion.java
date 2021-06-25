@@ -23,10 +23,6 @@ import static client.Client.map;
 
 
 public class Gestion extends JPanel implements MouseListener {
-    public boolean roomScreenSelected;
-    public boolean roomPriseSelected;
-    public boolean roomSensorSelected;
-    public boolean roomWindowsSelected;
 
     public Gestion() {
         setPreferredSize(new Dimension(750, 750));
@@ -36,24 +32,23 @@ public class Gestion extends JPanel implements MouseListener {
 
     public void paint(Graphics g) {
         URL imgURL = Thread.currentThread().getContextClassLoader().getResource("planbureau.jpg");
-        BufferedImage currentEquipment;
+        BufferedImage map;
         try {
-            currentEquipment = ImageIO.read(imgURL);
-            g.drawImage(currentEquipment, 0, 0, 750, 750, null);
+            map = ImageIO.read(imgURL);
+            g.drawImage(map, 0, 0, 750, 750, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        drawPositions();
-        drawPrisePosition();
-        drawSensorPosition();
-        drawWindowsPosition();
+        drawScreenPosition(g);
+        drawPrisePosition(g);
+        drawSensorPosition(g);
+        drawWindowsPosition(g);
 
 
     }
 
-    public void drawPositions() {
+    public void drawScreenPosition(Graphics g) {
         URL imgURL;
         BufferedImage currentEquipment;
         try {
@@ -67,7 +62,6 @@ public class Gestion extends JPanel implements MouseListener {
                 if (b.contains("@")) {
                     b.replace("@", "");
                 }
-                //System.out.println(b);
             }
 
             if (!answers[0].contains("t")) {
@@ -76,12 +70,12 @@ public class Gestion extends JPanel implements MouseListener {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("écran.jpg");
             }
             currentEquipment = ImageIO.read(imgURL);
-            getGraphics().drawImage(currentEquipment, 195, 460, 50, 50, null);
+            g.drawImage(currentEquipment, 195, 460, 50, 50, null);
 
-            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
-            currentEquipment = ImageIO.read(imgURL);
-
-            getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
+//            imgURL = Thread.currentThread().getContextClassLoader().getResource("localisation.png");
+//            currentEquipment = ImageIO.read(imgURL);
+//
+//            g.drawImage(currentEquipment, 550, 549, 50, 50, null);
 
 
         } catch (IOException e) {
@@ -89,7 +83,7 @@ public class Gestion extends JPanel implements MouseListener {
         }
     }
 
-    public void drawPrisePosition() {
+    public void drawPrisePosition(Graphics g) {
         URL imgURL;
         BufferedImage currentEquipment;
 
@@ -110,7 +104,7 @@ public class Gestion extends JPanel implements MouseListener {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("prise.jpg");
             }
             currentEquipment = ImageIO.read(imgURL);
-            getGraphics().drawImage(currentEquipment, 533, 201, 50, 50, null);
+            g.drawImage(currentEquipment, 533, 201, 50, 50, null);
 
 
         } catch (IOException e) {
@@ -118,7 +112,7 @@ public class Gestion extends JPanel implements MouseListener {
         }
     }
 
-    public void drawSensorPosition() {
+    public void drawSensorPosition(Graphics g) {
         URL imgURL;
         BufferedImage currentEquipment;
 
@@ -139,7 +133,7 @@ public class Gestion extends JPanel implements MouseListener {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("capteur.jpg");
             }
             currentEquipment = ImageIO.read(imgURL);
-            getGraphics().drawImage(currentEquipment, 99, 377, 50, 50, null);
+            g.drawImage(currentEquipment, 99, 377, 50, 50, null);
 
 
         } catch (IOException e) {
@@ -148,7 +142,7 @@ public class Gestion extends JPanel implements MouseListener {
 
     }
 
-    public void drawWindowsPosition() {
+    public void drawWindowsPosition(Graphics g) {
         URL imgURL;
         BufferedImage currentEquipment;
 
@@ -169,7 +163,7 @@ public class Gestion extends JPanel implements MouseListener {
                 imgURL = Thread.currentThread().getContextClassLoader().getResource("fenetre.jpg");
             }
             currentEquipment = ImageIO.read(imgURL);
-            getGraphics().drawImage(currentEquipment, 550, 549, 50, 50, null);
+            g.drawImage(currentEquipment, 550, 549, 50, 50, null);
 
 
         } catch (IOException e) {
