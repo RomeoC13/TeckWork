@@ -16,6 +16,11 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import java.util.List;
 
+/************
+ * this is my frame for indicator here we see
+ *  the fonction of the indicator and we get all the view panel
+ *  for all indicators
+ */
 public class Indicator extends JFrame {
 	private final Logger log = LoggerFactory.getLogger(Indicator.class.getName());
 	JTextField occupationField = new JTextField();
@@ -52,7 +57,7 @@ public class Indicator extends JFrame {
 		contentPane.add(addingAllMenu(), BorderLayout.CENTER);
 
 	}
-
+/******* this is the main panel which add the top and bottom panel******************/
 	private JPanel addingAllMenu() {
 		seconJPanel = new JPanel(new BorderLayout());
 
@@ -62,25 +67,28 @@ public class Indicator extends JFrame {
 		return seconJPanel;
 	}
 
+
+
+/****************** this is the top panel which contain all the bottom of indicator ************/
 	private JPanel optionOFTop() {
 		JPanel mainTopPanel = new JPanel(new BorderLayout());
 
 		JPanel topPanel = new JPanel(new GridLayout(2,2));
 		topPanel.setPreferredSize(new Dimension(10, 110));
+
+/********* set button for implementing the general indicators of all the building and company  ***********/
 		allInfo = new JButton("information generale");
 		allInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				titleField.setText("Vous êtes sur les informations génerales de toute la location");
+				titleField.setText("Vous êtes sur les informations générales de toute la location ");
 				occupationField.setText(data.getOccupancy());
 				itemsField.setText(data.getConnectedObject());
 				equipmentField.setText(data.getEquipment());
 				sensorField.setText(data.getSensor());
 				companyField.setText(data.getCompany());
 				energyField.setText(data.energyConsumption());
-//				floorField.disable();
-//				batimentField.disable();
 
 			}
 		});
@@ -89,6 +97,7 @@ public class Indicator extends JFrame {
 
 
 
+/************** set a button to implement the indicator of each company in the location *************/
 
 		infoByCompany = new JButton("information par entreprise");
 		infoByCompany.addActionListener(new ActionListener() {
@@ -102,17 +111,16 @@ public class Indicator extends JFrame {
 				String request = Client.getSend("requestCompany");
 				/**sorting my list of building*********/
 				String[] sortRequest = request.split("@");
-
+				Arrays.sort(sortRequest);
 
 				/***** adding to my combobox**********/
 				JComboBox comboBox = new JComboBox();
-				for (Object o : sortRequest ){
-					Arrays.sort(sortRequest);
+				for (Object o : sortRequest )
 					comboBox.addItem(o);
-				}
 				comboBox.addActionListener(new ActionListener() {
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(ActionEvent e) {// setting in this field the selected item from
+						// my combobox
 						field.setText(comboBox.getSelectedItem().toString());
 
 					}
@@ -123,17 +131,18 @@ public class Indicator extends JFrame {
 
 				pan.add(field, BorderLayout.CENTER);
 
+
+/*********************** using a joption pane which will give us a choice to choose the company that we wanted ********/
+
                 int response = JOptionPane.showConfirmDialog(null, pan, "choix d'une entreprise", JOptionPane.OK_CANCEL_OPTION);
 				if(response == JOptionPane.OK_OPTION){
 					titleField.setText("vous êtes sur les informations génerales de l'entreprise : "+field.getText());
-//					Client.map.get("CompanyConnectedObject").put("company_name", field.getText());
-//					itemsField.setText(option.objectCompany());
+					Client.map.get("CompanyConnectedObject").put("company_name", field.getText());
+					itemsField.setText(option.objectCompany());
 					Client.map.get("AllEquipmentCompany").put("company_name", field.getText());
 					equipmentField.setText(option.equipmentCompany());
 					Client.map.get("allSensorCompany").put("company_name", field.getText());
 					sensorField.setText(option.sensorCompany());
-//					Client.map.get("energyConsommationCompany").put("company_name", field.getText());
-//					energyField.setText(option.energyCompany());
 					Client.map.get("usedBatiment").put("company_name", field.getText());
 					batimentField.setText(option.usedBatiments());
 				}else if (response == JOptionPane.CANCEL_OPTION) {
@@ -152,6 +161,10 @@ public class Indicator extends JFrame {
 
 		});
 		topPanel.add(infoByCompany);
+
+
+
+	/******************** setting a building button for implementing the indicator	of each building ***********/
 		infoByBuilding = new JButton("indicateur par batiments");
 		infoByBuilding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -179,13 +192,14 @@ public class Indicator extends JFrame {
 				pan.add(comboBox, BorderLayout.SOUTH);
 
 				pan.add(field, BorderLayout.CENTER);
-/***************     using a joption pane to display all the company ***************/
+
+/***************     using a joption pane to display all the building ***************/
 				int response = JOptionPane.showConfirmDialog(null, pan, "choix d'un bâtiment", JOptionPane.OK_CANCEL_OPTION);
 
 				if(response == JOptionPane.OK_OPTION){
 					titleField.setText("vous êtes sur les informations génerales du bâtiment: " +field.getText());
-//					Client.map.get("rateBuilding").put("building_name", field.getText());
-//					occupationField.setText(option.buildingRate());
+					Client.map.get("rateBuilding").put("building_name", field.getText());
+					occupationField.setText(option.buildingRate());
 					Client.map.get("objectBuilding").put("building_name", field.getText());
 					itemsField.setText(option.objectBuilding());
 					Client.map.get("equipmentBuilding").put("building_name", field.getText());
@@ -210,12 +224,16 @@ public class Indicator extends JFrame {
 			}
 			});
 		topPanel.add(infoByBuilding);
-		/**** cleaner button****************************************/
+		/************ cleaner button is simply to
+		 * to help us cleaning the field text
+		 * if we wanted to change indicator function for another one
+		 * *******************************/
 
 		cleaner = new JButton("effaceur");
 		cleaner.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				titleField.setText("vous avez effacé toutes les données des indicateurs");
 				companyField.setText("");
 				itemsField.setText("");
 				equipmentField.setText("");
@@ -230,6 +248,10 @@ public class Indicator extends JFrame {
 		topPanel.add(cleaner);
 
 		mainTopPanel.add(topPanel, BorderLayout.NORTH);
+/****** title field is just to display the information about the object that you are viewing on this time
+ * like name company, or building name
+ *
+ * *****/
 		titleField = new JTextField();
 		titleField.setBorder(null);
 		titleField.setEditable(false);
@@ -245,6 +267,7 @@ public class Indicator extends JFrame {
 		return mainTopPanel;
 	}
 
+/******************** this is the bottom panel which contains the list of indicator *************/
 	private JPanel optionOFCentered() {
 		JPanel mainPanel = new JPanel(new FlowLayout());
 		//set in a panel all the list of indicators
@@ -285,9 +308,4 @@ public class Indicator extends JFrame {
 		return mainPanel;
 	}
 
-
-	public static void main(String[] args) throws Exception {
-		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-		new Indicator("company_name");
-	}
 }

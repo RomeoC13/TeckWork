@@ -51,7 +51,7 @@ public class Client {
                     if ("Nimbus".equals(info.getName())) {
                         UIManager.setLookAndFeel(info.getClassName());
 
-                        new Home();
+                       Home h = new Home();
                         break;
                     } else {
                         UIManager.setLookAndFeel  ("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");

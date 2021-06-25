@@ -24,6 +24,10 @@ import ui.indicator.Indicator;
 import userIHM.WindowsMapping;
 import java.awt.Insets;
 
+/**
+ *  this class is used for implementing the menu of the app
+ */
+
 public class Side_Menu extends JPanel {
 	private JButton home;
     private  JButton card;
@@ -47,7 +51,9 @@ public class Side_Menu extends JPanel {
     	add(panelSouth(), BorderLayout.SOUTH);
     	
     }
-    
+
+/************ using two panel to implement the side_menu ones top and other down ***********/
+
     private JPanel panelNorth() {
     	JPanel panelNorth = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
     	panelNorth.setPreferredSize(new Dimension(10, 300));
@@ -165,7 +171,9 @@ public class Side_Menu extends JPanel {
     	
     	return panelNorth;
     }
-    
+
+/************ down panel which contains only the deconnection button ****************/
+
     private JPanel panelSouth() {
     	JPanel panelSouth = new JPanel(new FlowLayout());
     	panelSouth.setBackground(new Color(68, 114, 196));
