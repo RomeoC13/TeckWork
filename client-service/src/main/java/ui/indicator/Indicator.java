@@ -233,6 +233,7 @@ public class Indicator extends JFrame {
 		cleaner.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				titleField.setText("vous avez effacé toutes les données des indicateurs");
 				companyField.setText("");
 				itemsField.setText("");
 				equipmentField.setText("");
