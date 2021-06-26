@@ -50,7 +50,7 @@ public class Indicator extends JFrame {
 		this.setTitle("Indicateurs");
 		this.setSize(800, 500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		sm = new Side_Menu(company_name);
+		sm = new Side_Menu(company_name, this);
 		JPanel contentPane = (JPanel) this.getContentPane();
 		contentPane.setLayout(new BorderLayout());
 		contentPane.add(sm, BorderLayout.WEST);

@@ -24,7 +24,7 @@ public class Card extends JFrame {
         this.setTitle("Welcome to techwork");
         this.setSize(800, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Side_Menu sm = new Side_Menu(company_name);
+        Side_Menu sm = new Side_Menu(company_name, this);
         getContentPane().add(sm, BorderLayout.WEST);
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.LINE_AXIS));
