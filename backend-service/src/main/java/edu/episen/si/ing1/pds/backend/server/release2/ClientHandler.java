@@ -604,9 +604,18 @@ public class ClientHandler implements Runnable {
 
         try {
 
-            String sql = "SELECT name_floor FROM floor INNER JOIN building ON " +
-                    "building.id_building = floor.id_building WHERE " +
-                    "building.id_building = '" + map.get("id_building") + "'";
+            String sql = "SELECT DISTINCT name_floor " +
+                    "FROM floor " +
+                    "INNER JOIN building  " +
+                    "ON building.id_building = floor.id_building " +
+                    "INNER JOIN room " +
+                    "ON room.id_floor = floor.id_floor " +
+                    "InNER JOIN location " +
+                    "ON room.id_location = location.id_location " +
+                    "INNER JOIN company " +
+                    "ON company.company_id = location.company_id" +
+                    " WHERE company.company_name = '"+map.get("company_name")+"' AND building.building_name = '"+map.get("building_name")+"'";
+            System.out.println(sql);
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -629,7 +638,8 @@ public class ClientHandler implements Runnable {
                     "INNER JOIN room ON room.id_location = location.id_location INNER JOIN floor ON floor.id_floor = room.id_floor " +
                     "INNER JOIN building ON building.id_building = floor.id_building WHERE company.company_name = '" + map.get("company_name") +
                     "' AND floor.name_floor = '" + map.get("floor_name") +
-                    "' AND building.building_name = '" + map.get("building_name") + "'";
+                    "' AND building.building_name = '" + map.get("building_name") +
+                    "' AND room.status = 'booked'";
 
 
             ResultSet rs = connection.createStatement().executeQuery(sql);

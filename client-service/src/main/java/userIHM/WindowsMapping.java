@@ -122,11 +122,13 @@ public class WindowsMapping extends JFrame {
                 System.out.println("Je suis l'étage");
                 String floorvalue = (String) e.getItem();
                 String buildingvalue = (String) listBuiling.getSelectedItem();
+
                 map.get("requestRoom").put("company_name", company_name);
                 map.get("requestRoom").put("floor_name", floorvalue);
                 map.get("requestRoom").put("building_name", buildingvalue);
+
                 String response = getSend("requestRoom");
-                System.out.println(map.get("requestRoom") + "jd");
+                System.out.println(map.get("requestRoom") );
 
                 String[] room = response.split("@");
                 for (String b : room) {
