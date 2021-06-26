@@ -111,7 +111,6 @@ public class HomeLocation {
 
         frame.add(panel);
         frame.setSize(800,500);
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 }

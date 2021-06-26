@@ -20,6 +20,8 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import location.clientLoc.ExecLoc;
+import location.clientLoc.HomeLocation;
 import ui.indicator.Indicator;
 import userIHM.WindowsMapping;
 import java.awt.Insets;
@@ -33,6 +35,7 @@ public class Side_Menu extends JPanel {
     private  JButton card;
     private  JButton mapping;
     private  JButton indicator;
+    private  JButton location;
     private  JButton deconnexion;
     private  JLabel companyLabel;
     private  JSeparator separator;
@@ -166,6 +169,26 @@ public class Side_Menu extends JPanel {
 
         });
         panelNorth.add(indicator);
+
+        location = new JButton("Location");
+        location.setPreferredSize(new Dimension(170, 23));
+        location.setVerticalAlignment(SwingConstants.TOP);
+
+
+        location.setFont(new Font("Sylfaen", Font.PLAIN, 14));
+        location.setForeground(SystemColor.desktop);
+        location.setBackground(SystemColor.inactiveCaption);
+        location.setAlignmentX(Component.CENTER_ALIGNMENT);
+        location.setAlignmentX(10.0f);
+        location.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                if ((JButton) e.getSource() == location)
+                    new ExecLoc();
+            }
+
+        });
+        panelNorth.add(location);
     	
     	
     	

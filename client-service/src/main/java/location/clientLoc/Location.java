@@ -737,7 +737,6 @@ public class Location {
 
 
         frame.setSize(800,600);
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 }

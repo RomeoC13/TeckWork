@@ -202,7 +202,6 @@ public class Plan extends Canvas{
         panel.add(plan, BorderLayout.CENTER);
 
         frame.setSize(1530,600);
-        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 }
