@@ -32,7 +32,7 @@ public class Indicator extends JFrame {
 	JTextField floorField = new JTextField();
 	JTextField batimentField = new JTextField();
 	JPanel seconJPanel = new JPanel();
-	Side_Menu sm;
+	public Side_Menu sm;
 	private JTextField textField;
 	private JTextField titleField;
 	private String company_name;
@@ -49,8 +49,8 @@ public class Indicator extends JFrame {
 		this.setVisible(true);
 		this.setTitle("Indicateurs");
 		this.setSize(800, 500);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		sm = new Side_Menu(company_name, this);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		sm = new Side_Menu(company_name,this);
 		JPanel contentPane = (JPanel) this.getContentPane();
 		contentPane.setLayout(new BorderLayout());
 		contentPane.add(sm, BorderLayout.WEST);

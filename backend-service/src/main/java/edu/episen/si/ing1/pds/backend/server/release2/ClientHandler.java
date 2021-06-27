@@ -229,7 +229,9 @@ public class ClientHandler implements Runnable {
                 while (rs.next())
                     value = rs.getString(1);
             }catch (SQLException e) {
-                e.printStackTrace();
+                log.error("la requête est nulle");
+            }catch (NullPointerException e){
+                log.error("la valeur est null");
             }
             return value;
     }
@@ -247,7 +249,9 @@ public class ClientHandler implements Runnable {
 
 
         }catch (SQLException e) {
-            e.printStackTrace();
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return value;
     }
@@ -269,7 +273,9 @@ public class ClientHandler implements Runnable {
                 val1 = rs.getInt(1);
             log.info("je suis val1 "+val1);
         }catch (SQLException e) {
-            e.printStackTrace();
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return val1;
     }
@@ -303,8 +309,10 @@ public class ClientHandler implements Runnable {
             value = format.format((d/d2) * 100);
             log.info("je suis val "+value);
 
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return value+"%";
     }
@@ -321,8 +329,10 @@ public class ClientHandler implements Runnable {
             while (rs.next())
                 resp = rs.getDouble(1);
             value = format.format(resp);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return value;
     }
@@ -340,7 +350,9 @@ public class ClientHandler implements Runnable {
             while (rs.next())
                 value = rs.getString(1);
         }catch (SQLException e){
-            e.printStackTrace();
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return value;
     }
@@ -360,7 +372,7 @@ public class ClientHandler implements Runnable {
             while (rs.next())
                 value = rs.getInt(1);
         }catch (SQLException e){
-            e.printStackTrace();
+            log.error("la requête est nulle");
         }
         return value;
     }
@@ -381,8 +393,10 @@ public class ClientHandler implements Runnable {
             while (rs.next())
                 value = rs.getString(1);
             log.info(value);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return value;
 
@@ -398,8 +412,8 @@ public class ClientHandler implements Runnable {
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
                 value = rs.getInt(1);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
         }
         return value;
     }
@@ -415,8 +429,10 @@ public class ClientHandler implements Runnable {
             while (rs.next())
                 value = rs.getString(1);
             log.info(value);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return value;
     }
@@ -438,8 +454,8 @@ public class ClientHandler implements Runnable {
             ResultSet rs = connection.createStatement().executeQuery(sql);
             while (rs.next())
                 value = rs.getInt(1);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
         }
         return value;
     }
@@ -458,8 +474,10 @@ public class ClientHandler implements Runnable {
             while (rs.next())
                 d = rs.getDouble(1);
             s=format.format(d);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return s;
     }
@@ -472,8 +490,10 @@ public class ClientHandler implements Runnable {
             while (rs.next())
                 value = rs.getString(1);
             log.info(value);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return value;
 
@@ -494,8 +514,10 @@ public class ClientHandler implements Runnable {
                 value2 = rs2.getString(1);
 
             resp = value+"/"+value2;
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return resp;
     }
@@ -515,8 +537,10 @@ public class ClientHandler implements Runnable {
             while (rs2.next())
                 value2 = rs2.getString(1);
             resp = value+"/"+value2;
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return resp;
     }
@@ -534,7 +558,7 @@ public class ClientHandler implements Runnable {
             while (rs.next())
                 load = rs.getInt(1);
         }catch (SQLException e){
-            e.printStackTrace();
+            log.error("la requête est nulle");
         }
         return load;
     }
@@ -557,8 +581,10 @@ public class ClientHandler implements Runnable {
                 d2 =rs2.getDouble(1);
             value = format.format((d/d2) * 100);
 
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (SQLException e){
+            log.error("la requête est nulle");
+        }catch (NullPointerException e){
+            log.error("la valeur est null");
         }
         return value+"%";
     }
