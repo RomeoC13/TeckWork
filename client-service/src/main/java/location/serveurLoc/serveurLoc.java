@@ -71,6 +71,19 @@ public class serveurLoc {
         return Integer.parseInt(responses);
     }
 
+    public String[] getDispoBat(String bat, String nbSalle) {
+        map.get("getDispoBat").put("rl_building", bat);
+        map.get("getDispoBat").put("rl_nb_loc", nbSalle);
+        String responses = getSend("getDispoBat");
+        return responses.split("-");
+    }
+
+    public void setStatuResa(String bat, String statu) {
+        map.get("setStatuResa").put("rl_building", bat);
+        map.get("setStatuResa").put("rl_resa", statu);
+        String responses = getSend("setStatuResa");
+    }
+
     public void init() {
         if(bInit) {
             for(int i = 0; i < 18; i++) {

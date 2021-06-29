@@ -18,6 +18,7 @@ public class Location {
     static JPanel panelFormulaire = new JPanel();
     static serveurLoc r = new serveurLoc();
     static String[] tab = new String[6];
+    static String strResp = "";
 
     static JFrame frameEnvoie = new JFrame("Propositions");
     static JPanel panelEnvoie = new JPanel(new GridLayout(6,1,10,10));
@@ -94,21 +95,7 @@ public class Location {
     public static class ActionValide implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
-            String[] tabReplace = {"Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre", "Libre"};
-            String strProp = proposition(ad, Integer.parseInt(tab[3]))[propV - 1];
-            String strPropRet = strProp.substring(17,strProp.length());
-            String[] tabProp = strPropRet.split(" / ");
-            System.out.println(strPropRet);
-            System.out.println(tabProp.length);
-            for(int i = 0; i < 18; i++) {
-                for (int j = 0; j < tabProp.length; j++) {
-                    if (Integer.parseInt(tabProp[j]) == i) {
-                        tabReplace[j] = "Occupé";
-                    }
-                }
-            }
-            String etage = strProp.substring(6,7);
-            r.replaceEtage(ad, "Etage " + etage.trim(), tabReplace);
+            r.setStatuResa(ad,strResp);
             frameEnvoie.dispose();
         }
     }
@@ -131,32 +118,13 @@ public class Location {
             panelErreur.removeAll();
 
             if(Integer.parseInt(tab[3]) <= r.getPlace(ad)) {
+                String[] tabResp = r.getDispoBat(ad,tab[3]);
+                for(int i=0;i<tabResp.length;i++) {
+                    strResp+= (i != tabResp.length - 1) ? tabResp[i] + "-" : tabResp[i];
+                }
                 JPanel prop1 = new JPanel();
-                JPanel prop2 = new JPanel();
-                JPanel prop3 = new JPanel();
-                JPanel prop4 = new JPanel();
-                setTextLabel("Proposition 1" + " -> " + proposition(ad, Integer.parseInt(tab[3]))[0], prop1);
-                setTextLabel("Proposition 2" + " -> " + proposition(ad, Integer.parseInt(tab[3]))[1], prop2);
-                setTextLabel("Proposition 3" + " -> " + proposition(ad, Integer.parseInt(tab[3]))[2], prop3);
-                setTextLabel("Proposition 4" + " -> " + proposition(ad, Integer.parseInt(tab[3]))[3], prop4);
+                setTextLabel("Proposition " + " -> " + strResp, prop1);
                 panelEnvoie.add(prop1);
-                panelEnvoie.add(prop2);
-                panelEnvoie.add(prop3);
-                panelEnvoie.add(prop4);
-
-                String[] listeProp = {"Proposition 1", "Proposition 2", "Proposition 3", "Proposition 4"};
-                JComboBox<String> listePropo = new JComboBox(listeProp);
-                listePropo.setBounds(10, 10, 120, 23);
-                listePropo.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        e.getSource();
-                        String s=(String) listePropo.getSelectedItem();
-                        propV = Integer.parseInt(s.replace("Proposition ", ""));
-                    }
-                });
-
-                panelEnvoie.add(listePropo);
-
                 final JButton buttonValide = new JButton("Validé");
                 buttonValide.addActionListener(new ActionValide());
                 buttonValide.setFont(new Font("Calibri", Font.PLAIN, 14));

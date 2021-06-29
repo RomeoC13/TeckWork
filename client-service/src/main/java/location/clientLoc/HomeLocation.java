@@ -12,7 +12,6 @@ public class HomeLocation {
     static JFrame frame=new JFrame("Réservation d'un espace");
     static JPanel panel = new JPanel();
     static serveurLoc r = new serveurLoc();
-    static boolean b = true;
 
     static class StyledButtonUI extends BasicButtonUI {
 
@@ -78,12 +77,6 @@ public class HomeLocation {
 
 
     public static void main(String[] args) {
-        if(b) {
-            r.init();
-            b = false;
-        }
-
-        System.out.println("oui");
 
         final JButton buttonAccueil = new JButton("Accueil");
         buttonAccueil.addActionListener(new HomeLocation.ActionAccueil());

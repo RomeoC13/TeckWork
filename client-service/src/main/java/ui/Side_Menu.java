@@ -170,27 +170,26 @@ public class Side_Menu extends JPanel {
         });
         panelNorth.add(indicator);
 
-        location = new JButton("Location");
+        location  = new JButton("Location");
+        location.setFont(new Font("Sylfaen", Font.PLAIN, 14));
+        location.setForeground(SystemColor.activeCaptionText);
+        location.setBackground(SystemColor.inactiveCaption);
         location.setPreferredSize(new Dimension(170, 23));
         location.setVerticalAlignment(SwingConstants.TOP);
-
-
-        location.setFont(new Font("Sylfaen", Font.PLAIN, 14));
-        location.setForeground(SystemColor.desktop);
-        location.setBackground(SystemColor.inactiveCaption);
-        location.setAlignmentX(Component.CENTER_ALIGNMENT);
+        location.setAlignmentY(10.0f);
         location.setAlignmentX(10.0f);
-        location.addActionListener(new ActionListener() {
 
+
+        location.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if ((JButton) e.getSource() == location)
-                    new ExecLoc();
+                    new ExecLoc(company_name);
+
             }
 
         });
+
         panelNorth.add(location);
-    	
-    	
     	
     	return panelNorth;
     }

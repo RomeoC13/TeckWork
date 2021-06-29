@@ -52,7 +52,7 @@ public class Plan extends Canvas{
         int space = 10;
         String[] tabOcu = r.initPlan(bat, etage);
         for(int i = 0; i < 18; i++) {
-            if (i < 9) {
+            if (i < 5) {
                 if (tabOcu[i].equalsIgnoreCase("booked")) {
                     g.setColor(Color.RED);
                     space = (i == 0) ? 0 : i * 10;
@@ -62,14 +62,14 @@ public class Plan extends Canvas{
                     space = (i == 0) ? 0 : i * 10;
                     g.drawRect(40 + (150 * i) + space, 50, 150, 100);
                 }
-            } else if (i >= 9) {
+            } else if (i >= 5) {
                 if (tabOcu[i].equalsIgnoreCase("booked")) {
                     g.setColor(Color.RED);
-                    space = (i == 9) ? 0 : (i - 9) * 10;
+                    space = (i == 5) ? 0 : (i - 5) * 10;
                     g.fillRect(40 + (150 * (i - 9)) + space, 200, 150, 100);
                 } else {
                     g.setColor(Color.BLUE);
-                    space = (i == 9) ? 0 : (i - 9) * 10;
+                    space = (i == 5) ? 0 : (i - 5) * 10;
                     g.drawRect(40 + (150 * (i - 9)) + space, 200, 150, 100);
                 }
             }
