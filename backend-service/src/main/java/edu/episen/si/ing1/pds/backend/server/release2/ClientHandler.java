@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 //import edu.episen.si.ing1.pds.backend.server.DataSource;
-import org.graalvm.compiler.core.common.spi.ConstantFieldProvider;
+//import org.graalvm.compiler.core.common.spi.ConstantFieldProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -212,6 +212,14 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("setFloorStatu")) {
                 ds.writeUTF(setFloorStatu(connection, map).toString());
             }
+            if (request.split("@")[0].equals("getDispoBat")) {
+                ds.writeUTF(getDispoBat(connection, map).toString());
+            }
+            if (request.split("@")[0].equals("setStatuResa")) {
+                ds.writeUTF(setStatuResa(connection, map).toString());
+            }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1028,7 +1036,7 @@ public class ClientHandler implements Runnable {
 
             String sql = "SELECT distinct(f.name_floor) FROM floor f"+
                     " inner join building b on b.id_building = f.id_building" +
-                    " where b.building_name='" + map.get("rl_building") + "'"+
+                    " where b.building_name='" + map.get("rl_building") + "'" +
                     " order by f.name_floor";
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
@@ -1130,6 +1138,56 @@ public class ClientHandler implements Runnable {
                         " and b.building_name = '" + map.get("rl_building") + "'" +
                         " and f.name_floor='" + map.get("rl_floor") + "'" +
                         " and RIGHT(cast(id_room as varchar),1)='" + index + "'";
+                connection.createStatement().executeQuery(sql);
+                System.out.println(sql);
+            }
+            System.out.println("update done");
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder getDispoBat(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        String str = "";
+        try {
+
+            String sql = "select id_room, name_floor from room r"+
+           " inner join floor f on r.id_floor = f.id_floor"+
+            " inner join building b on b.id_building = f.id_building"+
+            " WHERE b.building_name = '" + map.get("rl_building") + "' and r.status='free' LIMIT " + map.get("rl_nb_loc") +
+                    " order by id_room";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            sb = new StringBuilder();
+            while (rs.next()) {
+                str += (!rs.isLast()) ? rs.getString("id_room") + "//" + rs.getString("name_floor") + "-" :
+                        rs.getString("id_room") + "//" + rs.getString("name_floor");
+            }
+            sb.append(str);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder setStatuResa(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        String str = "";
+        String[] f = map.get("rl_resa").split("-");
+        try {
+            for(int i = 0; i < f.length; i++) {
+                String idRoom = f[i].split("//")[0];
+                String sql = "update room as r" +
+                        " set status = 'booked'" +
+                        " from floor as f" +
+                        " join building as b on b.id_building = f.id_building" +
+                        "  where f.id_floor = r.id_floor " +
+                        " and b.building_name = '" + map.get("rl_building") + "'" +
+                        " and r.id_room='" + idRoom + "'";
                 connection.createStatement().executeQuery(sql);
                 System.out.println(sql);
             }

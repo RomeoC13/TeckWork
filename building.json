@@ -136,5 +136,13 @@
     "rl_building":  "",
     "rl_floor":  "",
     "rl_floor_to_set":""
+  },
+  "getDispoBat": {
+    "rl_building":  "",
+    "rl_nb_loc": ""
+  },
+  "setStatuResa": {
+    "rl_building":  "",
+    "rl_resa":""
   }
 }
