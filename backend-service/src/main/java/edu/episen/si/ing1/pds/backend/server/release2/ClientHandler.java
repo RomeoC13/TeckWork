@@ -218,6 +218,10 @@ public class ClientHandler implements Runnable {
             if (request.split("@")[0].equals("setStatuResa")) {
                 ds.writeUTF(setStatuResa(connection, map).toString());
             }
+            if (request.split("@")[0].equals("insertCompany")) {
+                ds.writeUTF(insertCompany(connection, map).toString());
+            }
+
 
 
 
@@ -974,8 +978,7 @@ public class ClientHandler implements Runnable {
             System.out.println(sql);
             sb = new StringBuilder();
             while (rs.next()) {
-                str+=(!rs.isLast() && rs.getString("status").equalsIgnoreCase("free")) ? "Libre-" : "Occupé-";
-                str+=(rs.isLast() && rs.getString("status").equalsIgnoreCase("free")) ? "Libre" : "Occupé";
+                str += (!rs.isLast()) ? rs.getString("status") + "-" : rs.getString("status");
             }
             sb.append(str);
 
@@ -990,7 +993,7 @@ public class ClientHandler implements Runnable {
         int nb = 0;
         try {
 
-            String sql = "SELECT count(r.id_room) FROM room r " +
+            String sql = "SELECT count(r.id_room) as TOTAL FROM room r " +
                     " inner join floor f on r.id_floor = f.id_floor" +
                     " inner join building b on b.id_building = f.id_building" +
                     "    WHERE b.building_name = '" + map.get("rl_building") + "'" +
@@ -999,7 +1002,7 @@ public class ClientHandler implements Runnable {
             System.out.println(sql);
             sb = new StringBuilder();
             while (rs.next()) {
-                nb++;
+                nb = rs.getInt("TOTAL");
             }
             sb.append(nb);
 
@@ -1111,8 +1114,7 @@ public class ClientHandler implements Runnable {
             System.out.println(sql);
             sb = new StringBuilder();
             while (rs.next()) {
-                str += (!rs.isLast() && rs.getString("status").equalsIgnoreCase("free")) ? "Libre-" : "Occupé-";
-                str += (rs.isLast() && rs.getString("status").equalsIgnoreCase("free")) ? "Libre" : "Occupé";
+                str += (!rs.isLast()) ? rs.getString("status") + "-" : rs.getString("status");
             }
             sb.append(str);
 
@@ -1137,11 +1139,12 @@ public class ClientHandler implements Runnable {
                         "  where f.id_floor = r.id_floor " +
                         " and b.building_name = '" + map.get("rl_building") + "'" +
                         " and f.name_floor='" + map.get("rl_floor") + "'" +
-                        " and RIGHT(cast(id_room as varchar),1)='" + index + "'";
+                        " and RIGHT(cast(id_room as varchar),1)='" + index + "';";
                 connection.createStatement().executeQuery(sql);
                 System.out.println(sql);
+                sb = new StringBuilder();
+                sb.append("Update done");
             }
-            System.out.println("update done");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -1157,8 +1160,9 @@ public class ClientHandler implements Runnable {
             String sql = "select id_room, name_floor from room r"+
            " inner join floor f on r.id_floor = f.id_floor"+
             " inner join building b on b.id_building = f.id_building"+
-            " WHERE b.building_name = '" + map.get("rl_building") + "' and r.status='free' LIMIT " + map.get("rl_nb_loc") +
-                    " order by id_room";
+            " WHERE b.building_name = '" + map.get("rl_building") + "' and r.status='free' " +
+                    " order by id_room" +
+                    " LIMIT " + map.get("rl_nb_loc");
             ResultSet rs = connection.createStatement().executeQuery(sql);
             System.out.println(sql);
             sb = new StringBuilder();
@@ -1181,17 +1185,44 @@ public class ClientHandler implements Runnable {
         try {
             for(int i = 0; i < f.length; i++) {
                 String idRoom = f[i].split("//")[0];
-                String sql = "update room as r" +
-                        " set status = 'booked'" +
-                        " from floor as f" +
-                        " join building as b on b.id_building = f.id_building" +
-                        "  where f.id_floor = r.id_floor " +
-                        " and b.building_name = '" + map.get("rl_building") + "'" +
-                        " and r.id_room='" + idRoom + "'";
-                connection.createStatement().executeQuery(sql);
+                String sql = "update room" +
+                        " set position_sensor = 't'," +
+                        " position_screen = 't'," +
+                        " position_plug = 't'," +
+                        " position_windows = 't'" +
+                        " where id_room='" + idRoom + "';";
+                connection.createStatement().executeUpdate(sql);
                 System.out.println(sql);
+                sb = new StringBuilder();
+                sb.append("Update done");
             }
-            System.out.println("update done");
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return sb;
+    }
+
+    public StringBuilder insertCompany(Connection connection, Map<String, String> map) {
+        StringBuilder sb = null;
+        String str = "";
+        int idCompany = 0;
+        try {
+
+            String sql = "select MAX(company_id) as max from company";
+            ResultSet rs = connection.createStatement().executeQuery(sql);
+            System.out.println(sql);
+            while (rs.next()) {
+                idCompany = rs.getInt("max");
+            }
+
+            String sql2 = "insert into company (company_id, company_name, begin_location) " +
+                    "values (" + idCompany+1 +
+                    ",'" + map.get("rl_company_name") + "',now());";
+            connection.createStatement().executeUpdate(sql2);
+            System.out.println(sql2);
+            sb = new StringBuilder();
+            sb.append("Insert done");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

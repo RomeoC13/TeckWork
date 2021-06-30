@@ -1,21 +1,15 @@
 package location.serveurLoc;
 
-import location.serveurLoc.JDBC;
-
 import static client.Client.getSend;
 import static client.Client.map;
 
 public class serveurLoc {
-    static String[][] plan = new String[5][5];
-    static String[] tabEtage = {"Etage 1", "Etage 2", "Etage 3", "Etage 4", "Etage 5"};
-    static boolean bInit = true;
-    static String planEtage = "";
-    static String[] listeBat =  {"97 avenue de Pages, Paris 15", "658 rue Delaunay, Créteil", "58 boulevard Xavier Lefevre, Créteil", "84 boulevard Levy, Paris 11", "70 boulevard Brigitte Salmon, Paris 5"};
     
     public String[] initPlan(String bat, String etage) {
         map.get("initPlanLocation").put("rl_building", bat);
         map.get("initPlanLocation").put("rl_floor", etage);
         String responses = getSend("initPlanLocation");
+        System.out.println(responses);
         String[] tab = responses.split("-");
         return tab;
     }
@@ -84,22 +78,8 @@ public class serveurLoc {
         String responses = getSend("setStatuResa");
     }
 
-    public void init() {
-        if(bInit) {
-            for(int i = 0; i < 18; i++) {
-                if(i != 17) {
-                    planEtage += "Libre-";
-                } else {
-                    planEtage += "Libre";
-                }
-
-            }
-            for(int i = 0; i < 5; i++) {
-                for(int j = 0; j < 5; j++) {
-                        plan[i][j] = planEtage;
-                }
-            }
-            bInit = false;
-        }
+    public void setCompanyName(String name) {
+        map.get("insertCompany").put("rl_company_name", name);
+        String responses = getSend("insertCompany");
     }
 }

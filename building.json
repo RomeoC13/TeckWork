@@ -144,5 +144,8 @@
   "setStatuResa": {
     "rl_building":  "",
     "rl_resa":""
+  },
+  "insertCompany": {
+    "rl_company_name": ""
   }
 }
