@@ -95,7 +95,7 @@ public class Location {
     public static class ActionValide implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
-            r.setCompanyName(tab[1]);
+            r.setCompanyName(tab[1],strResp);
             r.setStatuResa(ad,strResp);
             frameEnvoie.dispose();
         }

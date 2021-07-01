@@ -78,8 +78,9 @@ public class serveurLoc {
         String responses = getSend("setStatuResa");
     }
 
-    public void setCompanyName(String name) {
+    public void setCompanyName(String name, String resp) {
         map.get("insertCompany").put("rl_company_name", name);
+        map.get("insertCompany").put("rl_resp", resp);
         String responses = getSend("insertCompany");
     }
 }

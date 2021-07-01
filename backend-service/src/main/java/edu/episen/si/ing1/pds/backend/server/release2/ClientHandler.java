@@ -1189,7 +1189,8 @@ public class ClientHandler implements Runnable {
                         " set position_sensor = 't'," +
                         " position_screen = 't'," +
                         " position_plug = 't'," +
-                        " position_windows = 't'" +
+                        " position_windows = 't'," +
+                        " id_location = " + idRoom +
                         " where id_room='" + idRoom + "';";
                 connection.createStatement().executeUpdate(sql);
                 System.out.println(sql);
@@ -1207,6 +1208,7 @@ public class ClientHandler implements Runnable {
         StringBuilder sb = null;
         String str = "";
         int idCompany = 0;
+        String[] f = map.get("rl_resp").split("-");
         try {
 
             String sql = "select MAX(company_id) as max from company";
@@ -1215,14 +1217,24 @@ public class ClientHandler implements Runnable {
             while (rs.next()) {
                 idCompany = rs.getInt("max");
             }
+            idCompany++;
 
             String sql2 = "insert into company (company_id, company_name, begin_location) " +
-                    "values (" + idCompany+1 +
+                    "values (" + idCompany +
                     ",'" + map.get("rl_company_name") + "',now());";
             connection.createStatement().executeUpdate(sql2);
             System.out.println(sql2);
             sb = new StringBuilder();
             sb.append("Insert done");
+
+            for(int i = 0; i < f.length; i++) {
+                String idRoom = f[i].split("//")[0];
+                String sql3 = "update location" +
+                        " set company_id = " + idCompany +
+                        " where id_location = "+ idRoom;
+                connection.createStatement().executeUpdate(sql3);
+                System.out.println(sql3);
+            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
